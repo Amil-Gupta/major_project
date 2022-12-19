@@ -1,2 +1,5 @@
 #ignore the workspace for the Spring Tools Suite
 sts_workspace/
+
+#ignore node_modules folder in frontend
+frontend/node_modules/

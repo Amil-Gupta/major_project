@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AccountCreationService {
+public class AccountCreator {
 	
 	private final PasswordEncoder passwordEncoder;
 	private final AccountRepository accountRepository;

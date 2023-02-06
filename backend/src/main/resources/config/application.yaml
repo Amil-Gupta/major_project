@@ -10,3 +10,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+      
+jwt:
+  public-key: classpath:/config/public.key
+  private-key: classpath:/config/private.key

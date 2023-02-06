@@ -5,22 +5,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.major.dto.AccountCreationRequest;
-import com.project.major.dto.AccountResource;
-import com.project.major.services.AccountCreator;
+import com.project.major.dto.TokenRequest;
+import com.project.major.dto.TokenResource;
+import com.project.major.services.TokenCreator;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/accounts")
+@RequestMapping("/tokens")
 @RequiredArgsConstructor
-public class AccountController {
+public class TokenController {
 	
-	private final AccountCreator accountCreationService;
+	private final TokenCreator tokenCreationService;
 	
 	@PostMapping
-	public AccountResource createAccount(@RequestBody @Valid AccountCreationRequest request) {
-		return accountCreationService.create(request);
+	public TokenResource getToken(@RequestBody @Valid TokenRequest request) {
+		return tokenCreationService.create(request);
 	}
 }

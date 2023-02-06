@@ -6,8 +6,10 @@ import lombok.Data;
 import lombok.ToString;
 
 @Data
-public class AccountCreationRequest {
+public class TokenRequest {
 	
+	private Integer accountId;
+
 	@ToString.Exclude
 	@NotBlank
 	@Size(min=6, max=50)

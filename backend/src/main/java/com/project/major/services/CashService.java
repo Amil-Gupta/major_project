@@ -20,17 +20,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CashService {
 	
-	private static final int ADMIN_ID = 5;
 	private final AccountRepository accountRepository;
 	private final TransferRepository transferRepository;
 	
 	@Transactional
-	public TransferResource createDeposit(Integer adminId, CashRequest request) {
+	public TransferResource createDeposit(Integer currentUserId, CashRequest request) {
 		
-		if(adminId != ADMIN_ID)
-			throw new BusinessException("Only admin can deposit/withdraw cash!", HttpStatus.FORBIDDEN);
+		Account currentUser = accountRepository.findById(currentUserId).orElseThrow();		
 		
-		if(request.getAmountPaise() == 0)
+		if (!currentUser.isAdmin())
+			throw new BusinessException("Only admin can deposit/withdraw cash!, current user: " + currentUserId, HttpStatus.FORBIDDEN);
+		
+		if (request.getAmountPaise() == 0)
 			throw new BusinessException("You can't deposit 0 amount!", HttpStatus.UNPROCESSABLE_ENTITY);
 		
 		Account account = accountRepository.findById(request.getAccountId()).orElseThrow(() ->

@@ -29,6 +29,8 @@ public class Account {
 	@Column(nullable = false)
 	private Long balancePaise = 0L;
 	
+	private boolean admin = false;
+	
 	@Version
 	private Integer version;
 }

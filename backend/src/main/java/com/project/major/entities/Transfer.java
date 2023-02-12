@@ -30,13 +30,13 @@ public class Transfer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@ManyToOne(fetch=FetchType.LAZY, optional=false)
-	@JoinColumn(name="from_account_id", nullable=false)
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="from_account_id")
 	@ToString.Exclude
 	private Account fromAccount;
 
-	@ManyToOne(fetch=FetchType.LAZY, optional=false)
-	@JoinColumn(name="to_account_id", nullable=false)
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="to_account_id")
 	@ToString.Exclude
 	private Account toAccount;
 	

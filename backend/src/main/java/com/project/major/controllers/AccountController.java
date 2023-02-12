@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.major.dto.AccountCreationRequest;
 import com.project.major.dto.AccountResource;
+import com.project.major.dto.StatementResource;
 import com.project.major.services.AccountCreator;
 import com.project.major.services.AccountGetter;
+import com.project.major.services.StatementGetter;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class AccountController {
 	
 	private final AccountCreator accountCreationService;
 	private final AccountGetter accountGetter;
+	private final StatementGetter statementGetter;
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -35,5 +38,10 @@ public class AccountController {
 	@GetMapping("/balance")
 	public AccountResource getAccount(Principal principal) {
 		return accountGetter.get(Integer.valueOf(principal.getName()));
+	}
+	
+	@GetMapping("/statement")
+	public StatementResource getStatement(Principal principal) {
+		return statementGetter.getStatement(Integer.valueOf(principal.getName()));
 	}
 }

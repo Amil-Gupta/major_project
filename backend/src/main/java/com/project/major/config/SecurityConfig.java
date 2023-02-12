@@ -53,7 +53,9 @@ public class SecurityConfig {
 				.authorizeHttpRequests(config -> config
 						.requestMatchers(HttpMethod.POST, "/accounts").permitAll()
 						.requestMatchers(HttpMethod.GET, "/accounts/balance").authenticated()
+						.requestMatchers(HttpMethod.GET, "/accounts/statement").authenticated()
 						.requestMatchers(HttpMethod.POST, "/transfers").authenticated()
+						.requestMatchers(HttpMethod.POST, "/admin/**").authenticated()
 						.requestMatchers(HttpMethod.POST, "/tokens").permitAll()
 						.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
 						.anyRequest().denyAll()

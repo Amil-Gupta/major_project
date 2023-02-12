@@ -16,8 +16,8 @@ public class TransferResource {
 	public static TransferResource of(Transfer transfer) {
 		return new TransferResource(
 				transfer.getId(),
-				transfer.getFromAccount().getId(),
-				transfer.getToAccount().getId(),
+				transfer.getFromAccount() == null ? null : transfer.getFromAccount().getId(),
+				transfer.getToAccount() == null ? null : transfer.getToAccount().getId(),
 				transfer.getTransferredAt().toString(),
 				transfer.getAmountPaise()
 		);

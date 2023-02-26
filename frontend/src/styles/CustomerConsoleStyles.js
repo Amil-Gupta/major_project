@@ -31,6 +31,14 @@ const useStyles = makeStyles((theme) =>
         marginLeft: 'auto',
     },
 
+    popperBox: {
+        backgroundColor: '#666263',
+        padding: '.3rem',
+        border: '.2vw solid black',
+        borderRadius: '1vh',
+        color: 'aliceblue',
+    },
+
     body: {
         // backgroundImage: `url(${handshake})`,
         // backgroundPosition: 'center', 

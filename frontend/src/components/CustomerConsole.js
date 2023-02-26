@@ -1,12 +1,23 @@
-import { Grid, Avatar } from '@mui/material';
-import logo from '../assets/logo.svg';
-import useStyles from './styles/CustomerConsoleStyles';
+import { Grid, Avatar, Popper, IconButton } from '@mui/material';
+import { Box } from '@mui/system';
+import { useState } from 'react';
+import logo from 'assets/logo.svg';
+import useStyles from 'styles/CustomerConsoleStyles';
 
 function CustomerConsole()
 {
     const classes = useStyles();
 
     function TitleBar() {
+        const user = 'Sample User' //CHANGE TO USERNAME VIA REDUX
+        const [popperAnchor, setPopperAnchor] = useState(null);
+        const popperOpen = Boolean(popperAnchor);
+        const popperId = popperOpen ? 'avatarPopper' : undefined;
+
+        const handleAvatarMouseEnterLeave = (e)=>{
+            // console.log('enter/leave');
+            setPopperAnchor(popperAnchor ? null : e.currentTarget);
+        }
         return ( 
             <div className={classes.titleBar}>
                 <div className={classes.logoContainer}>
@@ -18,7 +29,18 @@ function CustomerConsole()
                 </div>
 
                 <div className={classes.avatar}>
-                    <Avatar sx={{ bgcolor: 'black' }} />
+                    <IconButton onMouseEnter={handleAvatarMouseEnterLeave} onMouseLeave={handleAvatarMouseEnterLeave}>
+                        <Avatar 
+                            sx={{ bgcolor: 'black' }}
+                        />
+                    </IconButton>
+                    <Popper id={popperId} open={popperOpen} anchorEl={popperAnchor} >
+                        <Box
+                            className = {classes.popperBox}
+                        >
+                            {user}
+                        </Box>
+                    </Popper>
                 </div>
             </div>
         );

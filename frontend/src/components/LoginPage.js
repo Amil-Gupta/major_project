@@ -39,13 +39,14 @@ function LoginPage() {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    // withCredentials: true
+                    withCredentials: true
                 }    
             )
 
-            console.log(JSON.stringify(response))
+            // console.log(response);
+            // console.log(JSON.stringify(response?.data?.token))
 
-            // const token = response?.data?.token;
+            const token = response?.data?.token;
         }catch(err){
             console.log(err)
         }

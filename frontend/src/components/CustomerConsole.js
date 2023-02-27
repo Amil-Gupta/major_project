@@ -1,12 +1,23 @@
 import { Grid, Avatar, Popper, IconButton } from '@mui/material';
 import { Box } from '@mui/system';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import logo from 'assets/logo.svg';
 import useStyles from 'styles/CustomerConsoleStyles';
+import { useNavigate } from 'react-router-dom';
+import AuthContext from 'context/AuthProvider';
 
 function CustomerConsole()
 {
     const classes = useStyles();
+    const { auth } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        // console.log(auth?.token)
+        if(! auth?.token){
+            navigate('/login');
+        }
+    },[]);
 
     function TitleBar() {
         const user = 'Sample User' //CHANGE TO USERNAME VIA REDUX

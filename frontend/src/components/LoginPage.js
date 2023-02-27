@@ -12,10 +12,18 @@ function LoginPage() {
     const classes = useStyles();
     const navigate = useNavigate();
 
-    const setAuth = useContext(AuthContext);
+    // console.log(useContext(AuthContext));
+
+    const { auth, setAuth } = useContext(AuthContext);
 
     const [accountId, setAccountId] = useState('');
     const [password, setPassword] = useState('');
+
+    useEffect(()=>{
+        if(auth?.token){
+            navigate('/customerConsole', {replace: 'true'});
+        }
+    },[auth]);
 
     // useEffect(()=>{
     //     console.log(acc, pass)
@@ -47,11 +55,13 @@ function LoginPage() {
             // console.log(JSON.stringify(response?.data?.token))
 
             const token = response?.data?.token;
-        }catch(err){
-            console.log(err)
-        }
 
-        // navigate('/customerConsole', {replace: 'true'});
+            setAuth({token});
+        }catch(err){
+            if(!err?.response){
+                alert('No server response');
+            }
+        }
     }
 
     const TitleBar = ()=>{

@@ -7,6 +7,7 @@ import AuthContext from "context/AuthProvider";
 import axios from "api/axios";
 
 const LOGIN_URL = '/tokens';
+const GET_ACCOUNT_URL = '/accounts/balance';
 
 function LoginPage() {
     const classes = useStyles();
@@ -20,8 +21,33 @@ function LoginPage() {
     const [password, setPassword] = useState('');
 
     useEffect(()=>{
-        if(auth?.token){
-            navigate('/customerConsole', {replace: 'true'});
+        const token = auth?.token;
+        if(token){
+            const decideNavigate = async()=>{
+                const response = await axios.get(
+                    GET_ACCOUNT_URL,
+                    {
+                        headers: {
+                            Authorization: "Bearer "+token,
+                        }
+                    }
+                )
+                const userdata = response?.data;
+                // const {id, admin} = userdata;
+                setAuth({...auth, ...userdata});
+
+                if(! userdata?.admin){
+                    console.log('user logged in');
+                    navigate('/customerConsole', {replace: 'true'});
+                }
+                else{
+                    console.log('admin logged in');
+
+                    //REPLACE WITH ROUTE TO ADMIN CONSOLE
+                    navigate('/', {replace: 'true'});
+                }
+            }
+            decideNavigate();
         }
     },[auth]);
 
@@ -55,6 +81,10 @@ function LoginPage() {
             // console.log(JSON.stringify(response?.data?.token))
 
             const token = response?.data?.token;
+
+            // console.log(token)
+
+            // console.log(userdata);
 
             setAuth({token});
         }catch(err){

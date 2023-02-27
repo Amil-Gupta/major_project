@@ -5,6 +5,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import LoginPage from './components/LoginPage';
 import { useContext, useEffect } from 'react';
 import AuthContext from 'context/AuthProvider';
+import RootPage from 'components/RootPage';
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -12,7 +13,22 @@ function App() {
 
   useEffect(()=>{
     if(! auth?.token){
-      navigate('/login');
+
+      //TO TEST THE ROOT PAGE RENDERING
+      // const timer = async()=>{
+      //   function timeout(delay) {
+      //     return new Promise( res => setTimeout(res, delay) );
+      //   }
+  
+      //   await timeout(10000);
+
+      //   navigate('/login', {replace: true});
+      // }
+      // timer();
+
+      //NORMAL REDIRECT
+      navigate('/login', {replace: true});
+
     }
   },[]);
 
@@ -22,6 +38,7 @@ function App() {
         <CssBaseline />
 
         <Routes>
+          <Route path='/' element={<RootPage />}></Route>
           <Route path='/login' element={<LoginPage />}></Route>
           <Route path='/customerConsole' element={<CustomerConsole />}></Route>
         </Routes>

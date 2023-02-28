@@ -19,6 +19,8 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.NullSecurityContextRepository;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -52,7 +54,7 @@ public class SecurityConfig {
 				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
 				.authorizeHttpRequests(config -> config
 						.requestMatchers(HttpMethod.POST, "/accounts").permitAll()
-						.requestMatchers(HttpMethod.GET, "/accounts/balance").authenticated()
+						.requestMatchers(HttpMethod.GET, "/accounts/detail").authenticated()
 						.requestMatchers(HttpMethod.GET, "/accounts/statement").authenticated()
 						.requestMatchers(HttpMethod.POST, "/transfers").authenticated()
 						.requestMatchers(HttpMethod.POST, "/admin/**").authenticated()
@@ -78,4 +80,16 @@ public class SecurityConfig {
 		JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
 		return new NimbusJwtEncoder(jwks);
 	}
+	
+	@Bean
+	WebMvcConfigurer corsConfigurer() {
+		
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedOrigins("http://localhost:3000").allowCredentials(true);
+			}
+		};
+	}
+	
 }

@@ -19,9 +19,14 @@ import lombok.ToString;
 @Check(constraints = "balance_paise >= 0")
 public class Account {
 	
+	public static final int NAME_MAX_LEN = 100;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+	@Column(nullable = false, length = NAME_MAX_LEN)
+	private String name;
 	
 	@Column(nullable = false, length = 2000)
 	private String password;

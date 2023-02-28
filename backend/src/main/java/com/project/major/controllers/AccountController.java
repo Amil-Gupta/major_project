@@ -35,7 +35,7 @@ public class AccountController {
 		return accountCreationService.create(request);
 	}
 	
-	@GetMapping("/balance")
+	@GetMapping("/detail")
 	public AccountResource getAccount(Principal principal) {
 		return accountGetter.get(Integer.valueOf(principal.getName()));
 	}

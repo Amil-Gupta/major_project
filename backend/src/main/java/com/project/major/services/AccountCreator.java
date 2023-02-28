@@ -22,6 +22,7 @@ public class AccountCreator {
 	public AccountResource create(AccountCreationRequest request) {
 		
 		var account = new Account();
+		account.setName(request.getName());
 		account.setPassword(passwordEncoder.encode(request.getPassword()));
 		accountRepository.save(account);
 		var resource = AccountResource.of(account);

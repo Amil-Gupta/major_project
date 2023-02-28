@@ -52,7 +52,7 @@ public class SecurityConfig {
 				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
 				.authorizeHttpRequests(config -> config
 						.requestMatchers(HttpMethod.POST, "/accounts").permitAll()
-						.requestMatchers(HttpMethod.GET, "/accounts/balance").authenticated()
+						.requestMatchers(HttpMethod.GET, "/accounts/detail").authenticated()
 						.requestMatchers(HttpMethod.GET, "/accounts/statement").authenticated()
 						.requestMatchers(HttpMethod.POST, "/transfers").authenticated()
 						.requestMatchers(HttpMethod.POST, "/admin/**").authenticated()

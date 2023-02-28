@@ -37,14 +37,13 @@ function LoginPage() {
                 setAuth({...auth, ...userdata});
 
                 if(! userdata?.admin){
-                    console.log('user logged in');
+                    // console.log('user logged in');
                     navigate('/customerConsole', {replace: 'true'});
                 }
                 else{
-                    console.log('admin logged in');
+                    // console.log('admin logged in');
 
-                    //REPLACE WITH ROUTE TO ADMIN CONSOLE
-                    navigate('/', {replace: 'true'});
+                    navigate('/adminConsole', {replace: 'true'});
                 }
             }
             decideNavigate();
@@ -90,11 +89,13 @@ function LoginPage() {
         }catch(err){
             if(!err?.response){
                 alert('No server response');
+            }else if(err.response.status == 401){
+                alert('Incorrect account no. or password');
             }
         }
     }
 
-    const TitleBar = ()=>{
+    function TitleBar(){
         return(
             <div className={classes.titleBar}>
                 <div className={classes.logoContainer}>

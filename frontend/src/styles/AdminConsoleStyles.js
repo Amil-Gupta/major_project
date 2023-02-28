@@ -1,8 +1,6 @@
-import { makeStyles } from '@mui/styles';
-// import handshake from '../../assets/handshake.svg';
+import { makeStyles } from "@mui/styles";
 
-const useStyles = makeStyles((theme) =>
-  ({
+const useStyles = makeStyles((theme)=>({
     logoContainer: {
         // backgroundColor: 'red'
     },
@@ -13,7 +11,7 @@ const useStyles = makeStyles((theme) =>
     },
       
     titleBar: {
-        background: 'linear-gradient(45deg, violet, blue, orange)',
+        background: 'linear-gradient(45deg, red, magenta, blue)',
         display: 'flex',
         alignItems: 'center',
         padding: '0 .5rem',
@@ -44,7 +42,7 @@ const useStyles = makeStyles((theme) =>
     },
 
     // logoutButton: {
-    //     backgroundColor: 'black'
+    //     backgroundColor: 'black',
     // },
 
     body: {
@@ -53,9 +51,8 @@ const useStyles = makeStyles((theme) =>
         // backgroundRepeat: 'no-repeat',
         // backgroundSize: '25vh',
         backgroundColor: '#2a2b2a',
-        height: '90vh'
+        height: '90vh',
     },
-  }),
-);
+}));
 
 export default useStyles;

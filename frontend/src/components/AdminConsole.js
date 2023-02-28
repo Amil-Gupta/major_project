@@ -1,16 +1,13 @@
-import { Grid, Avatar, Popper, IconButton , Box, Button} from '@mui/material';
-import { useContext, useEffect, useRef, useState } from 'react';
-import logo from 'assets/logo.svg';
-import useStyles from 'styles/CustomerConsoleStyles';
+import useStyles from "styles/AdminConsoleStyles";
+import { Grid, Avatar, Popper, IconButton, Box, Button } from '@mui/material';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from 'context/AuthProvider';
-import axios from 'api/axios';
-import SelectInput from '@mui/material/Select/SelectInput';
+import logo from 'assets/logo.svg';
 
-// const GET_ACCOUNT_URL = '/accounts/balance';
-function CustomerConsole()
-{
+function AdminConsole() {
     const classes = useStyles();
+
     const { auth, setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -21,40 +18,9 @@ function CustomerConsole()
         }
     },[auth]);
 
-    // useEffect(()=>{
-    //     const getUser = async()=>{
-    //     if(auth?.token){
-    //         const token = auth?.token;
-    //         const response = await axios.get(
-    //             GET_ACCOUNT_URL,
-    //             {
-    //                 headers: {
-    //                     Authorization: "Bearer "+token,
-    //                 }
-    //             }
-    //         )
-            // console.log(response);
-
-            //TO TEST THE LOADING... PLACEHOLDER
-            // function timeout(delay) {
-            //     return new Promise( res => setTimeout(res, delay) );
-            // }
-
-            // await timeout(10000)
-
-            // const userdata = response?.data;
-
-            // const {id, admin} = userdata;
-
-    //         setAuth({...auth, ...userdata})
-    //     }
-    // }
-    // getUser();
-    // },[]);
-
     function TitleBar() {
         const {id} = auth;
-        const user = (id) ? `Customer #${id}` : 'Loading...';
+        const user = (id) ? `Admin #${id}` : 'Loading...';
         const [popperAnchor, setPopperAnchor] = useState(null);
         const popperOpen = Boolean(popperAnchor);
         const popperId = popperOpen ? 'avatarPopper' : undefined;
@@ -80,7 +46,7 @@ function CustomerConsole()
         }
 
         const handleLogout = ()=>{
-            // console.log('user logged out');
+            // console.log('admin logged out');
             setAuth({});
         }
 
@@ -91,7 +57,7 @@ function CustomerConsole()
                 </div>
 
                 <div className={classes.title}>
-                    Online Bank
+                    Online Bank Administrator
                 </div>
 
                 <div className={classes.avatar}>
@@ -121,7 +87,7 @@ function CustomerConsole()
                                 sx={{
                                     color:'red',
                                     width: '100%',
-                                    backgroundColor: 'black',
+                                    backgroundColor: 'black'
                                 }}
                             >
                                 Log Out
@@ -141,7 +107,7 @@ function CustomerConsole()
         );
     }
 
-    return (
+    return ( 
         <div className={classes.root}>
             <Grid container>
                 <Grid item xs={12}>
@@ -155,4 +121,4 @@ function CustomerConsole()
     );
 }
 
-export default CustomerConsole;
+export default AdminConsole;

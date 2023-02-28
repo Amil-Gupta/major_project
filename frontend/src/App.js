@@ -6,6 +6,7 @@ import LoginPage from './components/LoginPage';
 import { useContext, useEffect } from 'react';
 import AuthContext from 'context/AuthProvider';
 import RootPage from 'components/RootPage';
+import AdminConsole from 'components/AdminConsole';
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -41,6 +42,7 @@ function App() {
           <Route path='/' element={<RootPage />}></Route>
           <Route path='/login' element={<LoginPage />}></Route>
           <Route path='/customerConsole' element={<CustomerConsole />}></Route>
+          <Route path='/adminConsole' element={<AdminConsole />}></Route>
         </Routes>
 
         {/* <Navigate to='/login' /> */}

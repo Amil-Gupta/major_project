@@ -20,6 +20,13 @@ const useStyles = makeStyles((theme) =>
         height: '10vh',
         // justifyContent: 'center',
     },
+
+    banner: {
+        display: 'flex',
+        alignItems: 'center',
+        cursor: 'pointer',
+        // width: '100%'
+    },
         
     title: {
         fontSize: '1.5rem',
@@ -53,8 +60,24 @@ const useStyles = makeStyles((theme) =>
         // backgroundRepeat: 'no-repeat',
         // backgroundSize: '25vh',
         backgroundColor: '#2a2b2a',
-        height: '90vh'
+        height: '90vh',
+        padding: '1rem'
     },
+
+    optionButton: {
+        color: 'white',
+        fontSize: '1.5rem',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        backgroundColor: 'black',
+        backgroundSize: 'contain',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: '2vw',
+        border: '.5px solid white'
+    }
   }),
 );
 

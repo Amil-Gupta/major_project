@@ -1,7 +1,7 @@
 import useStyles from "styles/AdminConsoleStyles";
 import { Grid, Avatar, Popper, IconButton, Box, Button } from '@mui/material';
 import { useContext, useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Routes, Route, NavLink } from 'react-router-dom';
 import AuthContext from 'context/AuthProvider';
 import logo from 'assets/logo.svg';
 
@@ -14,13 +14,16 @@ function AdminConsole() {
     useEffect(()=>{
         // console.log(auth?.token)
         if(! auth?.token){
+            if(! auth?.admin){
+                navigate('/customerConsole', {replace: true});
+            }
             navigate('/login', {replace: true});
         }
     },[auth]);
 
     function TitleBar() {
-        const {id} = auth;
-        const user = (id) ? `Admin #${id}` : 'Loading...';
+        const {name} = auth;
+        const user = (name) ? name : 'Loading...';
         const [popperAnchor, setPopperAnchor] = useState(null);
         const popperOpen = Boolean(popperAnchor);
         const popperId = popperOpen ? 'avatarPopper' : undefined;
@@ -39,6 +42,10 @@ function AdminConsole() {
                     document.removeEventListener('click', handleClickOutside, true);
                 };
         },[]);
+
+        const handleBannerClick = ()=>{
+            navigate('/adminConsole');
+        }
 
         const handleAvatarClick = (e)=>{
             // console.log('enter/leave');
@@ -100,9 +107,51 @@ function AdminConsole() {
     }
 
     function Body() {
+        const OptionButton = (props)=>{
+            return(
+                <NavLink to={props.route}
+                    style={{
+                        textDecoration: 'none',
+                        color: 'white',
+                        // height: '17vw',
+                        width: '100%',
+                        display: 'block',
+                        aspectRatio: '1 / 1',
+                        // height: '100%',
+                        // justifyContent: 'center',
+                        // alignItems: 'center',
+                    }}
+                    replace
+                >
+                    <div style={{
+                        backgroundImage: `url(${props.icon})`,
+                    }} 
+                    className={classes.optionButton}
+                    id = {props.id}
+                    >
+                        
+                            {props.name}
+                    </div>
+                </NavLink>
+            )
+        }
+
+        const Options = ()=>{
+            return(
+                <div className={classes.options}>
+                    <Grid container>
+                        <Grid item xs={6} md={2}>
+                        </Grid>
+                    </Grid>
+                </div>
+            )
+        }
+
         return (
             <div className={classes.body}>
-                
+                <Routes>
+                    <Route path='*' element={<Options />}></Route>
+                </Routes>
             </div> 
         );
     }

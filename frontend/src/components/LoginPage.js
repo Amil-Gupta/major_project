@@ -1,5 +1,5 @@
 import useStyles from "styles/LoginPageStyles";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Box, Grid, Button } from "@mui/material";
 import logo from 'assets/logo.svg';
 import { useContext, useEffect, useState } from "react";
@@ -7,7 +7,7 @@ import AuthContext from "context/AuthProvider";
 import axios from "api/axios";
 
 const LOGIN_URL = '/tokens';
-const GET_ACCOUNT_URL = '/accounts/balance';
+const GET_ACCOUNT_URL = '/accounts/detail';
 
 function LoginPage() {
     const classes = useStyles();
@@ -89,7 +89,7 @@ function LoginPage() {
         }catch(err){
             if(!err?.response){
                 alert('No server response');
-            }else if(err.response.status == 401){
+            }else if(err.response.status === 401){
                 alert('Incorrect account no. or password');
             }
         }
@@ -161,6 +161,19 @@ function LoginPage() {
                         </Button>
                     </Grid>
                     <Grid item xs={1} />
+                    <Grid item xs={12}>
+                        <NavLink to='/signup'
+                        style={{
+                            display: 'block',
+                            textAlign:'right',
+                            textDecoration: 'none',
+                            color: 'blue',
+                        }}
+                        replace
+                        >
+                            Don't have an account? Sign Up! &nbsp;
+                        </NavLink>
+                    </Grid>
                 </Grid>
             </Box>
         </div>

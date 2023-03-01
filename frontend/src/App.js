@@ -1,12 +1,21 @@
 import './App.css';
-import CustomerConsole from './components/CustomerConsole';
+import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import LoginPage from './components/LoginPage';
 import { useContext, useEffect } from 'react';
 import AuthContext from 'context/AuthProvider';
-import RootPage from 'components/RootPage';
-import AdminConsole from 'components/AdminConsole';
+import { CircularProgress } from '@mui/material';
+
+const RootPage = React.lazy(()=>import('components/RootPage'));
+const LoginPage = React.lazy(()=>import('components/LoginPage'));
+const SignUpPage = React.lazy(()=>import('components/SignUpPage'));
+const AdminConsole = React.lazy(()=>import('components/AdminConsole'));
+const CustomerConsole = React.lazy(()=>import('components/CustomerConsole'));
+// import RootPage from 'components/RootPage';
+// import LoginPage from './components/LoginPage';
+// import SignUpPage from 'components/SignUpPage';
+// import AdminConsole from 'components/AdminConsole';
+// import CustomerConsole from './components/CustomerConsole';
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -39,10 +48,31 @@ function App() {
         <CssBaseline />
 
         <Routes>
-          <Route path='/' element={<RootPage />}></Route>
-          <Route path='/login' element={<LoginPage />}></Route>
-          <Route path='/customerConsole' element={<CustomerConsole />}></Route>
-          <Route path='/adminConsole' element={<AdminConsole />}></Route>
+          <Route path='/' element={
+            <React.Suspense fallback={<CircularProgress />}>
+              <RootPage />
+            </React.Suspense>
+          } />
+          <Route path='/login' element={
+            <React.Suspense fallback={<CircularProgress />}>
+              <LoginPage />
+            </React.Suspense>
+          } />
+          <Route path='/signup' element={
+            <React.Suspense fallback={<CircularProgress />}>
+              <SignUpPage />
+            </React.Suspense>
+          } />
+          <Route path='/customerConsole/*' element={
+            <React.Suspense fallback={<CircularProgress />}>
+              <CustomerConsole />
+            </React.Suspense>
+          } />
+          <Route path='/adminConsole/*' element={
+            <React.Suspense fallback={<CircularProgress />}>
+              <AdminConsole />
+            </React.Suspense>
+          } />
         </Routes>
 
         {/* <Navigate to='/login' /> */}

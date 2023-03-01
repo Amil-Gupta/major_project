@@ -1,13 +1,15 @@
-import { Grid, Avatar, Popper, IconButton , Box, Button} from '@mui/material';
+import { Grid, Avatar, Popper, IconButton , Box, Button } from '@mui/material';
 import { useContext, useEffect, useRef, useState } from 'react';
 import logo from 'assets/logo.svg';
+import transferIcon from 'assets/transferIcon.svg';
 import useStyles from 'styles/CustomerConsoleStyles';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, Routes, Route, useNavigate } from 'react-router-dom';
 import AuthContext from 'context/AuthProvider';
-import axios from 'api/axios';
-import SelectInput from '@mui/material/Select/SelectInput';
+import TransferScreen from './TransferScreen';
+import { faInr } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-// const GET_ACCOUNT_URL = '/accounts/balance';
+// const GET_ACCOUNT_URL = '/accounts/detail';
 function CustomerConsole()
 {
     const classes = useStyles();
@@ -17,6 +19,9 @@ function CustomerConsole()
     useEffect(()=>{
         // console.log(auth?.token)
         if(! auth?.token){
+            if(auth?.admin){
+                navigate('/adminConsole', {replace: true});
+            }
             navigate('/login', {replace: true});
         }
     },[auth]);
@@ -53,8 +58,21 @@ function CustomerConsole()
     // },[]);
 
     function TitleBar() {
-        const {id} = auth;
-        const user = (id) ? `Customer #${id}` : 'Loading...';
+        const {name, balancePaise} = auth;
+        const user = (name) ? name : 'Loading...';
+        const balance = (typeof(balancePaise) === 'number') ? (
+            <>
+                {/* <div> */}
+                    Balance:&nbsp;
+                {/* </div> */}
+                <FontAwesomeIcon icon={faInr} size='1x' />
+                {/* <div> */}
+                    {balancePaise / 100}
+                {/* </div> */}
+            </>
+        ):(
+            'Loading...'
+        );
         const [popperAnchor, setPopperAnchor] = useState(null);
         const popperOpen = Boolean(popperAnchor);
         const popperId = popperOpen ? 'avatarPopper' : undefined;
@@ -74,6 +92,10 @@ function CustomerConsole()
                 };
         },[]);
 
+        const handleBannerClick = ()=>{
+            navigate('/customerConsole');
+        }
+
         const handleAvatarClick = (e)=>{
             // console.log('enter/leave');
             setPopperAnchor(popperAnchor ? null : e.currentTarget);
@@ -86,12 +108,14 @@ function CustomerConsole()
 
         return ( 
             <div className={classes.titleBar}>
-                <div className={classes.logoContainer}>
-                    <img src={logo} alt='online_bank' className={classes.logo} />
-                </div>
+                <div className={classes.banner} onClick={handleBannerClick}>
+                    <div className={classes.logoContainer}>
+                        <img src={logo} alt='online_bank' className={classes.logo} />
+                    </div>
 
-                <div className={classes.title}>
-                    Online Bank
+                    <div className={classes.title}>
+                        Online Bank
+                    </div>
                 </div>
 
                 <div className={classes.avatar}>
@@ -115,6 +139,9 @@ function CustomerConsole()
                             <section className={classes.username}>
                                 {user}
                             </section>
+                            <section className={classes.balance}>
+                                {balance}
+                            </section>
                             <Button
                                 className={classes.logoutButton}
                                 onClick={handleLogout}
@@ -134,9 +161,53 @@ function CustomerConsole()
     }
 
     function Body() {
+        const OptionButton = (props)=>{
+            return(
+                <NavLink to={props.route}
+                    style={{
+                        textDecoration: 'none',
+                        color: 'white',
+                        // height: '17vw',
+                        width: '100%',
+                        display: 'block',
+                        aspectRatio: '1 / 1',
+                        // height: '100%',
+                        // justifyContent: 'center',
+                        // alignItems: 'center',
+                    }}
+                    replace
+                >
+                    <div style={{
+                        backgroundImage: `url(${props.icon})`,
+                    }} 
+                    className={classes.optionButton}
+                    id = {props.id}
+                    >
+                        
+                            {props.name}
+                    </div>
+                </NavLink>
+            )
+        }
+
+        const Options = ()=>{
+            return(
+                <div className={classes.options}>
+                    <Grid container>
+                        <Grid item xs={6} md={2}>
+                            <OptionButton name='Transfer Money' icon={transferIcon} id='transferButton' route='transfer'/>
+                        </Grid>
+                    </Grid>
+                </div>
+            )
+        }
+
         return (
             <div className={classes.body}>
-                
+                <Routes>
+                    <Route path='*' element={<Options />}></Route>
+                    <Route path='transfer' element={<TransferScreen />}></Route>
+                </Routes>
             </div> 
         );
     }

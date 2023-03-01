@@ -1,16 +1,28 @@
-import './App.css';
 import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import AuthContext from 'context/AuthProvider';
-import { CircularProgress } from '@mui/material';
+// import { CircularProgress } from '@mui/material';
+import FallBackScreen from 'components/FallBackScreen';
 
 const RootPage = React.lazy(()=>import('components/RootPage'));
 const LoginPage = React.lazy(()=>import('components/LoginPage'));
 const SignUpPage = React.lazy(()=>import('components/SignUpPage'));
 const AdminConsole = React.lazy(()=>import('components/AdminConsole'));
-const CustomerConsole = React.lazy(()=>import('components/CustomerConsole'));
+const CustomerConsole = React.lazy(
+  // TO TEST FALLBACK SCREEN
+  // ()=>{
+  // return Promise.all([
+  //   import('components/CustomerConsole'),
+  //   new Promise(resolve => setTimeout(resolve, 1000))
+  // ]
+  // ).then(([moduleExports]) => moduleExports)
+  // }
+  
+  //NORMAL IMPORT
+  ()=>import('components/CustomerConsole')
+);
 // import RootPage from 'components/RootPage';
 // import LoginPage from './components/LoginPage';
 // import SignUpPage from 'components/SignUpPage';
@@ -49,27 +61,27 @@ function App() {
 
         <Routes>
           <Route path='/' element={
-            <React.Suspense fallback={<CircularProgress />}>
+            <React.Suspense fallback={<FallBackScreen />}>
               <RootPage />
             </React.Suspense>
           } />
           <Route path='/login' element={
-            <React.Suspense fallback={<CircularProgress />}>
+            <React.Suspense fallback={<FallBackScreen />}>
               <LoginPage />
             </React.Suspense>
           } />
           <Route path='/signup' element={
-            <React.Suspense fallback={<CircularProgress />}>
+            <React.Suspense fallback={<FallBackScreen />}>
               <SignUpPage />
             </React.Suspense>
           } />
           <Route path='/customerConsole/*' element={
-            <React.Suspense fallback={<CircularProgress />}>
+            <React.Suspense fallback={<FallBackScreen />}>
               <CustomerConsole />
             </React.Suspense>
           } />
           <Route path='/adminConsole/*' element={
-            <React.Suspense fallback={<CircularProgress />}>
+            <React.Suspense fallback={<FallBackScreen />}>
               <AdminConsole />
             </React.Suspense>
           } />

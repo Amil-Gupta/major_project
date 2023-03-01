@@ -132,21 +132,29 @@ function SignUpPage() {
 
                 setAuth({token});
             }catch(err){
-                // console.log(err);
-                const errors = err?.response?.data?.errors;
+                const response = err?.response;
 
-                console.log(errors)
-
-                if(errors?.length){
-                    errors.forEach(error => {
-                        if(error.field === 'name'){
-                            setNameErrors((nameErrors)=>([...nameErrors, error]));
-                        }
-                        else if(error.field === 'password'){
-                            setPasswordErrors((passwordErrors)=>([...passwordErrors, error]));
-                        }
-                    });
+                if(!response){
+                    alert('No server response');
+                } //401 ERROR IS NOT POSSIBLE BECAUSE THE CREDENTIALS HAVE BEEN SET BY THE USER
+                else{
+                    // console.log(err);
+                    const errors = response?.data?.errors;
+    
+                    // console.log(errors)
+    
+                    if(errors?.length){
+                        errors.forEach(error => {
+                            if(error.field === 'name'){
+                                setNameErrors((nameErrors)=>([...nameErrors, error]));
+                            }
+                            else if(error.field === 'password'){
+                                setPasswordErrors((passwordErrors)=>([...passwordErrors, error]));
+                            }
+                        });
+                    }
                 }
+
             }
         }
         else{

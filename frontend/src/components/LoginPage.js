@@ -20,6 +20,20 @@ function LoginPage() {
     const [accountId, setAccountId] = useState('');
     const [password, setPassword] = useState('');
 
+    const [errors, setErrors] = useState([]);
+
+    const errorComponent = (errors.length) ? (
+        <ul className={classes.error}>
+            {
+                errors.map((error)=>(
+                    <li key={error.code}>
+                        {error.message}
+                    </li>
+                ))
+            }
+        </ul>
+    ) : (<></>);
+
     useEffect(()=>{
         const token = auth?.token;
         if(token){
@@ -55,14 +69,17 @@ function LoginPage() {
     // },[acc, pass])
 
     const handleAccountIdUpdate = (e)=>{
+        setErrors([]);
         setAccountId(e.target.value);
     }
     const handlePasswordUpdate = (e)=>{
+        setErrors([]);
         setPassword(e.target.value);
     }
 
     const handleLogin = async(e)=>{
         e.preventDefault();
+        setErrors([]);
 
         try{
             const response = await axios.post(
@@ -87,10 +104,17 @@ function LoginPage() {
 
             setAuth({token});
         }catch(err){
-            if(!err?.response){
+            const response = err?.response;
+            if(!response){
                 alert('No server response');
-            }else if(err.response.status === 401){
-                alert('Incorrect account no. or password');
+            }else if(response?.status === 401){
+                let {type, message} = response?.data;
+                let error = {
+                    code: type,
+                    message: message
+                }
+                setErrors((errors)=>([...errors, error]));
+                // alert('Incorrect account no. or password');
             }
         }
     }
@@ -145,6 +169,9 @@ function LoginPage() {
                             onChange={handlePasswordUpdate}
                             />
                         </div>
+                        {
+                            errorComponent
+                        }
                     </Grid>
                     <Grid item xs={1} />
                     <Grid item xs={10}>

@@ -31,10 +31,10 @@ public class TokenCreator {
     	
     	var account = accountRepository
     			.findById(request.getAccountId())
-    			.orElseThrow(() -> new BadCredentialsException("Bad Credentials"));
+    			.orElseThrow(() -> new BadCredentialsException("User Does Not Exist."));
     	
     	if (!passwordEncoder.matches(request.getPassword(), account.getPassword()))
-    		throw new BadCredentialsException("Bad Credentials");
+    		throw new BadCredentialsException("Kindly Recheck Your Password.");
     	
     	JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")

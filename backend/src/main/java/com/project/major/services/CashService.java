@@ -37,6 +37,9 @@ public class CashService {
 		Account account = accountRepository.findById(request.getAccountId()).orElseThrow(() ->
 			new BusinessException("Account %d not found!".formatted(request.getAccountId()), HttpStatus.NOT_FOUND));
 		
+		if (account.isAdmin())
+			throw new BusinessException("You can't deposit money to or withdraw money from an admin !", HttpStatus.UNPROCESSABLE_ENTITY);
+		
 		if (hasInsufficientBalanceForWithdrawal(account, request)) {
 			throw new BusinessException("Balance %d in account %d is insufficient for withdrawal of amount %d".formatted(
 					account.getBalancePaise(),

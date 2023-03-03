@@ -34,7 +34,7 @@ public class TransferCreationService {
 			throw new BusinessException("Admin can't transfer money !", HttpStatus.UNPROCESSABLE_ENTITY);
 		
 		Account toAccount = accountRepository.findById(transferRequest.getToAccountId()).orElseThrow(() ->
-			new BusinessException("Reciever Account %d not found!".formatted(transferRequest.getToAccountId()), HttpStatus.NOT_FOUND));
+			new BusinessException("Receiver Account %d not found!".formatted(transferRequest.getToAccountId()), HttpStatus.NOT_FOUND));
 		if (toAccount.isAdmin())
 			throw new BusinessException("Money can't be transferred to an admin !", HttpStatus.UNPROCESSABLE_ENTITY);
 		

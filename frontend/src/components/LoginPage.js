@@ -70,7 +70,8 @@ function LoginPage() {
 
     const handleAccountIdUpdate = (e)=>{
         setErrors([]);
-        setAccountId(e.target.value);
+        const newId = (e.target.value) > 0 ? e.target.value : '';
+        setAccountId(newId);
     }
     const handlePasswordUpdate = (e)=>{
         setErrors([]);
@@ -152,10 +153,11 @@ function LoginPage() {
                             </label>
                             <input
                             id = 'account_no'
-                            type = 'text' 
+                            type = 'number'
                             className={classes.input}
                             autoComplete='off'
                             onChange={handleAccountIdUpdate}
+                            value={accountId}
                             />
                         </div>
                         <div className={classes.entry}>

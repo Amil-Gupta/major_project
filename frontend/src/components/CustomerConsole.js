@@ -9,8 +9,9 @@ import TransferScreen from './TransferScreen';
 import { faInr } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LoadingOverlay from './LoadingOverlay';
+import axios from 'api/axios';
 
-// const GET_ACCOUNT_URL = '/accounts/detail';
+const GET_ACCOUNT_URL = '/accounts/detail';
 function CustomerConsole(props)
 {
     const classes = useStyles();
@@ -99,9 +100,21 @@ function CustomerConsole(props)
             navigate('/customerConsole');
         }
 
-        const handleAvatarClick = (e)=>{
+        const handleAvatarClick = async(e)=>{
             // console.log('enter/leave');
+            const {token} = auth;
             setPopperAnchor(popperAnchor ? null : e.currentTarget);
+            const response = await axios.get(
+                GET_ACCOUNT_URL,
+                {
+                    headers: {
+                        Authorization: "Bearer "+token,
+                    }
+                }
+            )
+            const userdata = response?.data;
+            // const {id, admin} = userdata;
+            setAuth({...auth, ...userdata});
         }
 
         const handleLogout = ()=>{

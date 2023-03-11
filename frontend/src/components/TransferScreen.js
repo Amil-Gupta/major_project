@@ -50,6 +50,8 @@ function TransferScreen(props){
                 );
                 console.log(response?.data);
                 alert(`INR ${amountRupees} transferred to account no. ${toAccountId}`);
+                // let newBal = auth.balancePaise - amountPaise;
+                // setAuth({...auth, balancePaise: newBal });
                 setSuccess(true);
                 props.setLoading(false);
             }catch(err){

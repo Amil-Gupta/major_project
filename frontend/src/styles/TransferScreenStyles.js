@@ -90,6 +90,14 @@ const useStyles = makeStyles((theme)=>({
 
         MozAppearance: 'textfield',
     },
+
+    successCard: {
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 }));
 
 export default useStyles;

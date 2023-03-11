@@ -8,6 +8,7 @@ import AuthContext from 'context/AuthProvider';
 import TransferScreen from './TransferScreen';
 import { faInr } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import LoadingOverlay from './LoadingOverlay';
 
 // const GET_ACCOUNT_URL = '/accounts/detail';
 function CustomerConsole()
@@ -15,6 +16,8 @@ function CustomerConsole()
     const classes = useStyles();
     const { auth, setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    const [loading,  setLoading] = useState(false);
 
     useEffect(()=>{
         // console.log(auth?.token)
@@ -206,7 +209,7 @@ function CustomerConsole()
             <div className={classes.body}>
                 <Routes>
                     <Route path='*' element={<Options />}></Route>
-                    <Route path='transfer' element={<TransferScreen />}></Route>
+                    <Route path='transfer/*' element={<TransferScreen setLoading={setLoading} />}></Route>
                 </Routes>
             </div> 
         );
@@ -214,6 +217,7 @@ function CustomerConsole()
 
     return (
         <div className={classes.root}>
+            <LoadingOverlay show={loading} />
             <Grid container>
                 <Grid item xs={12}>
                     <TitleBar />

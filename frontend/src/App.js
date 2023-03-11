@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import AuthContext from 'context/AuthProvider';
 // import { CircularProgress } from '@mui/material';
 import FallBackScreen from 'components/FallBackScreen';
+import LoadingOverlay from 'components/LoadingOverlay';
 
 const RootPage = React.lazy(()=>import('components/RootPage'));
 const LoginPage = React.lazy(()=>import('components/LoginPage'));
@@ -33,6 +34,9 @@ function App() {
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
+  const [loadingColor, setLoadingColor] = useState('blue');
+
   useEffect(()=>{
     if(! auth?.token){
 
@@ -59,30 +63,32 @@ function App() {
       <>
         <CssBaseline />
 
+        <LoadingOverlay show={loading} color={loadingColor} />
+
         <Routes>
           <Route path='/' element={
             <React.Suspense fallback={<FallBackScreen />}>
-              <RootPage />
+              <RootPage setLoading={setLoading} setLoadingColor={setLoadingColor} />
             </React.Suspense>
           } />
           <Route path='/login' element={
             <React.Suspense fallback={<FallBackScreen />}>
-              <LoginPage />
+              <LoginPage setLoading={setLoading} setLoadingColor={setLoadingColor} />
             </React.Suspense>
           } />
           <Route path='/signup' element={
             <React.Suspense fallback={<FallBackScreen />}>
-              <SignUpPage />
+              <SignUpPage setLoading={setLoading} setLoadingColor={setLoadingColor} />
             </React.Suspense>
           } />
           <Route path='/customerConsole/*' element={
             <React.Suspense fallback={<FallBackScreen />}>
-              <CustomerConsole />
+              <CustomerConsole setLoading={setLoading} setLoadingColor={setLoadingColor} />
             </React.Suspense>
           } />
           <Route path='/adminConsole/*' element={
             <React.Suspense fallback={<FallBackScreen />}>
-              <AdminConsole />
+              <AdminConsole setLoading={setLoading} setLoadingColor={setLoadingColor} />
             </React.Suspense>
           } />
         </Routes>

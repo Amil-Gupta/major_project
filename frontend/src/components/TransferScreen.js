@@ -11,6 +11,8 @@ import LoadingOverlay from "./LoadingOverlay";
 const TRANSFER_URL = '/transfers';
 
 function TransferScreen(props){
+    props.setLoadingColor('green');
+
     const classes = useStyles();
     const { auth, setAuth } = useContext(AuthContext);
     const navigate = useNavigate();

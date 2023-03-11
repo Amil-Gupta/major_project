@@ -4,9 +4,12 @@ import useStyles from "styles/LoadingOverlayStyles";
 function LoadingOverlay(props) {
     const classes = useStyles();
     const showHide = (props.show) ? classes.show : classes.hide;
+    const color = props.color;
     return (
         <div className={showHide}>
-            <CircularProgress />
+            <CircularProgress sx={{
+                color: props.color
+            }} />
         </div>
     );
 }

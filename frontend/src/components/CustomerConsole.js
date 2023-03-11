@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LoadingOverlay from './LoadingOverlay';
 
 // const GET_ACCOUNT_URL = '/accounts/detail';
-function CustomerConsole()
+function CustomerConsole(props)
 {
     const classes = useStyles();
     const { auth, setAuth } = useContext(AuthContext);
@@ -209,7 +209,7 @@ function CustomerConsole()
             <div className={classes.body}>
                 <Routes>
                     <Route path='*' element={<Options />}></Route>
-                    <Route path='transfer/*' element={<TransferScreen setLoading={setLoading} />}></Route>
+                    <Route path='transfer/*' element={<TransferScreen setLoading={props.setLoading} setLoadingColor={props.setLoadingColor} />}></Route>
                 </Routes>
             </div> 
         );
@@ -217,7 +217,7 @@ function CustomerConsole()
 
     return (
         <div className={classes.root}>
-            <LoadingOverlay show={loading} />
+            {/* <LoadingOverlay show={loading} /> */}
             <Grid container>
                 <Grid item xs={12}>
                     <TitleBar />

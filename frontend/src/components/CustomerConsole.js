@@ -62,7 +62,8 @@ function CustomerConsole(props)
     // },[]);
 
     function TitleBar() {
-        const {name, balancePaise} = auth;
+        const {name} = auth;
+        const [balancePaise, setBalancePaise] = useState(auth?.balancePaise);
         const user = (name) ? name : 'Loading...';
         const balance = (typeof(balancePaise) === 'number') ? (
             <>
@@ -113,8 +114,9 @@ function CustomerConsole(props)
                 }
             )
             const userdata = response?.data;
-            // const {id, admin} = userdata;
-            setAuth({...auth, ...userdata});
+            // name = userdata?.name;
+            // balancePaise = userdata?.balancePaise;
+            setBalancePaise(userdata?.balancePaise);
         }
 
         const handleLogout = ()=>{

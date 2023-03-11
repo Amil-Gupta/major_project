@@ -68,7 +68,7 @@ function App() {
         <Routes>
           <Route path='/' element={
             <React.Suspense fallback={<FallBackScreen />}>
-              <RootPage setLoading={setLoading} setLoadingColor={setLoadingColor} />
+              <RootPage />
             </React.Suspense>
           } />
           <Route path='/login' element={

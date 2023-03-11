@@ -1,12 +1,13 @@
 import { Avatar, Grid, Button } from "@mui/material";
 import AuthContext from "context/AuthProvider";
 import { useState, useContext, useEffect } from "react";
-import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import useStyles from "styles/TransferScreenStyles";
 import { faInr } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "api/axios";
-import LoadingOverlay from "./LoadingOverlay";
+// import LoadingOverlay from "./LoadingOverlay";
+import TransferContext, { TransferProvider } from "context/TransferProvider";
 
 const TRANSFER_URL = '/transfers';
 
@@ -21,12 +22,12 @@ function TransferScreen(props){
     const classes = useStyles();
     const { auth, setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
-
+    
     const TransferInitiator = ()=>{
+        const { transfer, setTransfer } = useContext(TransferContext);
         const [ toAccountId, setToAccountId ] = useState('');
         const [ amountRupees, setAmountRupees ] = useState('');
         const amountPaise = amountRupees ? (amountRupees * 100) : '';
-        const [ success, setSuccess ] = useState(false);
         // const [ loading, setLoading ] = useState(false);
 
         const handleAccountIdUpdate = (e)=>{
@@ -54,10 +55,11 @@ function TransferScreen(props){
                     }    
                 );
                 console.log(response?.data);
+                const transferData = response?.data;
+                setTransfer((transfer)=>({...transfer, transferData}));
                 alert(`INR ${amountRupees} transferred to account no. ${toAccountId}`);
                 // let newBal = auth.balancePaise - amountPaise;
                 // setAuth({...auth, balancePaise: newBal });
-                setSuccess(true);
                 props.setLoading(false);
             }catch(err){
                 props.setLoading(false);
@@ -156,7 +158,8 @@ function TransferScreen(props){
                             <div className={classes.entry}>
                                 <label className={classes.label}>
                                     Amount in&nbsp;
-                                    <FontAwesomeIcon icon={faInr} size='1x' />
+                                    ₹
+                                    {/* <FontAwesomeIcon icon={faInr} size='1x' /> */}
                                 </label>
                                 <input
                                 id='amount'
@@ -191,9 +194,11 @@ function TransferScreen(props){
     }
     return(
         <div className={classes.root}>
-            <Routes>
-                <Route path='*' element={<TransferInitiator />} />
-            </Routes>
+            <TransferProvider>
+                <Routes>
+                    <Route path='*' element={<TransferInitiator />} />
+                </Routes>
+            </TransferProvider>
         </div>
     )
 }

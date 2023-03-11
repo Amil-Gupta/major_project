@@ -1,6 +1,6 @@
 import { Avatar, Grid, Button } from "@mui/material";
 import AuthContext from "context/AuthProvider";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
 import useStyles from "styles/TransferScreenStyles";
 import { faInr } from '@fortawesome/free-solid-svg-icons';
@@ -11,7 +11,12 @@ import LoadingOverlay from "./LoadingOverlay";
 const TRANSFER_URL = '/transfers';
 
 function TransferScreen(props){
-    props.setLoadingColor('green');
+    useEffect(
+        ()=>{
+            props.setLoadingColor('green');
+        },
+        []
+    )
 
     const classes = useStyles();
     const { auth, setAuth } = useContext(AuthContext);

@@ -5,20 +5,44 @@ import { NavLink } from "react-router-dom";
 import useStyles from "styles/TransferScreenStyles";
 import { faInr } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from "api/axios";
+
+const TRANSFER_URL = '/transfers';
 
 function TransferScreen() {
     const classes = useStyles();
     const { auth, setAuth } = useContext(AuthContext);
     const [ toAccountId, setToAccountId ] = useState('');
-    const [ amountPaise, setAmountPaise ] = useState('');
+    const [ amountRupees, setAmountRupees ] = useState('');
+    const amountPaise = amountRupees ? (amountRupees * 100) : '';
 
     const handleAccountIdUpdate = (e)=>{
         const newId = parseInt(e.target.value) > 0 ? e.target.value : '';
         setToAccountId(newId);
     }
-    const handleAmountPaiseUpdate = (e)=>{
+    const handleAmountRupeesUpdate = (e)=>{
         const newAmount = parseInt(e.target.value) > 0 ? e.target.value : '';
-        setAmountPaise(e.target.value);
+        setAmountRupees(e.target.value);
+    }
+
+    const handleTransfer = async(e)=>{
+        e.preventDefault();
+        try{
+            const token = auth?.token;
+            const response = await axios.post(
+                TRANSFER_URL,
+                JSON.stringify({toAccountId, amountPaise}),
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: "Bearer "+token,
+                    },
+                }    
+            );
+            console.log(response?.data);
+        }catch(err){
+            console.log(err);
+        }
     }
 
     const UserInfo = (props)=>{
@@ -118,8 +142,8 @@ function TransferScreen() {
                                 type = 'number' 
                                 className={classes.input}
                                 autoComplete='off'
-                                onChange={handleAmountPaiseUpdate}
-                                value={amountPaise}
+                                onChange={handleAmountRupeesUpdate}
+                                value={amountRupees}
                                 />
                             </div>
                             <Button
@@ -130,6 +154,7 @@ function TransferScreen() {
                                 width: '100%',
                                 margin: '1rem 0'
                                 }}
+                            onClick={handleTransfer}
                             >
                                 Initiate Transfer
                             </Button>

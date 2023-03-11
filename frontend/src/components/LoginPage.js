@@ -94,6 +94,7 @@ function LoginPage() {
     const handleLogin = async(e)=>{
         e.preventDefault();
         setAccountIdErrors([]);
+        setPasswordErrors([]);
         try{
             const response = await axios.post(
                 LOGIN_URL,

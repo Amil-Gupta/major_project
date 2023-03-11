@@ -157,8 +157,7 @@ function TransferScreen(props){
                             </div>
                             <div className={classes.entry}>
                                 <label className={classes.label}>
-                                    Amount in&nbsp;
-                                    ₹
+                                    Amount in ₹
                                     {/* <FontAwesomeIcon icon={faInr} size='1x' /> */}
                                 </label>
                                 <input

@@ -6,9 +6,9 @@ import useStyles from 'styles/CustomerConsoleStyles';
 import { NavLink, Routes, Route, useNavigate } from 'react-router-dom';
 import AuthContext from 'context/AuthProvider';
 import TransferScreen from './TransferScreen';
-import { faInr } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import LoadingOverlay from './LoadingOverlay';
+// import { faInr } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import LoadingOverlay from './LoadingOverlay';
 import axios from 'api/axios';
 
 const GET_ACCOUNT_URL = '/accounts/detail';
@@ -68,11 +68,11 @@ function CustomerConsole(props)
         const balance = (typeof(balancePaise) === 'number') ? (
             <>
                 {/* <div> */}
-                    Balance:&nbsp;
+                Balance:&nbsp;
                 {/* </div> */}
-                <FontAwesomeIcon icon={faInr} size='1x' />
+                {/* <FontAwesomeIcon icon={faInr} size='1x' /> */}
                 {/* <div> */}
-                    {balancePaise / 100}
+                ₹{balancePaise / 100}
                 {/* </div> */}
             </>
         ):(

@@ -122,7 +122,15 @@ function TransferScreen() {
                                 value={amountPaise}
                                 />
                             </div>
-                            <Button>
+                            <Button
+                            className={classes.submitButton}
+                            sx={{
+                                color: 'white', 
+                                backgroundColor: '#4b484c',
+                                width: '100%',
+                                margin: '1rem 0'
+                                }}
+                            >
                                 Initiate Transfer
                             </Button>
                         </div>

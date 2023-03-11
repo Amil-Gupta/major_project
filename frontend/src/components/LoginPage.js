@@ -134,9 +134,9 @@ function LoginPage() {
                 }
                 // alert('Incorrect account no. or password');
             }else if(response?.status === 422){
-                let accountIdErrors = response?.data?.accountIdErrors;
-                if(accountIdErrors?.length){
-                    accountIdErrors.forEach(error => {
+                let errors = response?.data?.errors;
+                if(errors?.length){
+                    errors.forEach(error => {
                         if(error.field === 'password'){
                             setPasswordErrors((passwordErrors)=>([...passwordErrors, error]));
                         }
@@ -211,7 +211,8 @@ function LoginPage() {
                     </Grid>
                     <Grid item xs={1} />
                     <Grid item xs={10}>
-                        <Button className={classes.submitButton} 
+                        <Button
+                        className={classes.submitButton} 
                         sx={{
                             color: 'white', 
                             backgroundColor: '#4b484c',
@@ -219,7 +220,7 @@ function LoginPage() {
                             margin: '1rem 0'
                             }}
                         onClick={handleLogin}
-                        disable={accountIdErrors.length}
+                        disable={accountIdErrors.length || passwordErrors.length}
                         >
                             Login
                         </Button>

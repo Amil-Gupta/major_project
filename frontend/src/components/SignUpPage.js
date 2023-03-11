@@ -243,6 +243,7 @@ function SignUpPage() {
                             margin: '1rem 0'
                             }}
                         onClick={handleSignUp}
+                        disabled={nameErrors.length || passwordErrors.length || !confirmPasswordMatch || !name.length || !password.length}
                         >
                             Sign Up
                         </Button>

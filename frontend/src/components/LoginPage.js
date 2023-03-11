@@ -221,7 +221,7 @@ function LoginPage() {
                             margin: '1rem 0'
                             }}
                         onClick={handleLogin}
-                        disabled={accountIdErrors.length || passwordErrors.length}
+                        disabled={accountIdErrors.length || passwordErrors.length || !accountId.length || !password.length}
                         >
                             Login
                         </Button>

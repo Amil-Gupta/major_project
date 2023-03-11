@@ -20,14 +20,13 @@ function LoginPage() {
     const [accountId, setAccountId] = useState('');
     const [password, setPassword] = useState('');
 
-    const [accountIdErrors, setAccountIdErrors] = useState([]);
     const [passwordErrors, setPasswordErrors] = useState([]);
-    const [errors, setErrors] = useState([]);
+    const [accountIdErrors, setAccountIdErrors] = useState([]);
 
-    const errorComponent = (errors.length) ? (
+    const accountIdErrorComponent = (accountIdErrors.length) ? (
         <ul className={classes.error}>
             {
-                errors.map((error)=>(
+                accountIdErrors.map((error)=>(
                     <li key={error.code}>
                         {error.message}
                     </li>
@@ -83,20 +82,18 @@ function LoginPage() {
     // },[acc, pass])
 
     const handleAccountIdUpdate = (e)=>{
-        setErrors([]);
         setAccountIdErrors([]);
         const newId = (e.target.value) > 0 ? e.target.value : '';
         setAccountId(newId);
     }
     const handlePasswordUpdate = (e)=>{
-        setErrors([]);
         setPasswordErrors([]);
         setPassword(e.target.value);
     }
 
     const handleLogin = async(e)=>{
         e.preventDefault();
-        setErrors([]);
+        setAccountIdErrors([]);
         try{
             const response = await axios.post(
                 LOGIN_URL,
@@ -129,17 +126,22 @@ function LoginPage() {
                     code: type,
                     message: message
                 }
-                setErrors((errors)=>([...errors, error]));
+                if(message === 'Kindly Recheck Your Password.'){
+                    setPasswordErrors((passwordErrors)=>([...passwordErrors, error]))
+                }
+                else{
+                    setAccountIdErrors((accountIdErrors)=>([...accountIdErrors, error]));
+                }
                 // alert('Incorrect account no. or password');
             }else if(response?.status === 422){
-                let errors = response?.data?.errors;
-                if(errors?.length){
-                    errors.forEach(error => {
+                let accountIdErrors = response?.data?.accountIdErrors;
+                if(accountIdErrors?.length){
+                    accountIdErrors.forEach(error => {
                         if(error.field === 'password'){
                             setPasswordErrors((passwordErrors)=>([...passwordErrors, error]));
                         }
                         else{
-                            setErrors((errors)=>([...errors, error]));
+                            setAccountIdErrors((accountIdErrors)=>([...accountIdErrors, error]));
                         }
                     });
                 }
@@ -189,6 +191,9 @@ function LoginPage() {
                             value={accountId}
                             />
                         </div>
+                        {
+                            accountIdErrorComponent
+                        }
                         <div className={classes.entry}>
                             <label className={classes.label}>
                                 Password
@@ -200,9 +205,6 @@ function LoginPage() {
                             onChange={handlePasswordUpdate}
                             />
                         </div>
-                        {
-                            errorComponent
-                        }
                         {
                             passwordErrorComponent
                         }
@@ -217,7 +219,7 @@ function LoginPage() {
                             margin: '1rem 0'
                             }}
                         onClick={handleLogin}
-                        disable={errors.length}
+                        disable={accountIdErrors.length}
                         >
                             Login
                         </Button>

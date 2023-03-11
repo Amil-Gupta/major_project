@@ -57,6 +57,16 @@ const useStyles = makeStyles((theme)=>({
         borderRadius: '1rem',
         fontWeight: 'bold',
         textAlign: 'center',
+
+        '&::-webkit-outer-spin-button':{
+            WebkitAppearance: 'none'
+        },
+
+        '&::-webkit-inner-spin-button':{
+            WebkitAppearance: 'none'
+        },
+
+        MozAppearance: 'textfield',
     },
 
     submitButton: {

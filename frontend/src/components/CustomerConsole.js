@@ -10,6 +10,7 @@ import TransferScreen from './TransferScreen';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import LoadingOverlay from './LoadingOverlay';
 import axios from 'api/axios';
+import { TransferProvider } from 'context/TransferProvider';
 
 const GET_ACCOUNT_URL = '/accounts/detail';
 function CustomerConsole(props)
@@ -231,17 +232,19 @@ function CustomerConsole(props)
     }
 
     return (
-        <div className={classes.root}>
-            {/* <LoadingOverlay show={loading} /> */}
-            <Grid container>
-                <Grid item xs={12}>
-                    <TitleBar />
+        <TransferProvider>
+            <div className={classes.root}>
+                {/* <LoadingOverlay show={loading} /> */}
+                <Grid container>
+                    <Grid item xs={12}>
+                        <TitleBar />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Body />
+                    </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <Body />
-                </Grid>
-            </Grid>
-        </div> 
+            </div> 
+        </TransferProvider>
     );
 }
 

@@ -20,6 +20,8 @@ function LoginPage() {
     const [accountId, setAccountId] = useState('');
     const [password, setPassword] = useState('');
 
+    const [accountIdErrors, setAccountIdErrors] = useState([]);
+    const [passwordErrors, setPasswordErrors] = useState([]);
     const [errors, setErrors] = useState([]);
 
     const errorComponent = (errors.length) ? (
@@ -33,6 +35,18 @@ function LoginPage() {
             }
         </ul>
     ) : (<></>);
+
+    const passwordErrorComponent = (passwordErrors.length) ? (
+        <ul className={classes.error}>
+            {
+                passwordErrors.map((error)=>(
+                    <li key={error.code}>
+                        {error.message}
+                    </li>
+                ))
+            }
+        </ul>
+    ):(<></>);
 
     useEffect(()=>{
         const token = auth?.token;
@@ -70,18 +84,19 @@ function LoginPage() {
 
     const handleAccountIdUpdate = (e)=>{
         setErrors([]);
+        setAccountIdErrors([]);
         const newId = (e.target.value) > 0 ? e.target.value : '';
         setAccountId(newId);
     }
     const handlePasswordUpdate = (e)=>{
         setErrors([]);
+        setPasswordErrors([]);
         setPassword(e.target.value);
     }
 
     const handleLogin = async(e)=>{
         e.preventDefault();
         setErrors([]);
-
         try{
             const response = await axios.post(
                 LOGIN_URL,
@@ -116,6 +131,20 @@ function LoginPage() {
                 }
                 setErrors((errors)=>([...errors, error]));
                 // alert('Incorrect account no. or password');
+            }else if(response?.status === 422){
+                let errors = response?.data?.errors;
+                if(errors?.length){
+                    errors.forEach(error => {
+                        if(error.field === 'password'){
+                            setPasswordErrors((passwordErrors)=>([...passwordErrors, error]));
+                        }
+                        else{
+                            setErrors((errors)=>([...errors, error]));
+                        }
+                    });
+                }
+            }else{
+                
             }
         }
     }
@@ -174,6 +203,9 @@ function LoginPage() {
                         {
                             errorComponent
                         }
+                        {
+                            passwordErrorComponent
+                        }
                     </Grid>
                     <Grid item xs={1} />
                     <Grid item xs={10}>
@@ -185,6 +217,7 @@ function LoginPage() {
                             margin: '1rem 0'
                             }}
                         onClick={handleLogin}
+                        disable={errors.length}
                         >
                             Login
                         </Button>

@@ -22,7 +22,7 @@ function TransferScreen() {
     }
     const handleAmountRupeesUpdate = (e)=>{
         const newAmount = parseInt(e.target.value) > 0 ? e.target.value : '';
-        setAmountRupees(e.target.value);
+        setAmountRupees(newAmount);
     }
 
     const handleTransfer = async(e)=>{

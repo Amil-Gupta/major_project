@@ -4,7 +4,8 @@ const useStyles = makeStyles((theme)=>({
     root: {
         display: 'flex',
         // backgroundColor: '#2a2b2a',
-        backgroundImage: 'radial-gradient(white, aliceblue, grey, silver)',
+        // backgroundImage: 'radial-gradient(white, aliceblue, grey, silver)',
+        backgroundImage: 'radial-gradient(cyan, dodgerblue, teal)',
         height: '100vh',
         width: '100vw',
     },

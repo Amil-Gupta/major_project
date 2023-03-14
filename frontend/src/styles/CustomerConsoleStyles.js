@@ -55,10 +55,6 @@ const useStyles = makeStyles((theme) =>
     // },
 
     body: {
-        // backgroundImage: `url(${handshake})`,
-        // backgroundPosition: 'center', 
-        // backgroundRepeat: 'no-repeat',
-        // backgroundSize: '25vh',
         backgroundColor: '#2a2b2a',
         height: '90vh',
         padding: '1rem',

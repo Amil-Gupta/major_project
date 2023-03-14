@@ -2,15 +2,14 @@ import { Grid, Avatar, Popper, IconButton , Box, Button } from '@mui/material';
 import { useContext, useEffect, useRef, useState } from 'react';
 import logo from 'assets/logo.svg';
 import transferIcon from 'assets/transferIcon.svg';
+import accountStatementIcon from 'assets/accountStatementIcon.svg';
 import useStyles from 'styles/CustomerConsoleStyles';
 import { NavLink, Routes, Route, useNavigate } from 'react-router-dom';
 import AuthContext from 'context/AuthProvider';
 import TransferScreen from './TransferScreen';
-// import { faInr } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import LoadingOverlay from './LoadingOverlay';
 import axios from 'api/axios';
 import { TransferProvider } from 'context/TransferProvider';
+import AccountStatement from './AccountStatement';
 
 const GET_ACCOUNT_URL = '/accounts/detail';
 function CustomerConsole(props)
@@ -198,6 +197,8 @@ function CustomerConsole(props)
                 >
                     <div style={{
                         backgroundImage: `url(${props.icon})`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
                     }} 
                     className={classes.optionButton}
                     id = {props.id}
@@ -214,7 +215,10 @@ function CustomerConsole(props)
                 <div className={classes.options}>
                     <Grid container>
                         <Grid item xs={6} md={2}>
-                            <OptionButton name='Transfer Money' icon={transferIcon} id='transferButton' route='transfer'/>
+                            <OptionButton name='Money Transfer' icon={transferIcon} id='transferButton' route='transfer'/>
+                        </Grid>
+                        <Grid item xs={6} md={2}>
+                            <OptionButton name='Account Statement' icon={accountStatementIcon} id='accountStatementButton' route='statement' />
                         </Grid>
                     </Grid>
                 </div>
@@ -224,8 +228,9 @@ function CustomerConsole(props)
         return (
             <div className={classes.body}>
                 <Routes>
-                    <Route path='*' element={<Options />}></Route>
-                    <Route path='transfer/*' element={<TransferScreen setLoading={props.setLoading} setLoadingColor={props.setLoadingColor} />}></Route>
+                    <Route path='*' element={<Options />} />
+                    <Route path='transfer/*' element={<TransferScreen setLoading={props.setLoading} setLoadingColor={props.setLoadingColor} />} />
+                    <Route path='statement/*' element={<AccountStatement />} />
                 </Routes>
             </div> 
         );

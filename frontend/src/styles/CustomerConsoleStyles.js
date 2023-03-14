@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) =>
     optionButton: {
         color: 'white',
         fontSize: '1.5rem',
-        fontWeight: 'bold',
+        fontWeight: 'bolder',
         textAlign: 'center',
         backgroundColor: 'black',
         backgroundSize: 'contain',
@@ -73,7 +73,8 @@ const useStyles = makeStyles((theme) =>
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: '2vw',
-        border: '.5px solid white'
+        border: '.5px solid white',
+        margin: '.5rem',
     }
   }),
 );

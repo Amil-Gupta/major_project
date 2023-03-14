@@ -8,8 +8,11 @@ import { NavLink, Routes, Route, useNavigate } from 'react-router-dom';
 import AuthContext from 'context/AuthProvider';
 import TransferScreen from './TransferScreen';
 import axios from 'api/axios';
-import { TransferProvider } from 'context/TransferProvider';
 import AccountStatement from './AccountStatement';
+
+// import { TransferProvider } from 'context/TransferProvider';
+// import { StatementProvider } from 'context/StatementProvider';
+import CustomerConsoleProvider from 'context/combinedProviders/CustomerConsoleProvider';
 
 const GET_ACCOUNT_URL = '/accounts/detail';
 function CustomerConsole(props)
@@ -237,7 +240,7 @@ function CustomerConsole(props)
     }
 
     return (
-        <TransferProvider>
+        <CustomerConsoleProvider>
             <div className={classes.root}>
                 {/* <LoadingOverlay show={loading} /> */}
                 <Grid container>
@@ -249,7 +252,8 @@ function CustomerConsole(props)
                     </Grid>
                 </Grid>
             </div> 
-        </TransferProvider>
+        </CustomerConsoleProvider>
+            
     );
 }
 

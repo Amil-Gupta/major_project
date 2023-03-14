@@ -19,20 +19,23 @@ const useStyles = makeStyles((theme)=>({
         boxShadow: '0 0 .5rem grey',
     },
     amount: {
-        color: 'indigo',
+        color: 'royalblue',
         fontSize: '3rem',
     },
     detailsHeading:{
-        backgroundColor: 'grey',
-        border: '.2rem solid silver'
+        backgroundColor: 'dimgrey',
+        fontWeight: 'bold',
+        border: '.2rem solid silver',
     },
     label:{
         backgroundColor: 'darkslategrey',
         padding: '1rem',
+        border: '.05rem solid black',
     },
     value:{
-        backgroundColor: 'lightslategrey',
+        backgroundColor: 'grey',
         padding: '1rem',
+        border: '.05rem solid black',
     },
     // okButton:{
     //     color: 'greenyellow',

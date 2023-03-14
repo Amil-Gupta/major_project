@@ -1,8 +1,8 @@
 import useStyles from "styles/TransferSuccessScreenStyles";
 import { Grid, Button } from "@mui/material";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import TransferContext from "context/TransferProvider";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function TransferSuccessScreen() {
     const classes = useStyles();
@@ -75,6 +75,7 @@ function TransferSuccessScreen() {
                             color: 'greenyellow',
                             backgroundColor: 'green',
                             margin: '.5rem 0',
+                            border: '.1rem solid yellowgreen'
                         }}>
                             OK
                         </Button>

@@ -8,11 +8,11 @@ import { NavLink, Routes, Route, useNavigate } from 'react-router-dom';
 import AuthContext from 'context/AuthProvider';
 import TransferScreen from './TransferScreen';
 import axios from 'api/axios';
-import AccountStatement from './AccountStatement';
+import AccountStatement from 'components/AccountStatement';
 
 // import { TransferProvider } from 'context/TransferProvider';
 // import { StatementProvider } from 'context/StatementProvider';
-import CustomerConsoleProvider from 'context/combinedProviders/CustomerConsoleProvider';
+import CustomerConsoleProvider from 'context/CustomerConsoleProvider';
 
 const GET_ACCOUNT_URL = '/accounts/detail';
 function CustomerConsole(props)

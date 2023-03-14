@@ -61,7 +61,8 @@ const useStyles = makeStyles((theme) =>
         // backgroundSize: '25vh',
         backgroundColor: '#2a2b2a',
         height: '90vh',
-        padding: '1rem'
+        padding: '1rem',
+        overflowY: 'auto',
     },
 
     optionButton: {

@@ -1,50 +1,84 @@
 import useStyles from "styles/TransferSuccessScreenStyles";
-import { Grid } from "@mui/material";
+import { Grid, Button } from "@mui/material";
 import { useContext, useEffect } from "react";
 import TransferContext from "context/TransferProvider";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function TransferSuccessScreen() {
     const classes = useStyles();
+
+    const navigate = useNavigate();
 
     const { transfer, setTransfer } = useContext(TransferContext);
     const { id, fromAccount, toAccount, amountPaise, transferredAt } = transfer;
     const amountRupees = amountPaise / 100;
     const transferDate = new Date(transferredAt);
 
+    const handleOk = (e)=>{
+        e.preventDefault();
+        navigate('customerConsole/transfer', {replace: true});
+    }
+
     return (
         <div className={classes.root}>
-            <div className={classes.heading}>
-                Transfer Successful!
-            </div>
             <Grid container>
+                <Grid item xs={12}>
+                    <div className={classes.heading}>
+                        Transfer Successful!
+                    </div>
+                </Grid>
                 <Grid item xs={12}>
                     <div className={classes.amount}>
                         ₹{amountRupees}
                     </div>
                 </Grid>
-                <Grid item xs={12} md={4} className={classes.label}>
-                    Transfer Id
+                <Grid item xs={12}>
+                    <div className={classes.detailsHeading}>
+                        Details
+                    </div>
                 </Grid>
-                <Grid item xs={12} md={8} className={classes.value}>
-                    {id}
-                </Grid>
-                <Grid item xs={12} md={4} className={classes.label}>
-                    From Account No.
-                </Grid>
-                <Grid item xs={12} md={8} className={classes.value}>
-                    {fromAccount}
-                </Grid>
-                <Grid item xs={12} md={4} className={classes.label}>
-                    To Account No.
-                </Grid>
-                <Grid item xs={12} md={8} className={classes.value}>
-                    {toAccount}
-                </Grid>
-                <Grid item xs={12} md={4} className={classes.label}>
-                    Time of Transfer
-                </Grid>
-                <Grid item xs={12} md={8} className={classes.value}>
-                    {transferDate.toString()}
+                <Grid item xs={12}>
+                    <Grid container
+                    style={{
+                        maxHeight: '40vh',
+                        overflowY: 'auto',
+                        border: '.2rem solid black'
+                    }}
+                    >
+                        <Grid item xs={12} md={4} className={classes.label}>
+                            From Account No.
+                        </Grid>
+                        <Grid item xs={12} md={8} className={classes.value}>
+                            {fromAccount}
+                        </Grid>
+                        <Grid item xs={12} md={4} className={classes.label}>
+                            To Account No.
+                        </Grid>
+                        <Grid item xs={12} md={8} className={classes.value}>
+                            {toAccount}
+                        </Grid>
+                        <Grid item xs={12} md={4} className={classes.label}>
+                            Transfer Id
+                        </Grid>
+                        <Grid item xs={12} md={8} className={classes.value}>
+                            {id}
+                        </Grid>
+                        <Grid item xs={12} md={4} className={classes.label}>
+                            Time of Transfer
+                        </Grid>
+                        <Grid item xs={12} md={8} className={classes.value}>
+                            {transferDate.toString()}
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button className={classes.okButton} onClick={handleOk} sx={{
+                            color: 'greenyellow',
+                            backgroundColor: 'green',
+                            margin: '.5rem 0',
+                        }}>
+                            OK
+                        </Button>
+                    </Grid>
                 </Grid>
             </Grid>
         </div>

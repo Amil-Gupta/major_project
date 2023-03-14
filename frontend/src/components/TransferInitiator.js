@@ -50,10 +50,17 @@ function TransferInitiator(props){
             // let newBal = auth.balancePaise - amountPaise;
             // setAuth({...auth, balancePaise: newBal });
             props.setLoading(false);
-            navigate('success')
+            navigate('success', {replace: true})
         }catch(err){
             props.setLoading(false);
-            console.log(err);
+            // console.log(err);
+
+            if(!err?.response){
+                alert('No server response');
+            }
+            else{
+                alert(err?.response?.data?.message);
+            }
         }
     }
 

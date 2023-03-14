@@ -7,6 +7,7 @@ import AuthContext from 'context/AuthProvider';
 // import { CircularProgress } from '@mui/material';
 import FallBackScreen from 'components/FallBackScreen';
 import LoadingOverlay from 'components/LoadingOverlay';
+import LoadingContext from 'context/LoadingProvider';
 
 const RootPage = React.lazy(()=>import('components/RootPage'));
 const LoginPage = React.lazy(()=>import('components/LoginPage'));
@@ -33,10 +34,11 @@ const CustomerConsole = React.lazy(
 
 function App() {
   const { auth } = useContext(AuthContext);
+  const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
-  const [loadingColor, setLoadingColor] = useState('blue');
+  // const [loading, setLoading] = useState(false);
+  // const [loadingColor, setLoadingColor] = useState('blue');
 
   useEffect(()=>{
     if(! auth?.token){
@@ -74,22 +76,22 @@ function App() {
           } />
           <Route path='/login' element={
             <React.Suspense fallback={<FallBackScreen />}>
-              <LoginPage setLoading={setLoading} setLoadingColor={setLoadingColor} />
+              <LoginPage />
             </React.Suspense>
           } />
           <Route path='/signup' element={
             <React.Suspense fallback={<FallBackScreen />}>
-              <SignUpPage setLoading={setLoading} setLoadingColor={setLoadingColor} />
+              <SignUpPage />
             </React.Suspense>
           } />
           <Route path='/customerConsole/*' element={
             <React.Suspense fallback={<FallBackScreen />}>
-              <CustomerConsole setLoading={setLoading} setLoadingColor={setLoadingColor} />
+              <CustomerConsole />
             </React.Suspense>
           } />
           <Route path='/adminConsole/*' element={
             <React.Suspense fallback={<FallBackScreen />}>
-              <AdminConsole setLoading={setLoading} setLoadingColor={setLoadingColor} />
+              <AdminConsole />
             </React.Suspense>
           } />
         </Routes>

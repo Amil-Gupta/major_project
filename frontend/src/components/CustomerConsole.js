@@ -8,20 +8,18 @@ import { NavLink, Routes, Route, useNavigate } from 'react-router-dom';
 import AuthContext from 'context/AuthProvider';
 import TransferScreen from './TransferScreen';
 import axios from 'api/axios';
-import AccountStatement from 'components/AccountStatement';
+import AccountStatement from 'components/AccountStatementScreen';
 
 // import { TransferProvider } from 'context/TransferProvider';
 // import { StatementProvider } from 'context/StatementProvider';
 import CustomerConsoleProvider from 'context/CustomerConsoleProvider';
 
 const GET_ACCOUNT_URL = '/accounts/detail';
-function CustomerConsole(props)
+function CustomerConsole()
 {
     const classes = useStyles();
     const { auth, setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
-
-    const [loading,  setLoading] = useState(false);
 
     useEffect(()=>{
         // console.log(auth?.token)
@@ -232,7 +230,7 @@ function CustomerConsole(props)
             <div className={classes.body}>
                 <Routes>
                     <Route path='*' element={<Options />} />
-                    <Route path='transfer/*' element={<TransferScreen setLoading={props.setLoading} setLoadingColor={props.setLoadingColor} />} />
+                    <Route path='transfer/*' element={<TransferScreen />} />
                     <Route path='statement/*' element={<AccountStatement />} />
                 </Routes>
             </div> 

@@ -1,5 +1,6 @@
 import axios from "api/axios";
 import AuthContext from "context/AuthProvider";
+import LoadingContext from "context/LoadingProvider";
 import { useState, useContext } from "react";
 import TransferContext from "context/TransferProvider";
 import useStyles from "styles/TransferInitiatorStyles";
@@ -7,13 +8,15 @@ import { Grid, Avatar, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const TRANSFER_URL = '/transfers';
-function TransferInitiator(props){
+function TransferInitiator(){
     const classes = useStyles();
 
     const navigate = useNavigate();
 
     const { auth, setAuth } = useContext(AuthContext);
     const { transfer, setTransfer } = useContext(TransferContext);
+    const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
+    
     const [ toAccountId, setToAccountId ] = useState('');
     const [ amountRupees, setAmountRupees ] = useState('');
     const amountPaise = amountRupees ? (amountRupees * 100) : '';
@@ -30,8 +33,8 @@ function TransferInitiator(props){
 
     const handleTransfer = async(e)=>{
         e.preventDefault();
+        setLoading(true);
         try{
-            props.setLoading(true);
             const token = auth?.token;
             const response = await axios.post(
                 TRANSFER_URL,
@@ -49,10 +52,10 @@ function TransferInitiator(props){
             // alert(`INR ${amountRupees} transferred to account no. ${toAccountId}`);
             // let newBal = auth.balancePaise - amountPaise;
             // setAuth({...auth, balancePaise: newBal });
-            props.setLoading(false);
+            setLoading(false);
             navigate('success', {replace: true})
         }catch(err){
-            props.setLoading(false);
+            setLoading(false);
             // console.log(err);
 
             if(!err?.response){

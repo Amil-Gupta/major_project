@@ -5,6 +5,6 @@ const providers = [
     TransferProvider,
     StatementProvider,
 ]
-const AppContextProvider = combineComponents(...providers);
+const CustomerConsoleProvider = combineComponents(...providers);
 
-export default AppContextProvider;
+export default CustomerConsoleProvider;

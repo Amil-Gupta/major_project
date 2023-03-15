@@ -2,7 +2,8 @@ package com.project.major.dto;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.List;
+
+import org.springframework.data.domain.Page;
 
 import com.project.major.entities.Account;
 import com.project.major.entities.Transfer;
@@ -14,14 +15,13 @@ public class StatementResource {
 	
 	Integer accountId;
 	Long balancePaise;
-	List<StatementRow> rows;
+	Page<StatementRow> rows;
 	
-	public static StatementResource of(Account account, List<Transfer> transfers) {
+	public static StatementResource of(Account account, Page<Transfer> transfers) {
 		
-		var rows = transfers.stream()
-				.map(transfer -> new StatementRow(account, transfer))
-				.toList();
-		
+		var rows = transfers
+				.map(transfer -> new StatementRow(account, transfer));
+				
 		return new StatementResource(account.getId(), account.getBalancePaise(), rows);
 	}
 	

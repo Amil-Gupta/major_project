@@ -1,5 +1,8 @@
 package com.project.major.services;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.project.major.dto.StatementResource;
@@ -15,9 +18,10 @@ public class StatementGetter {
 	private final AccountRepository accountRepository;
 	private final TransferRepository transferRepository;
 	
-	public StatementResource getStatement(Integer accountId) {
+	public StatementResource getStatement(Integer accountId, Pageable pageable) {
 		var account = accountRepository.findById(accountId).orElseThrow();
-		var transfers = transferRepository.findByFromAccountOrToAccount(account, account);
+		var sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("transferredAt").descending());
+		var transfers = transferRepository.findByFromAccountOrToAccount(account, account, sortedPageable);
 		return StatementResource.of(account, transfers);
 	}
 }

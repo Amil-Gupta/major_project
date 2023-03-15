@@ -2,6 +2,8 @@ package com.project.major.controllers;
 
 import java.security.Principal;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,7 +43,7 @@ public class AccountController {
 	}
 	
 	@GetMapping("/statement")
-	public StatementResource getStatement(Principal principal) {
-		return statementGetter.getStatement(Integer.valueOf(principal.getName()));
+	public StatementResource getStatement(Principal principal, @PageableDefault(size = 2000, page = 0) Pageable pageable) {
+		return statementGetter.getStatement(Integer.valueOf(principal.getName()), pageable);
 	}
 }

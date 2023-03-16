@@ -1,12 +1,12 @@
 import LoadingContext from "context/LoadingProvider";
-import { useContext, useEffect } from "react";
+import { memo, useContext, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import useStyles from "styles/TransferScreenStyles";
 // import LoadingOverlay from "./LoadingOverlay";
 import TransferInitiator from "components/TransferInitiator";
 import TransferSuccessScreen from "components/TransferSuccessScreen";
 
-function TransferScreen(){
+const TransferScreen = memo(()=>{
     const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
 
     useEffect(
@@ -27,6 +27,6 @@ function TransferScreen(){
             </Routes>
         </div>
     )
-}
+})
 
 export default TransferScreen;

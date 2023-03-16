@@ -251,7 +251,8 @@ function CustomerConsole()
                     </div>
                 </NavLink>
             )
-        },(prevProps, nextProps) => {
+        },
+        (prevProps, nextProps) => {
             if (prevProps === nextProps) {
               return true;
             }

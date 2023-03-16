@@ -12,7 +12,7 @@ function TransferScreen(){
     useEffect(
         ()=>{
             setLoadingColor('green');
-            setLoading(false);
+            // setLoading(false);
         },
         []
     );

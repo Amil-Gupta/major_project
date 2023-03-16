@@ -1,6 +1,6 @@
 import axios from "api/axios";
 import AuthContext from "context/AuthProvider";
-import LoadingContext from "context/LoadingProvider";
+// import LoadingContext from "context/LoadingProvider";
 import StatementContext from "context/StatementProvider";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,13 +13,13 @@ function AccountStatement() {
 
     const { auth, setAuth } = useContext(AuthContext);
     const { statement, setStatement } = useContext(StatementContext);
-    const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
+    // const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
     const navigate = useNavigate();
 
     useEffect(()=>{
-        if(!loading){
-            setLoadingColor('pink');
-            setLoading(true);
+        // if(!loading){
+            // setLoadingColor('pink');
+            // setLoading(true);
             const getAccountStatement = async()=>{
                 try{
                     const token = auth?.token;
@@ -31,7 +31,7 @@ function AccountStatement() {
                             }
                         }
                     );
-                    setLoading(false);
+                    // setLoading(false);
                     setStatement(response?.data);
                     // navigate('/customerConsole', {replace:true});
                 }catch(err){
@@ -41,15 +41,15 @@ function AccountStatement() {
                         alert(err?.response?.data?.message);
                     }
                     navigate('/customerConsole', {replace:true});
-                    setLoading(false);
+                    // setLoading(false);
                 }
             }
             getAccountStatement();
-        }
+        // }
     },[]);
 
     useEffect(()=>{
-        console.log(statement)
+        console.log(statement);
     },[statement]);
 
     return (

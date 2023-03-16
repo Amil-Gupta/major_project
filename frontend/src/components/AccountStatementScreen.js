@@ -6,7 +6,7 @@ import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useStyles from "styles/AccountStatementStyles";
 
-const GET_STATEMENT_URL = '/accounts/statement';
+// const GET_STATEMENT_URL = '/accounts/statement';
 
 function AccountStatement() {
     const classes = useStyles();
@@ -16,37 +16,37 @@ function AccountStatement() {
     // const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
     const navigate = useNavigate();
 
-    useEffect(()=>{
+    // useEffect(()=>{
         // if(!loading){
             // setLoadingColor('pink');
             // setLoading(true);
-            const getAccountStatement = async()=>{
-                try{
-                    const token = auth?.token;
-                    const response = await axios.get(
-                        GET_STATEMENT_URL,
-                        {
-                            headers: {
-                                Authorization: "Bearer "+token,
-                            }
-                        }
-                    );
+            // const getAccountStatement = async()=>{
+            //     try{
+            //         const token = auth?.token;
+            //         const response = await axios.get(
+            //             GET_STATEMENT_URL,
+            //             {
+            //                 headers: {
+            //                     Authorization: "Bearer "+token,
+            //                 }
+            //             }
+            //         );
                     // setLoading(false);
-                    setStatement(response?.data);
+                    // setStatement(response?.data);
                     // navigate('/customerConsole', {replace:true});
-                }catch(err){
-                    if(!err?.response){
-                        alert('No server response');
-                    }else{
-                        alert(err?.response?.data?.message);
-                    }
-                    navigate('/customerConsole', {replace:true});
-                    // setLoading(false);
-                }
-            }
-            getAccountStatement();
+            //     }catch(err){
+            //         if(!err?.response){
+            //             alert('No server response');
+            //         }else{
+            //             alert(err?.response?.data?.message);
+            //         }
+            //         navigate('/customerConsole', {replace:true});
+            //         // setLoading(false);
+            //     }
+            // }
+            // getAccountStatement();
         // }
-    },[]);
+    // },[]);
 
     useEffect(()=>{
         console.log(statement);

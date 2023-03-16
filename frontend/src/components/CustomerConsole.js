@@ -13,13 +13,18 @@ import AccountStatement from 'components/AccountStatementScreen';
 // import { TransferProvider } from 'context/TransferProvider';
 // import { StatementProvider } from 'context/StatementProvider';
 import CustomerConsoleProvider from 'context/CustomerConsoleProvider';
+import LoadingContext from 'context/LoadingProvider';
+import StatementContext from 'context/StatementProvider';
 
 const GET_ACCOUNT_URL = '/accounts/detail';
+const GET_STATEMENT_URL = '/accounts/statement';
+
 function CustomerConsole()
 {
     const classes = useStyles();
     const { auth, setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
+    const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
 
     useEffect(()=>{
         // console.log(auth?.token)
@@ -180,6 +185,35 @@ function CustomerConsole()
     }
 
     function Body() {
+        const { statement, setStatement } = useContext(StatementContext);
+        const handleStatementFetch = async(e)=>{
+            console.log('click')
+            // e.preventDefault();
+            setLoading(true);
+            setLoadingColor('pink');
+            try{
+                const token = auth?.token;
+                const response = await axios.get(
+                    GET_STATEMENT_URL,
+                    {
+                        headers: {
+                            Authorization: "Bearer "+token,
+                        }
+                    }
+                );
+                setLoading(false);
+                setStatement(response?.data);
+                navigate('statement', {replace:true});
+            }catch(err){
+                if(!err?.response){
+                    alert('No server response');
+                }else{
+                    alert(err?.response?.data?.message);
+                }
+                navigate('/customerConsole', {replace:true});
+                setLoading(false);
+            }
+        }
         const OptionButton = (props)=>{
             return(
                 <NavLink to={props.route}
@@ -202,9 +236,9 @@ function CustomerConsole()
                         backgroundRepeat: 'no-repeat',
                     }} 
                     className={classes.optionButton}
+                    onClick={props.onClick}
                     id = {props.id}
-                    >
-                        
+                    >   
                             {props.name}
                     </div>
                 </NavLink>
@@ -219,7 +253,7 @@ function CustomerConsole()
                             <OptionButton name='Money Transfer' icon={transferIcon} id='transferButton' route='transfer'/>
                         </Grid>
                         <Grid item xs={6} md={2}>
-                            <OptionButton name='Account Statement' icon={accountStatementIcon} id='accountStatementButton' route='statement' />
+                            <OptionButton name='Account Statement' icon={accountStatementIcon} id='accountStatementButton' route='statement' onClick={handleStatementFetch} />
                         </Grid>
                     </Grid>
                 </div>

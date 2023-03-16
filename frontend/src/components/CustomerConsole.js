@@ -1,5 +1,5 @@
 import { Grid, Avatar, Popper, IconButton , Box, Button } from '@mui/material';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { memo, useContext, useEffect, useRef, useState } from 'react';
 import logo from 'assets/logo.svg';
 import transferIcon from 'assets/transferIcon.svg';
 import accountStatementIcon from 'assets/accountStatementIcon.svg';
@@ -67,7 +67,7 @@ function CustomerConsole()
     // getUser();
     // },[]);
 
-    function TitleBar() {
+    const TitleBar = ()=>{
         const {name} = auth;
         const [balancePaise, setBalancePaise] = useState(auth?.balancePaise);
         const user = (name) ? name : 'Loading...';
@@ -130,8 +130,8 @@ function CustomerConsole()
             setAuth({});
         }
 
-        return ( 
-            <div className={classes.titleBar}>
+        const Banner = memo(()=>{
+            return(
                 <div className={classes.banner} onClick={handleBannerClick}>
                     <div className={classes.logoContainer}>
                         <img src={logo} alt='online_bank' className={classes.logo} />
@@ -141,6 +141,12 @@ function CustomerConsole()
                         Online Bank
                     </div>
                 </div>
+            )
+        }, [])
+
+        return ( 
+            <div className={classes.titleBar}>
+                <Banner />
 
                 <div className={classes.avatar}>
                     <IconButton
@@ -214,7 +220,9 @@ function CustomerConsole()
                 setLoading(false);
             }
         }
-        const OptionButton = (props)=>{
+        const OptionButton = memo((props)=>{
+            // const icon = useMemo(()=>(`url(${props.icon})`),[]);
+            const icon = `url(${props.icon})`;
             return(
                 <NavLink to={props.route}
                     style={{
@@ -231,7 +239,7 @@ function CustomerConsole()
                     replace
                 >
                     <div style={{
-                        backgroundImage: `url(${props.icon})`,
+                        backgroundImage: icon,
                         backgroundSize: 'contain',
                         backgroundRepeat: 'no-repeat',
                     }} 
@@ -243,7 +251,13 @@ function CustomerConsole()
                     </div>
                 </NavLink>
             )
+        },(prevProps, nextProps) => {
+            if (prevProps === nextProps) {
+              return true;
+            }
+            return false;
         }
+        )
 
         const Options = ()=>{
             return(

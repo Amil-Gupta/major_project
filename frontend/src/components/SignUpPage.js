@@ -2,7 +2,7 @@ import useStyles from "styles/SignUpPageStyles";
 import { useNavigate, NavLink } from "react-router-dom";
 import { Box, Grid, Button } from "@mui/material";
 import logo from 'assets/logo.svg';
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import AuthContext from "context/AuthProvider";
 import axios from "api/axios";
 import excludeVariablesFromRoot from "@mui/material/styles/excludeVariablesFromRoot";
@@ -162,7 +162,7 @@ function SignUpPage() {
         }
     }
 
-    function TitleBar(){
+    const TitleBar = useMemo(()=>{
         return(
             <div className={classes.titleBar}>
                 <div className={classes.logoContainer}>
@@ -174,7 +174,7 @@ function SignUpPage() {
                 </div>
             </div>
         )
-    }
+    },[logo]);
 
     return (
         <div className={classes.root}>
@@ -186,7 +186,8 @@ function SignUpPage() {
             <Box className={classes.signUpBox} sx={{backgroundColor: 'black'}}>
                 <Grid container justifyContent='center' alignItems='center'>
                     <Grid item xs = {12}>
-                        <TitleBar />
+                        {/* <TitleBar /> */}
+                        {TitleBar}
                     </Grid>
                     <Grid item xs = {12}>
                         <div className={classes.entry}>

@@ -2,7 +2,7 @@ import useStyles from "styles/LoginPageStyles";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Box, Grid, Button } from "@mui/material";
 import logo from 'assets/logo.svg';
-import { useContext, useEffect, useState } from "react";
+import { memo, useContext, useEffect, useState } from "react";
 import AuthContext from "context/AuthProvider";
 import axios from "api/axios";
 
@@ -152,7 +152,7 @@ function LoginPage() {
         }
     }
 
-    function TitleBar(){
+    const TitleBar = memo(()=>{
         return(
             <div className={classes.titleBar}>
                 <div className={classes.logoContainer}>
@@ -164,7 +164,7 @@ function LoginPage() {
                 </div>
             </div>
         )
-    }
+    });
 
     return (
         <div className={classes.root}>
@@ -177,6 +177,7 @@ function LoginPage() {
                 <Grid container justifyContent='center' alignItems='center'>
                     <Grid item xs = {12}>
                         <TitleBar />
+                        {/* {TitleBar} */}
                     </Grid>
                     <Grid item xs = {12}>
                         <div className={classes.entry}>

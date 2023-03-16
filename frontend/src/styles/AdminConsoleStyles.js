@@ -18,6 +18,13 @@ const useStyles = makeStyles((theme)=>({
         height: '10vh',
         // justifyContent: 'center',
     },
+
+    banner: {
+        display: 'flex',
+        alignItems: 'center',
+        cursor: 'pointer',
+        // width: '100%'
+    },
         
     title: {
         fontSize: '1.5rem',

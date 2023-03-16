@@ -187,7 +187,7 @@ function CustomerConsole()
     function Body() {
         const { statement, setStatement } = useContext(StatementContext);
         const handleStatementFetch = async(e)=>{
-            console.log('click')
+            // console.log('click')
             // e.preventDefault();
             setLoading(true);
             setLoadingColor('pink');

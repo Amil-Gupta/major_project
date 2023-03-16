@@ -29,6 +29,11 @@ const useStyles = makeStyles((theme)=>({
         margin: '0 0 2rem 0'
     },
 
+    logo: {
+        width: '3rem',
+        // padding: '.5rem',
+    },
+
     title: {
         fontSize: '2rem',
         padding: '.5rem',

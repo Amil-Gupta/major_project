@@ -178,6 +178,7 @@ function TransferInitiator(){
                             margin: '1rem 0'
                             }}
                         onClick={handleTransfer}
+                        disabled={!toAccountId.length || !amountRupees.length}
                         >
                             Initiate Transfer
                         </Button>

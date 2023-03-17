@@ -1,6 +1,6 @@
 import useStyles from "styles/AdminConsoleStyles";
 import { Grid, Avatar, Popper, IconButton, Box, Button } from '@mui/material';
-import { memo, useContext, useEffect, useState, useRef } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { useNavigate, Routes, Route, NavLink } from 'react-router-dom';
 import AuthContext from 'context/AuthProvider';
 import logo from 'assets/logo.svg';
@@ -57,7 +57,7 @@ function AdminConsole() {
             setAuth({});
         }
 
-        const Banner = memo(()=>{
+        const Banner = ()=>{
             return(
                 <div className={classes.banner} onClick={handleBannerClick}>
                     <div className={classes.logoContainer}>
@@ -69,7 +69,7 @@ function AdminConsole() {
                     </div>
                 </div>
             )
-        });
+        }
 
         return ( 
             <div className={classes.titleBar}>

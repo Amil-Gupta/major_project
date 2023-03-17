@@ -1,8 +1,8 @@
 import AuthContext from "context/AuthProvider";
-import { memo, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
-const RootPage = memo(()=>{
+const RootPage = ()=>{
     // PAGE TO BE USED AS TEMPORARY REDIRECT
     const {setAuth} = useContext(AuthContext);
     useEffect(()=>{
@@ -18,14 +18,7 @@ const RootPage = memo(()=>{
                 Take Me To One Now!
             </NavLink>
         </>
-     );
-},
-(prevProps, nextProps) => {
-    if (prevProps === nextProps) {
-      return true;
-    }
-    return false;
+    );
 }
-)
 
 export default RootPage;

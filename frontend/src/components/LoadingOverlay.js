@@ -1,8 +1,7 @@
 import { CircularProgress } from "@mui/material";
-import { memo } from "react";
 import useStyles from "styles/LoadingOverlayStyles";
 
-const LoadingOverlay = memo((props)=>{
+const LoadingOverlay = (props)=>{
     const classes = useStyles();
     const showHide = (props.show) ? classes.show : classes.hide;
     const color = props.color;
@@ -13,13 +12,6 @@ const LoadingOverlay = memo((props)=>{
             }} />
         </div>
     );
-},
-(prevProps, nextProps) => {
-    if (prevProps === nextProps) {
-      return true;
-    }
-    return false;
 }
-);
 
 export default LoadingOverlay;

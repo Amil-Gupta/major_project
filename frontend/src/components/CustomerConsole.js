@@ -1,5 +1,5 @@
 import { Grid, Avatar, Popper, IconButton , Box, Button } from '@mui/material';
-import { memo, useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import logo from 'assets/logo.svg';
 import transferIcon from 'assets/transferIcon.svg';
 import accountStatementIcon from 'assets/accountStatementIcon.svg';
@@ -130,7 +130,7 @@ function CustomerConsole()
             setAuth({});
         }
 
-        const Banner = memo(()=>{
+        const Banner = ()=>{
             return(
                 <div className={classes.banner} onClick={handleBannerClick}>
                     <div className={classes.logoContainer}>
@@ -142,7 +142,7 @@ function CustomerConsole()
                     </div>
                 </div>
             )
-        }, [])
+        }
 
         return ( 
             <div className={classes.titleBar}>
@@ -220,7 +220,7 @@ function CustomerConsole()
                 setLoading(false);
             }
         }
-        const OptionButton = memo((props)=>{
+        const OptionButton = (props)=>{
             // const icon = useMemo(()=>(`url(${props.icon})`),[]);
             const icon = `url(${props.icon})`;
             return(
@@ -251,14 +251,7 @@ function CustomerConsole()
                     </div>
                 </NavLink>
             )
-        },
-        (prevProps, nextProps) => {
-            if (prevProps === nextProps) {
-              return true;
-            }
-            return false;
         }
-        )
 
         const Options = ()=>{
             return(

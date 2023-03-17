@@ -28,13 +28,14 @@ public class StatementResource {
 	@Value
 	public static class StatementRow {
 		
+		Long id;
 		LocalDate date;
 		String description;
 		Long withdrawalAmount;
 		Long depositAmount;
 		
 		public StatementRow(Account account, Transfer transfer) {
-			
+			id = transfer.getId();
 			date = transfer.getTransferredAt().atZone(ZoneId.of("Asia/Kolkata")).toLocalDate();
 			if (transfer.getFromAccount() == null) {
 				description = "Cash Deposit";

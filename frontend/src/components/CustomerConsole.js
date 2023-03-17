@@ -1,5 +1,5 @@
 import { Grid, Avatar, Popper, IconButton , Box, Button } from '@mui/material';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState, useMemo } from 'react';
 import logo from 'assets/logo.svg';
 import transferIcon from 'assets/transferIcon.svg';
 import accountStatementIcon from 'assets/accountStatementIcon.svg';
@@ -25,6 +25,25 @@ function CustomerConsole()
     const { auth, setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
     const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
+
+    const handleBannerClick = ()=>{
+        navigate('/customerConsole', {replace: true});
+    }
+
+    const Banner = useMemo(()=>{
+        console.log('banner')
+        return(
+            <div className={classes.banner} onClick={handleBannerClick}>
+                <div className={classes.logoContainer}>
+                    <img src={logo} alt='online_bank' className={classes.logo} />
+                </div>
+
+                <div className={classes.title}>
+                    Online Bank
+                </div>
+            </div>
+        )
+    },[]);
 
     useEffect(()=>{
         // console.log(auth?.token)
@@ -103,9 +122,7 @@ function CustomerConsole()
                 };
         },[]);
 
-        const handleBannerClick = ()=>{
-            navigate('/customerConsole');
-        }
+        
 
         const handleAvatarClick = async(e)=>{
             // console.log('enter/leave');
@@ -130,23 +147,12 @@ function CustomerConsole()
             setAuth({});
         }
 
-        const Banner = ()=>{
-            return(
-                <div className={classes.banner} onClick={handleBannerClick}>
-                    <div className={classes.logoContainer}>
-                        <img src={logo} alt='online_bank' className={classes.logo} />
-                    </div>
-
-                    <div className={classes.title}>
-                        Online Bank
-                    </div>
-                </div>
-            )
-        }
+        
 
         return ( 
             <div className={classes.titleBar}>
-                <Banner />
+                {/* <Banner /> */}
+                {Banner}
 
                 <div className={classes.avatar}>
                     <IconButton

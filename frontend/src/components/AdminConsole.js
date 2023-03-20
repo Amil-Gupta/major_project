@@ -4,6 +4,7 @@ import { useContext, useEffect, useState, useRef, useMemo } from 'react';
 import { useNavigate, Routes, Route, NavLink } from 'react-router-dom';
 import AuthContext from 'context/AuthProvider';
 import logo from 'assets/logo.svg';
+import { recordDepositIcon, recordWithdrawalIcon } from "assets/assets";
 
 function AdminConsole() {
     const classes = useStyles();
@@ -116,28 +117,28 @@ function AdminConsole() {
 
     function Body() {
         const OptionButton = (props)=>{
+            // const icon = useMemo(()=>(`url(${props.icon})`),[]);
+            const icon = `url(${props.icon})`;
             return(
                 <NavLink to={props.route}
                     style={{
                         textDecoration: 'none',
                         color: 'white',
-                        // height: '17vw',
                         width: '100%',
                         display: 'block',
                         aspectRatio: '1 / 1',
-                        // height: '100%',
-                        // justifyContent: 'center',
-                        // alignItems: 'center',
                     }}
                     replace
                 >
                     <div style={{
-                        backgroundImage: `url(${props.icon})`,
+                        backgroundImage: icon,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
                     }} 
                     className={classes.optionButton}
+                    onClick={props.onClick}
                     id = {props.id}
-                    >
-                        
+                    >   
                             {props.name}
                     </div>
                 </NavLink>
@@ -149,6 +150,10 @@ function AdminConsole() {
                 <div className={classes.options}>
                     <Grid container>
                         <Grid item xs={6} md={2}>
+                            <OptionButton name='Record Deposit' icon={recordDepositIcon} id='depositButton' />
+                        </Grid>
+                        <Grid item xs={6} md={2}>
+                            <OptionButton name='Record Withdrawal' icon={recordWithdrawalIcon} id='withdrawalButton' />
                         </Grid>
                     </Grid>
                 </div>

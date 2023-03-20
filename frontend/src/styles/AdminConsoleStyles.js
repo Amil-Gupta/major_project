@@ -61,6 +61,22 @@ const useStyles = makeStyles((theme)=>({
         height: '90vh',
         overflowY: 'auto',
     },
+
+    optionButton: {
+        color: 'white',
+        fontSize: '1.5rem',
+        fontWeight: 'bolder',
+        textAlign: 'center',
+        backgroundColor: 'black',
+        backgroundSize: 'contain',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: '2vw',
+        border: '.5px solid white',
+        margin: '.5rem',
+    },
 }));
 
 export default useStyles;

@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) =>
         borderRadius: '2vw',
         border: '.5px solid white',
         margin: '.5rem',
-    }
+    },
   }),
 );
 

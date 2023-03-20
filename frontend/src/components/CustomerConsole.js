@@ -197,13 +197,9 @@ function CustomerConsole()
                     style={{
                         textDecoration: 'none',
                         color: 'white',
-                        // height: '17vw',
                         width: '100%',
                         display: 'block',
                         aspectRatio: '1 / 1',
-                        // height: '100%',
-                        // justifyContent: 'center',
-                        // alignItems: 'center',
                     }}
                     replace
                 >

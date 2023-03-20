@@ -5,6 +5,8 @@ import withdrawalIcon from './withdrawalIcon.svg';
 import depositIcon from './depositIcon.svg';
 import inboundIcon from './inboundIcon.svg';
 import outboundIcon from './outboundIcon.svg';
+import recordDepositIcon from './recordDepositIcon.svg';
+import recordWithdrawalIcon from './recordWithdrawalIcon.svg';
 
 export {
     logo,
@@ -14,4 +16,6 @@ export {
     depositIcon,
     inboundIcon,
     outboundIcon,
+    recordDepositIcon,
+    recordWithdrawalIcon,
 };

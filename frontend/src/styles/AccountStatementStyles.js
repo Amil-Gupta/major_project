@@ -1,8 +1,18 @@
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme)=>({
+    header: {
+        color: 'black',
+        backgroundColor: 'grey',
+        fontSize: '1.5rem',
+        fontWeight: 'bolder',
+    },
+    heading: {
+        textAlign: 'center',
+        border: '.1rem solid black',
+    },
     gridContainer: {
-        height: '70vh',
+        height: '65vh',
         // backgroundColor: 'black',
         // color: 'white',
         '& .MuiButtonBase-root':{

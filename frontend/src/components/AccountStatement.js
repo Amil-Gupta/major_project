@@ -3,7 +3,7 @@ import StatementContext from "context/StatementProvider";
 import { useContext, useEffect } from "react";
 import useStyles from "styles/AccountStatementStyles";
 import { DataGrid, gridPageCountSelector, gridPageSelector, gridPageSizeSelector, gridRowCountSelector, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
-import { Button, Pagination, PaginationItem, TablePagination, Tooltip } from "@mui/material";
+import { Button, Grid, Pagination, PaginationItem, TablePagination, Tooltip } from "@mui/material";
 import { depositIcon, inboundIcon, outboundIcon, withdrawalIcon } from "assets/assets";
 import axios from "api/axios";
 import LoadingContext from "context/LoadingProvider";
@@ -209,6 +209,20 @@ function AccountStatement() {
 
     return (
         <div className={classes.root}>
+            <div className={classes.header}>
+                <Grid container>
+                    <Grid item xs={12} md={6}>
+                        <div className={classes.heading}>
+                            {auth?.name}[#{statement?.accountId}]
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <div className={classes.heading}>
+                            Balance: ₹{statement?.balancePaise / 100}
+                        </div>
+                    </Grid>
+                </Grid>
+            </div>
             <div className={classes.gridContainer}>
                 <DataGrid
                 rows={rows}

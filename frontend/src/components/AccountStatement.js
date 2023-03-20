@@ -18,20 +18,6 @@ function AccountStatement() {
 
     const columns = [
         {
-            field: 'date',
-            headerName: 'Date',
-            flex: 1,
-            headerAlign: 'center',
-            align: 'center',
-        },
-        {
-            field: 'description',
-            headerName: 'Description',
-            flex: 1,
-            headerAlign: 'center',
-            align: 'center',
-        },
-        {
             field: 'type',
             headerName: 'Type',
             headerAlign: 'center',
@@ -105,9 +91,23 @@ function AccountStatement() {
             align: 'center',
             valueGetter: (params)=>{
                 const {withdrawalAmount, depositAmount} = params.row;
-                return (withdrawalAmount ?? depositAmount);
+                return `₹  ${(withdrawalAmount ?? depositAmount) / 100}`;
             },
             flex: 1,
+        },
+        {
+            field: 'date',
+            headerName: 'Date',
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+        },
+        {
+            field: 'description',
+            headerName: 'Description',
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
         },
     ]
 

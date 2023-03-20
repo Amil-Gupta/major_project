@@ -3,8 +3,10 @@ import StatementContext from "context/StatementProvider";
 import { useContext, useEffect } from "react";
 import useStyles from "styles/AccountStatementStyles";
 import { DataGrid, gridPageCountSelector, gridPageSelector, gridPageSizeSelector, gridRowCountSelector, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
-import { Pagination, PaginationItem, TablePagination, Tooltip } from "@mui/material";
+import { Button, Pagination, PaginationItem, TablePagination, Tooltip } from "@mui/material";
 import { depositIcon, inboundIcon, outboundIcon, withdrawalIcon } from "assets/assets";
+import axios from "api/axios";
+import LoadingContext from "context/LoadingProvider";
 
 const GET_STATEMENT_URL = '/accounts/statement';
 
@@ -12,6 +14,7 @@ function AccountStatement() {
     const classes = useStyles();
 
     const { auth, setAuth } = useContext(AuthContext);
+    const { setLoading } = useContext(LoadingContext);
     const { statement, setStatement } = useContext(StatementContext);
 
     const rows = statement?.rows?.content ?? [];
@@ -142,6 +145,31 @@ function AccountStatement() {
     //     console.log(rows);
     // },[statement]);
 
+    const handleRefresh = async(e)=>{
+        e.preventDefault();
+        setLoading(true);
+        try{
+            const token = auth?.token;
+            const response = await axios.get(
+                GET_STATEMENT_URL,
+                {
+                    headers: {
+                        Authorization: "Bearer "+token,
+                    }
+                }
+            );
+            setLoading(false);
+            setStatement(response?.data);
+        }catch(err){
+            if(!err?.response){
+                alert('No server response');
+            }else{
+                alert(err?.response?.data?.message ?? 'An error occured.');
+            }
+            setLoading(false);
+        }
+    }
+
     const CustomPagination = ()=>{
         const apiRef = useGridApiContext();
         const page = useGridSelector(apiRef, gridPageSelector);
@@ -201,6 +229,19 @@ function AccountStatement() {
                     Pagination: CustomPagination,
                 }}
                 />
+            </div>
+            <div className={classes.refreshButtonContainer}>
+                <Button
+                    onClick={handleRefresh}
+                    sx={{
+                        color: 'greenyellow',
+                        backgroundColor: 'green',
+                        margin: '.5rem 0',
+                        border: '.1rem solid yellowgreen'
+                    }}
+                >
+                    Refresh
+                </Button>
             </div>
         </div>
     );

@@ -183,7 +183,7 @@ function CustomerConsole()
                 if(!err?.response){
                     alert('No server response');
                 }else{
-                    alert(err?.response?.data?.message);
+                    alert(err?.response?.data?.message ?? 'An error occured.');
                 }
                 navigate('/customerConsole', {replace:true});
                 setLoading(false);

@@ -15,12 +15,17 @@ const useStyles = makeStyles((theme)=>({
     },
 
     typeIconContainer: {
-        height: '100%'
+        height: '100%',
     },
 
     typeIcon: {
         fit: 'contain',
         height: '100%',
+    },
+
+    refreshButtonContainer: {
+        display: 'flex',
+        justifyContent: 'center',
     },
 }));
 

@@ -22,6 +22,7 @@ function AccountStatement() {
             headerName: 'Type',
             headerAlign: 'center',
             align: 'center',
+            flex: 1,
             valueGetter: (params)=>{
                 const {withdrawalAmount, description} = params.row;
                 if(withdrawalAmount){
@@ -46,22 +47,22 @@ function AccountStatement() {
                     switch(params.value){
                         case 'Withdrawal':
                             return(
-                                <img src={withdrawalIcon} className={classes.typeIcon} />
+                                <img src={withdrawalIcon} alt='W' className={classes.typeIcon} />
                             );
                             break;
                         case 'Deposit':
                             return(
-                                <img src={depositIcon} className={classes.typeIcon} />
+                                <img src={depositIcon} alt='D' className={classes.typeIcon} />
                             );
                             break;
                         case 'Inbound Transfer':
                             return(
-                                <img src={inboundIcon} className={classes.typeIcon} />
+                                <img src={inboundIcon} alt='I' className={classes.typeIcon} />
                             );
                             break;
                         case 'Outbound Transfer':
                             return(
-                                <img src={outboundIcon} className={classes.typeIcon} />
+                                <img src={outboundIcon} alt='O' className={classes.typeIcon} />
                             );
                             break;
                         default:
@@ -92,21 +93,48 @@ function AccountStatement() {
                 const {withdrawalAmount, depositAmount} = params.row;
                 return `₹  ${(withdrawalAmount ?? depositAmount) / 100}`;
             },
-            flex: 1,
+            flex: 4,
+            renderCell: (params)=>{
+                return(
+                    <p style={{
+                        overflowX: 'auto'
+                    }}>
+                        {params.value}
+                    </p>
+                )
+            }
         },
         {
             field: 'date',
             headerName: 'Date',
-            flex: 1,
+            flex: 2,
             headerAlign: 'center',
             align: 'center',
+            renderCell: (params)=>{
+                return(
+                    <p style={{
+                        overflowX: 'auto'
+                    }}>
+                        {params.value}
+                    </p>
+                )
+            }
         },
         {
             field: 'description',
             headerName: 'Description',
-            flex: 1,
+            flex: 3,
             headerAlign: 'center',
             align: 'center',
+            renderCell: (params)=>{
+                return(
+                    <p style={{
+                        overflowX: 'auto'
+                    }}>
+                        {params.value}
+                    </p>
+                )
+            }
         },
     ]
 

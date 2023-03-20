@@ -8,6 +8,10 @@ const useStyles = makeStyles((theme)=>({
         '& .MuiButtonBase-root':{
             color: 'white'
         },
+        '& .MuiTablePagination-toolbar':{
+            flexWrap: 'wrap',
+            justifyContent: 'flex-end',
+        }
     },
 
     typeIconContainer: {

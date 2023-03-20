@@ -82,7 +82,6 @@ function AccountStatement() {
                     </Tooltip>
                 )
             },
-            flex: 1,
         },
         {
             field: 'amount',

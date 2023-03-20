@@ -1,17 +1,14 @@
 import { Grid, Avatar, Popper, IconButton , Box, Button } from '@mui/material';
 import { useContext, useEffect, useRef, useState, useMemo } from 'react';
-import logo from 'assets/logo.svg';
-import transferIcon from 'assets/transferIcon.svg';
-import accountStatementIcon from 'assets/accountStatementIcon.svg';
+import { logo } from 'assets/assets';
+import { transferIcon } from 'assets/assets';
+import { accountStatementIcon } from 'assets/assets';
 import useStyles from 'styles/CustomerConsoleStyles';
 import { NavLink, Routes, Route, useNavigate } from 'react-router-dom';
 import AuthContext from 'context/AuthProvider';
 import TransferScreen from './TransferScreen';
 import axios from 'api/axios';
-import AccountStatement from 'components/AccountStatementScreen';
-
-// import { TransferProvider } from 'context/TransferProvider';
-// import { StatementProvider } from 'context/StatementProvider';
+import AccountStatement from 'components/AccountStatement';
 import CustomerConsoleProvider from 'context/CustomerConsoleProvider';
 import LoadingContext from 'context/LoadingProvider';
 import StatementContext from 'context/StatementProvider';
@@ -31,7 +28,6 @@ function CustomerConsole()
     }
 
     const Banner = useMemo(()=>{
-        console.log('banner')
         return(
             <div className={classes.banner} onClick={handleBannerClick}>
                 <div className={classes.logoContainer}>
@@ -54,37 +50,6 @@ function CustomerConsole()
             navigate('/login', {replace: true});
         }
     },[auth]);
-
-    // useEffect(()=>{
-    //     const getUser = async()=>{
-    //     if(auth?.token){
-    //         const token = auth?.token;
-    //         const response = await axios.get(
-    //             GET_ACCOUNT_URL,
-    //             {
-    //                 headers: {
-    //                     Authorization: "Bearer "+token,
-    //                 }
-    //             }
-    //         )
-            // console.log(response);
-
-            //TO TEST THE LOADING... PLACEHOLDER
-            // function timeout(delay) {
-            //     return new Promise( res => setTimeout(res, delay) );
-            // }
-
-            // await timeout(10000)
-
-            // const userdata = response?.data;
-
-            // const {id, admin} = userdata;
-
-    //         setAuth({...auth, ...userdata})
-    //     }
-    // }
-    // getUser();
-    // },[]);
 
     const TitleBar = ()=>{
         const {name} = auth;
@@ -146,8 +111,6 @@ function CustomerConsole()
             // console.log('user logged out');
             setAuth({});
         }
-
-        
 
         return ( 
             <div className={classes.titleBar}>

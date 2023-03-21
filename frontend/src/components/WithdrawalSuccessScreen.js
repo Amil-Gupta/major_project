@@ -1,7 +1,7 @@
-import useStyles from "styles/DepositSuccessScreenStyles";
+import useStyles from "styles/WithdrawalSuccessScreenStyles";
 import { Grid, Button } from "@mui/material";
 import { useContext } from "react";
-import DepositContext from "context/DepositProvider";
+import WithdrawalContext from "context/WithdrawalProvider";
 import { useNavigate } from "react-router-dom";
 
 function DepositSuccessScreen() {
@@ -9,14 +9,14 @@ function DepositSuccessScreen() {
 
     const navigate = useNavigate();
 
-    const { deposit, setDeposit } = useContext(DepositContext);
-    const { id, toAccount, amountPaise, transferredAt } = deposit;
+    const { withdrawal, setWithdrawal } = useContext(WithdrawalContext);
+    const { id, fromAccount, amountPaise, transferredAt } = withdrawal;
     const amountRupees = amountPaise / 100;
     const transferDate = new Date(transferredAt);
 
     const handleOk = (e)=>{
         e.preventDefault();
-        navigate('adminConsole/deposit', {replace: true});
+        navigate('adminConsole/withdrawal', {replace: true});
     }
 
     return (
@@ -24,7 +24,7 @@ function DepositSuccessScreen() {
             <Grid container>
                 <Grid item xs={12}>
                     <div className={classes.heading}>
-                        Deposit Recorded Successfully!
+                        Withdrawal Recorded Successfully!
                     </div>
                 </Grid>
                 <Grid item xs={12}>
@@ -46,10 +46,10 @@ function DepositSuccessScreen() {
                     }}
                     >
                         <Grid item xs={12} md={4} className={classes.label}>
-                            To Account No.
+                            From Account No.
                         </Grid>
                         <Grid item xs={12} md={8} className={classes.value}>
-                            {toAccount}
+                            {fromAccount}
                         </Grid>
                         <Grid item xs={12} md={4} className={classes.label}>
                             Transaction Id
@@ -66,10 +66,10 @@ function DepositSuccessScreen() {
                     </Grid>
                     <Grid item xs={12}>
                         <Button className={classes.okButton} onClick={handleOk} sx={{
-                            color: 'greenyellow',
-                            backgroundColor: 'green',
+                            color: 'pink',
+                            backgroundColor: 'brown',
                             margin: '.5rem 0',
-                            border: '.1rem solid yellowgreen'
+                            border: '.1rem solid crimson'
                         }}>
                             OK
                         </Button>

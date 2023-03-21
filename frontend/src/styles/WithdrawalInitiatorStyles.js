@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme)=>({
         alignItems: 'center',
         backgroundImage: 'linear-gradient(darkslategrey, black, darkslategrey)',
         borderRadius: '1rem',
-        boxShadow: '0 0 .5rem greenyellow',
+        boxShadow: '0 0 .5rem crimson',
         margin: '.5rem',
     },
 
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme)=>({
         alignItems: 'center',
     },
 
-    depositForm: {
+    withdrawalForm: {
         borderRadius: '1rem',
         padding: '1rem'
     },
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme)=>({
 
     input: {
         background: 'transparent',
-        color: 'limegreen',
+        color: 'red',
         // backgroundColor: 'white',
         padding: '.5rem',
         margin: '.5% 2%',

@@ -7,6 +7,7 @@ import logo from 'assets/logo.svg';
 import { recordDepositIcon, recordWithdrawalIcon } from "assets/assets";
 import AdminConsoleProvider from "context/AdminConsoleProvider";
 import DepositScreen from "./DepositScreen";
+import WithdrawalScreen from "./WithdrawalScreen";
 
 function AdminConsole() {
     const classes = useStyles();
@@ -155,7 +156,7 @@ function AdminConsole() {
                             <OptionButton name='Record Deposit' icon={recordDepositIcon} id='depositButton' route='deposit' />
                         </Grid>
                         <Grid item xs={6} md={2}>
-                            <OptionButton name='Record Withdrawal' icon={recordWithdrawalIcon} id='withdrawalButton' />
+                            <OptionButton name='Record Withdrawal' icon={recordWithdrawalIcon} id='withdrawalButton' route='withdrawal' />
                         </Grid>
                     </Grid>
                 </div>
@@ -167,6 +168,7 @@ function AdminConsole() {
                 <Routes>
                     <Route path='*' element={<Options />} />
                     <Route path='deposit/*' element={<DepositScreen />} />
+                    <Route path='withdrawal/*' element={<WithdrawalScreen />} />
                 </Routes>
             </div> 
         );

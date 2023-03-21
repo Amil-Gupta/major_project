@@ -2,24 +2,24 @@ import axios from "api/axios";
 import AuthContext from "context/AuthProvider";
 import LoadingContext from "context/LoadingProvider";
 import { useState, useContext } from "react";
-import DepositContext from "context/DepositProvider";
-import useStyles from "styles/DepositInitiatorStyles";
+import WithdrawalContext from "context/WithdrawalProvider";
+import useStyles from "styles/WithdrawalInitiatorStyles";
 import { useNavigate } from "react-router-dom";
 import { Avatar, Button } from "@mui/material";
 
-const DEPOSIT_URL = '/admin/deposits';
-function DepositInitiator(){
+const WITHDRAWAL_URL = '/admin/deposits';
+function WithdrawalInitiator(){
     const classes = useStyles();
 
     const navigate = useNavigate();
 
     const { auth, setAuth } = useContext(AuthContext);
-    const { deposit, setDeposit } = useContext(DepositContext);
+    const { withdrawal, setWithdrawal } = useContext(WithdrawalContext);
     const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
     
     const [ accountId, setAccountId ] = useState('');
     const [ amountRupees, setAmountRupees ] = useState('');
-    const amountPaise = amountRupees ? (amountRupees * 100) : '';
+    const amountPaise = amountRupees ? (-amountRupees * 100) : '';
     // const [ loading, setLoading ] = useState(false);
 
     const handleAccountIdUpdate = (e)=>{
@@ -37,7 +37,7 @@ function DepositInitiator(){
         try{
             const token = auth?.token;
             const response = await axios.post(
-                DEPOSIT_URL,
+                WITHDRAWAL_URL,
                 JSON.stringify({accountId, amountPaise}),
                 {
                     headers: {
@@ -46,12 +46,12 @@ function DepositInitiator(){
                     },
                 }    
             );
-            const depositData = response?.data;
-            setDeposit(depositData);
+            const withdrawalData = response?.data;
+            setWithdrawal(withdrawalData);
             setLoading(false);
-            // alert(`Deposited INR${depositData?.amountPaise / 100} in account ${depositData?.toAccount}`)
             navigate('success', {replace: true})
         }catch(err){
+            console.log(err);
             setLoading(false);
 
             if(!err?.response){
@@ -72,14 +72,14 @@ function DepositInitiator(){
                 <div className={classes.avatarContainer}>
                     <Avatar
                         sx={{
-                            bgcolor: 'greenyellow',
-                            color: 'green',
+                            bgcolor: 'pink',
+                            color: 'crimson',
                             width: '70%',
                             height: '70%',
                         }}
                     />
                 </div>
-                <div className={classes.depositForm}>
+                <div className={classes.withdrawalForm}>
                     <div className={classes.entry}>
                         <label className={classes.label}>
                             Account no.
@@ -95,7 +95,7 @@ function DepositInitiator(){
                     </div>
                     <div className={classes.entry}>
                         <label className={classes.label}>
-                            Deposit In ₹
+                            Withdrawal In ₹
                         </label>
                         <input
                         id='amount'
@@ -117,7 +117,7 @@ function DepositInitiator(){
                     onClick={handleDeposit}
                     disabled={!accountId.length || !amountRupees.length}
                     >
-                        Record Deposit
+                        Record Withdrawal
                     </Button>
                 </div>
             </div>
@@ -125,4 +125,4 @@ function DepositInitiator(){
     );
 }
 
-export default DepositInitiator;
+export default WithdrawalInitiator;

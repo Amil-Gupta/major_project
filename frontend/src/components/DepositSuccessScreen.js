@@ -1,22 +1,22 @@
-import useStyles from "styles/TransferSuccessScreenStyles";
+import useStyles from "styles/DepositSuccessScreenStyles";
 import { Grid, Button } from "@mui/material";
 import { useContext } from "react";
-import TransferContext from "context/TransferProvider";
+import DepositContext from "context/DepositProvider";
 import { useNavigate } from "react-router-dom";
 
-function TransferSuccessScreen() {
+function DepositSuccessScreen() {
     const classes = useStyles();
 
     const navigate = useNavigate();
 
-    const { transfer, setTransfer } = useContext(TransferContext);
-    const { id, fromAccount, toAccount, amountPaise, transferredAt } = transfer;
+    const { deposit, setDeposit } = useContext(DepositContext);
+    const { id, toAccount, amountPaise, transferredAt } = deposit;
     const amountRupees = amountPaise / 100;
     const transferDate = new Date(transferredAt);
 
     const handleOk = (e)=>{
         e.preventDefault();
-        navigate('customerConsole/transfer', {replace: true});
+        navigate('adminConsole/deposit', {replace: true});
     }
 
     return (
@@ -24,7 +24,7 @@ function TransferSuccessScreen() {
             <Grid container>
                 <Grid item xs={12}>
                     <div className={classes.heading}>
-                        Transfer Successful!
+                        Deposit Successful!
                     </div>
                 </Grid>
                 <Grid item xs={12}>
@@ -45,12 +45,6 @@ function TransferSuccessScreen() {
                         border: '.2rem solid black'
                     }}
                     >
-                        <Grid item xs={12} md={4} className={classes.label}>
-                            From Account No.
-                        </Grid>
-                        <Grid item xs={12} md={8} className={classes.value}>
-                            {fromAccount}
-                        </Grid>
                         <Grid item xs={12} md={4} className={classes.label}>
                             To Account No.
                         </Grid>
@@ -86,4 +80,4 @@ function TransferSuccessScreen() {
     );
 }
 
-export default TransferSuccessScreen;
+export default DepositSuccessScreen;

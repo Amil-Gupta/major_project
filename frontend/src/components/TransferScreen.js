@@ -27,6 +27,6 @@ const TransferScreen = memo(()=>{
             </Routes>
         </div>
     )
-})
+});
 
 export default TransferScreen;

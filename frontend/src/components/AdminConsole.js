@@ -5,6 +5,8 @@ import { useNavigate, Routes, Route, NavLink } from 'react-router-dom';
 import AuthContext from 'context/AuthProvider';
 import logo from 'assets/logo.svg';
 import { recordDepositIcon, recordWithdrawalIcon } from "assets/assets";
+import AdminConsoleProvider from "context/AdminConsoleProvider";
+import DepositScreen from "./DepositScreen";
 
 function AdminConsole() {
     const classes = useStyles();
@@ -150,7 +152,7 @@ function AdminConsole() {
                 <div className={classes.options}>
                     <Grid container>
                         <Grid item xs={6} md={2}>
-                            <OptionButton name='Record Deposit' icon={recordDepositIcon} id='depositButton' />
+                            <OptionButton name='Record Deposit' icon={recordDepositIcon} id='depositButton' route='deposit' />
                         </Grid>
                         <Grid item xs={6} md={2}>
                             <OptionButton name='Record Withdrawal' icon={recordWithdrawalIcon} id='withdrawalButton' />
@@ -163,23 +165,26 @@ function AdminConsole() {
         return (
             <div className={classes.body}>
                 <Routes>
-                    <Route path='*' element={<Options />}></Route>
+                    <Route path='*' element={<Options />} />
+                    <Route path='deposit/*' element={<DepositScreen />} />
                 </Routes>
             </div> 
         );
     }
 
-    return ( 
-        <div className={classes.root}>
-            <Grid container>
-                <Grid item xs={12}>
-                    <TitleBar />
+    return (
+        <AdminConsoleProvider>
+            <div className={classes.root}>
+                <Grid container>
+                    <Grid item xs={12}>
+                        <TitleBar />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Body />
+                    </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <Body />
-                </Grid>
-            </Grid>
-        </div> 
+            </div> 
+        </AdminConsoleProvider>
     );
 }
 

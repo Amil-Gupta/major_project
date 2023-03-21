@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme)=>({
 
     input: {
         background: 'transparent',
-        color: 'red',
+        color: 'pink',
         // backgroundColor: 'white',
         padding: '.5rem',
         margin: '.5% 2%',

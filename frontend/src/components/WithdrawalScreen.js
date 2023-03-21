@@ -1,7 +1,7 @@
 import LoadingContext from "context/LoadingProvider";
 import { memo, useContext, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import useStyles from "styles/DepositScreenStyles";
+import useStyles from "styles/WithdrawalScreenStyles";
 import WithdrawalInitiator from "components/WithdrawalInitiator";
 import WithdrawalSuccessScreen from "components/WithdrawalSuccessScreen";
 

@@ -251,7 +251,7 @@ function AccountStatement() {
                         color: 'greenyellow',
                         backgroundColor: 'green',
                         margin: '.5rem 0',
-                        border: '.1rem solid yellowgreen'
+                        border: '.1rem solid greenyellow'
                     }}
                 >
                     Refresh

@@ -7,6 +7,7 @@ import inboundIcon from './inboundIcon.svg';
 import outboundIcon from './outboundIcon.svg';
 import recordDepositIcon from './recordDepositIcon.svg';
 import recordWithdrawalIcon from './recordWithdrawalIcon.svg';
+import loanEligibilityIcon from './loanEligibilityIcon.svg';
 
 export {
     logo,
@@ -18,4 +19,5 @@ export {
     outboundIcon,
     recordDepositIcon,
     recordWithdrawalIcon,
+    loanEligibilityIcon,
 };

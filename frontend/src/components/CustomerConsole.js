@@ -1,6 +1,6 @@
 import { Grid, Avatar, Popper, IconButton , Box, Button } from '@mui/material';
 import { useContext, useEffect, useRef, useState, useMemo } from 'react';
-import { logo } from 'assets/assets';
+import { loanEligibilityIcon, logo } from 'assets/assets';
 import { transferIcon } from 'assets/assets';
 import { accountStatementIcon } from 'assets/assets';
 import useStyles from 'styles/CustomerConsoleStyles';
@@ -12,6 +12,7 @@ import AccountStatement from 'components/AccountStatement';
 import CustomerConsoleProvider from 'context/CustomerConsoleProvider';
 import LoadingContext from 'context/LoadingProvider';
 import StatementContext from 'context/StatementProvider';
+import CreditScoreChecker from './CreditScoreChecker';
 
 const GET_ACCOUNT_URL = '/accounts/detail';
 const GET_STATEMENT_URL = '/accounts/statement';
@@ -228,6 +229,9 @@ function CustomerConsole()
                         <Grid item xs={6} md={2}>
                             <OptionButton name='Account Statement' icon={accountStatementIcon} id='accountStatementButton' route='statement' onClick={handleStatementFetch} />
                         </Grid>
+                        <Grid item xs={6} md={2}>
+                            <OptionButton name='Loan Eligibility' icon={loanEligibilityIcon} id='loanEligibilityButton' route='loanEligibility' />
+                        </Grid>
                     </Grid>
                 </div>
             )
@@ -239,6 +243,7 @@ function CustomerConsole()
                     <Route path='*' element={<Options />} />
                     <Route path='transfer/*' element={<TransferScreen />} />
                     <Route path='statement/*' element={<AccountStatement />} />
+                    <Route path='loanEligibility/*' element={<CreditScoreChecker />} />
                 </Routes>
             </div> 
         );

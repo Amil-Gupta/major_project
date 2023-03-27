@@ -172,11 +172,13 @@ function TransferInitiator(){
                         <Button
                         className={classes.submitButton}
                         sx={{
-                            color: 'white', 
-                            backgroundColor: '#4b484c',
                             width: '100%',
-                            margin: '1rem 0'
-                            }}
+                            margin: '1rem 0',
+                            color: 'white',
+                            backgroundColor: 'grey',
+                            margin: '.5rem 0',
+                            border: '.1rem solid white'
+                        }}
                         onClick={handleTransfer}
                         disabled={!toAccountId.length || !amountRupees.length}
                         >

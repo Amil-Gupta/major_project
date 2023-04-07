@@ -10,7 +10,7 @@ const WithdrawalScreen = memo(()=>{
 
     useEffect(
         ()=>{
-            setLoadingColor('green');
+            setLoadingColor('red');
             // setLoading(false);
         },
         []

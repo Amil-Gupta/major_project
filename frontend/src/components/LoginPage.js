@@ -2,10 +2,10 @@ import useStyles from "styles/LoginPageStyles";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Box, Grid, Button } from "@mui/material";
 import logo from 'assets/logo.svg';
-import { useContext, useEffect, useState, useMemo } from "react";
+import { useContext, useEffect, useState, useMemo, useRef } from "react";
 import AuthContext from "context/AuthProvider";
 import axios from "api/axios";
-import { BANK_NAME } from "constants/constants";
+import { BANK_NAME, RECAPTCHA_SECRET_KEY, RECAPTCHA_SITE_KEY } from "constants/constants";
 
 const LOGIN_URL = '/tokens';
 const GET_ACCOUNT_URL = '/accounts/detail';
@@ -107,7 +107,6 @@ function LoginPage() {
                     withCredentials: true
                 }    
             )
-
             // console.log(response);
             // console.log(JSON.stringify(response?.data?.token))
 

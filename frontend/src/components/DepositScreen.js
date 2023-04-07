@@ -10,7 +10,7 @@ const DepositScreen = memo(()=>{
 
     useEffect(
         ()=>{
-            setLoadingColor('green');
+            setLoadingColor('lime');
             // setLoading(false);
         },
         []

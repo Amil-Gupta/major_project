@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme)=>({
         borderRadius: '1rem',
         padding: '0 0 1rem 0',
         width: 'max(20rem, 30vw)',
-        boxShadow: '0 0 .5rem crimson'
+        boxShadow: '0 0 .5rem crimson',
     },
 
     titleBar: {

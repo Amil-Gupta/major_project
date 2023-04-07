@@ -235,7 +235,7 @@ function LoginPage() {
                             display: 'block',
                             textAlign:'right',
                             textDecoration: 'none',
-                            color: 'blue',
+                            color: 'lime',
                         }}
                         replace
                         >

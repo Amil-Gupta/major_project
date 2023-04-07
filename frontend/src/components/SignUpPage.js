@@ -6,6 +6,7 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import AuthContext from "context/AuthProvider";
 import axios from "api/axios";
 import excludeVariablesFromRoot from "@mui/material/styles/excludeVariablesFromRoot";
+import { BANK_NAME } from "constants/constants";
 
 const LOGIN_URL = '/tokens';
 const GET_ACCOUNT_URL = '/accounts/detail';
@@ -170,7 +171,7 @@ function SignUpPage() {
                 </div>
 
                 <div className={classes.title}>
-                    Online Bank
+                    {BANK_NAME}
                 </div>
             </div>
         )

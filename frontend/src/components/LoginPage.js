@@ -5,6 +5,7 @@ import logo from 'assets/logo.svg';
 import { useContext, useEffect, useState, useMemo } from "react";
 import AuthContext from "context/AuthProvider";
 import axios from "api/axios";
+import { BANK_NAME } from "constants/constants";
 
 const LOGIN_URL = '/tokens';
 const GET_ACCOUNT_URL = '/accounts/detail';
@@ -160,7 +161,7 @@ function LoginPage() {
                 </div>
 
                 <div className={classes.title}>
-                    Online Bank
+                    {BANK_NAME}
                 </div>
             </div>
         )

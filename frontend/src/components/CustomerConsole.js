@@ -13,6 +13,7 @@ import CustomerConsoleProvider from 'context/CustomerConsoleProvider';
 import LoadingContext from 'context/LoadingProvider';
 import StatementContext from 'context/StatementProvider';
 import CreditScoreChecker from './CreditScoreChecker';
+import { BANK_NAME } from 'constants/constants';
 
 const GET_ACCOUNT_URL = '/accounts/detail';
 const GET_STATEMENT_URL = '/accounts/statement';
@@ -36,7 +37,7 @@ function CustomerConsole()
                 </div>
 
                 <div className={classes.title}>
-                    Online Bank
+                    {BANK_NAME}
                 </div>
             </div>
         )

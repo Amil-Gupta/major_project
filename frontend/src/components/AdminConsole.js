@@ -8,6 +8,7 @@ import { recordDepositIcon, recordWithdrawalIcon } from "assets/assets";
 import AdminConsoleProvider from "context/AdminConsoleProvider";
 import DepositScreen from "./DepositScreen";
 import WithdrawalScreen from "./WithdrawalScreen";
+import { BANK_NAME } from "constants/constants";
 
 function AdminConsole() {
     const classes = useStyles();
@@ -37,7 +38,7 @@ function AdminConsole() {
                 </div>
 
                 <div className={classes.title}>
-                    Online Bank Administrator
+                    {BANK_NAME} Administrator
                 </div>
             </div>
         )

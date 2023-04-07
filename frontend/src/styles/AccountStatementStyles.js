@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme)=>({
         height: '100%',
     },
 
-    refreshButtonContainer: {
+    buttonContainer: {
         display: 'flex',
         justifyContent: 'center',
     },

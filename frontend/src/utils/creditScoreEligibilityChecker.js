@@ -13,9 +13,9 @@ const crediScoreEligibilityChecker = (creditScore)=>{
     const referenceKey = [
         'Not eligible',
         `${high}% Interest With Collateral`,
-        `${high}% Interest Without Collateral Upto 9 Lakhs\, ${moderate}% Interest With Collateral Above 9 Lakhs`,
-        `${moderate}% Interest Without Collateral Upto 9 Lakhs\, ${low}% Interest With Collateral Above 9 Lakhs`,
-        `${moderate}% Interest Without Collateral Upto 12 Lakhs\, ${low}% Interest With Collateral Above 12 Lakhs`,
+        `${high}% Interest Without Collateral Upto 9 Lakhs, ${moderate}% Interest With Collateral Above 9 Lakhs`,
+        `${moderate}% Interest Without Collateral Upto 9 Lakhs, ${low}% Interest With Collateral Above 9 Lakhs`,
+        `${moderate}% Interest Without Collateral Upto 12 Lakhs, ${low}% Interest With Collateral Above 12 Lakhs`,
     ];
     if(creditScore < 300){
         const rating = 'Very Bad';

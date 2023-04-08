@@ -9,4 +9,5 @@ import com.project.major.entities.Transfer;
 
 public interface TransferRepository extends JpaRepository<Transfer, Long> {
 	Page<Transfer> findByFromAccountOrToAccount(Account fromAccount, Account toAccount, Pageable pageable);
+	Page<Transfer> findAll(Pageable pageable);
 }

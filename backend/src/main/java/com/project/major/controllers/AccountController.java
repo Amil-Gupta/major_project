@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.major.dto.AccountCreationRequest;
 import com.project.major.dto.AccountResource;
+import com.project.major.dto.PasswordChangeRequest;
 import com.project.major.dto.StatementResource;
 import com.project.major.services.AccountCreator;
 import com.project.major.services.AccountGetter;
+import com.project.major.services.PasswordChangeService;
 import com.project.major.services.StatementGetter;
 
 import jakarta.validation.Valid;
@@ -29,12 +31,19 @@ public class AccountController {
 	
 	private final AccountCreator accountCreationService;
 	private final AccountGetter accountGetter;
-	private final StatementGetter statementGetter;
+	private final StatementGetter statementGetter;	
+	private final PasswordChangeService passwordChangeService;
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public AccountResource createAccount(@RequestBody @Valid AccountCreationRequest request) {
 		return accountCreationService.create(request);
+	}
+	
+	@PostMapping("/password")
+	@ResponseStatus(HttpStatus.CREATED)
+	public AccountResource changePassword(Principal principal, @RequestBody @Valid PasswordChangeRequest request) {
+		return passwordChangeService.change(Integer.valueOf(principal.getName()), request);
 	}
 	
 	@GetMapping("/detail")

@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.project.major.dto.AccountResource;
 import com.project.major.dto.PasswordChangeRequest;
 import com.project.major.error.BusinessException;
 import com.project.major.repositories.AccountRepository;
@@ -19,7 +18,7 @@ public class PasswordChangeService {
 	private final PasswordEncoder passwordEncoder;
 	private final AccountRepository accountRepository;
 
-	public AccountResource change(Integer id, PasswordChangeRequest request) {
+	public void change(Integer id, PasswordChangeRequest request) {
 		var account = accountRepository.findById(id).orElseThrow();
 		
 		if (!passwordEncoder.matches(request.getOldPassword(), account.getPassword()))
@@ -28,6 +27,5 @@ public class PasswordChangeService {
 		account.setPassword(passwordEncoder.encode(request.getNewPassword()));
 		log.info("Changed password for account id: {}", account.getId());
 		accountRepository.save(account);
-		return AccountResource.of(account);
 	}
 }

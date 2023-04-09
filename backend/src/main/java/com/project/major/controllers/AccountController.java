@@ -41,9 +41,9 @@ public class AccountController {
 	}
 	
 	@PostMapping("/password")
-	@ResponseStatus(HttpStatus.CREATED)
-	public AccountResource changePassword(Principal principal, @RequestBody @Valid PasswordChangeRequest request) {
-		return passwordChangeService.change(Integer.valueOf(principal.getName()), request);
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void changePassword(Principal principal, @RequestBody @Valid PasswordChangeRequest request) {
+		passwordChangeService.change(Integer.valueOf(principal.getName()), request);
 	}
 	
 	@GetMapping("/detail")

@@ -21,7 +21,9 @@ public class StatementGetter {
 	public StatementResource getStatement(Integer accountId, Pageable pageable) {
 		var account = accountRepository.findById(accountId).orElseThrow();
 		var sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("transferredAt").descending());
-		var transfers = transferRepository.findByFromAccountOrToAccount(account, account, sortedPageable);
+		
+		var	transfers = transferRepository.findByFromAccountOrToAccount(account, account, sortedPageable);
+		
 		return StatementResource.of(account, transfers);
 	}
 }

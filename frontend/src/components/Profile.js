@@ -154,6 +154,7 @@ function Profile(props) {
                             }
                         );
         
+                        alert('Password changed successfully!');
                         setAuth({});
                     }catch(err){
                         const response = err?.response;
@@ -249,7 +250,8 @@ function Profile(props) {
                             backgroundColor: '#4b484c',
                             // width: '100%',
                             margin: '1rem 0'
-                            }}
+                        }}
+                        disabled={ oldPasswordErrors.length || newPasswordErrors.length || !confirmPasswordMatch || !oldPassword.length || !newPassword.length}
                         >
                             Change Password
                         </Button>

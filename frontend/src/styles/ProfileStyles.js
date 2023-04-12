@@ -1,6 +1,11 @@
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme)=>({
+    // root: {
+    //     display: 'flex',
+    //     height: '100%',
+    //     alignItems: 'center',
+    // },
     avatarContainer: {
         display: 'flex',
         aspectRatio: '1 / 1',
@@ -16,6 +21,7 @@ const useStyles = makeStyles((theme)=>({
         justifyContent: 'center',
         height: '100%',
         color: 'white',
+        margin: 'auto 0',
     },
     entry: {
         display: 'flex',

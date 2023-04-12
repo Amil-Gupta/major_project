@@ -94,7 +94,7 @@ function SignUpPage() {
         setPassword(e.target.value);
     }
     const handleConfirmPasswordUpdate = (e)=>{
-        setPasswordErrors([]);
+        // setPasswordErrors([]);
         setConfirmPassword(e.target.value);
     }
 

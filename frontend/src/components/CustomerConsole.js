@@ -6,14 +6,15 @@ import { accountStatementIcon } from 'assets/assets';
 import useStyles from 'styles/CustomerConsoleStyles';
 import { NavLink, Routes, Route, useNavigate } from 'react-router-dom';
 import AuthContext from 'context/AuthProvider';
-import TransferScreen from './TransferScreen';
+import TransferScreen from 'components/TransferScreen';
 import axios from 'api/axios';
 import AccountStatement from 'components/AccountStatement';
 import CustomerConsoleProvider from 'context/CustomerConsoleProvider';
 import LoadingContext from 'context/LoadingProvider';
 import StatementContext from 'context/StatementProvider';
-import CreditScoreChecker from './CreditScoreChecker';
+import CreditScoreChecker from 'components/CreditScoreChecker';
 import { BANK_NAME } from 'constants/constants';
+import Profile from 'components/Profile';
 
 const GET_ACCOUNT_URL = '/accounts/detail';
 const GET_STATEMENT_URL = '/accounts/statement';
@@ -55,21 +56,24 @@ function CustomerConsole()
 
     const TitleBar = ()=>{
         const {name} = auth;
-        const [balancePaise, setBalancePaise] = useState(auth?.balancePaise);
         const user = (name) ? name : 'Loading...';
-        const balance = (typeof(balancePaise) === 'number') ? (
-            <>
-                {/* <div> */}
-                Balance:&nbsp;
-                {/* </div> */}
-                {/* <FontAwesomeIcon icon={faInr} size='1x' /> */}
-                {/* <div> */}
-                ₹{balancePaise / 100}
-                {/* </div> */}
-            </>
-        ):(
-            'Loading...'
-        );
+
+        // CODE TO DISPLAY BALANCE IN POPUP
+        // const [balancePaise, setBalancePaise] = useState(auth?.balancePaise);
+        // const balance = (typeof(balancePaise) === 'number') ? (
+        //     <>
+        //         {/* <div> */}
+        //         Balance:&nbsp;
+        //         {/* </div> */}
+        //         {/* <FontAwesomeIcon icon={faInr} size='1x' /> */}
+        //         {/* <div> */}
+        //         ₹{balancePaise / 100}
+        //         {/* </div> */}
+        //     </>
+        // ):(
+        //     'Loading...'
+        // );
+
         const [popperAnchor, setPopperAnchor] = useState(null);
         const popperOpen = Boolean(popperAnchor);
         const popperId = popperOpen ? 'avatarPopper' : undefined;
@@ -92,9 +96,27 @@ function CustomerConsole()
         
 
         const handleAvatarClick = async(e)=>{
-            // console.log('enter/leave');
-            const {token} = auth;
             setPopperAnchor(popperAnchor ? null : e.currentTarget);
+
+            // CODE TO DISPLAY BALANCE IN POPUP
+            // const {token} = auth;
+            // const response = await axios.get(
+            //     GET_ACCOUNT_URL,
+            //     {
+            //         headers: {
+            //             Authorization: "Bearer "+token,
+            //         }
+            //     }
+            // )
+            // const userdata = response?.data;
+            // name = userdata?.name;
+            // balancePaise = userdata?.balancePaise;
+            // setBalancePaise(userdata?.balancePaise);
+
+        }
+
+        const handleProfileDisplay = async()=>{
+            const {token} = auth;
             const response = await axios.get(
                 GET_ACCOUNT_URL,
                 {
@@ -104,9 +126,8 @@ function CustomerConsole()
                 }
             )
             const userdata = response?.data;
-            // name = userdata?.name;
-            // balancePaise = userdata?.balancePaise;
-            setBalancePaise(userdata?.balancePaise);
+            setAuth((auth)=>({...auth, ...userdata}));
+            navigate('profile', {replace:true});
         }
 
         const handleLogout = ()=>{
@@ -140,16 +161,37 @@ function CustomerConsole()
                             <section className={classes.username}>
                                 {user}
                             </section>
-                            <section className={classes.balance}>
+
+                            {/* CODE TO DISPLAY BALANCE IN POPUP */}
+                            {/* <section className={classes.balance}>
                                 {balance}
-                            </section>
+                            </section> */}
+
                             <Button
-                                className={classes.logoutButton}
-                                onClick={handleLogout}
+                                className={classes.popperButton}
+                                onClick={handleProfileDisplay}
                                 sx={{
-                                    color:'red',
+                                    color:'mediumspringgreen',
                                     width: '100%',
                                     backgroundColor: 'black',
+                                    margin: '.1rem',
+                                    fontWeight: 'bold',
+                                    fontSize: '1rem',
+                                }}
+                            >
+                                Profile
+                            </Button>
+
+                            <Button
+                                className={classes.popperButton}
+                                onClick={handleLogout}
+                                sx={{
+                                    color:'darkred',
+                                    width: '100%',
+                                    backgroundColor: 'aliceblue',
+                                    margin: '.1rem',
+                                    fontWeight: 'bold',
+                                    fontSize: '1rem',
                                 }}
                             >
                                 Log Out
@@ -245,6 +287,7 @@ function CustomerConsole()
                     <Route path='transfer/*' element={<TransferScreen />} />
                     <Route path='statement/*' element={<AccountStatement />} />
                     <Route path='loanEligibility/*' element={<CreditScoreChecker />} />
+                    <Route path='profile/*' element={<Profile bgcolor='skyblue' color='blue' />} />
                 </Routes>
             </div> 
         );

@@ -327,6 +327,9 @@ function AccountStatement() {
                 }}
                 />
             </div>
+            <div className={classes.hoverTapSuggestion}>
+                *Hover/Tap on Type to view details
+            </div>
             <div className={classes.buttonContainer}>
 
                 <Button

@@ -80,12 +80,12 @@ function TransferInitiator(){
                     <Grid item xs={4} md={12}>
                         <div className={classes.avatarContainer}>
                             <Avatar
-                                sx={{
-                                    bgcolor: props.avatarBgcolor,
-                                    color: props.avatarColor,
-                                    width: '50%',
-                                    height: '50%',
-                                }}
+                            sx={{
+                                bgcolor: props.avatarBgcolor,
+                                color: props.avatarColor,
+                                width: '50%',
+                                height: '50%',
+                            }}
                             />
                         </div>
                     </Grid>

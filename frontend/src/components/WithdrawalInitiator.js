@@ -71,12 +71,12 @@ function WithdrawalInitiator(){
                 </span>
                 <div className={classes.avatarContainer}>
                     <Avatar
-                        sx={{
-                            bgcolor: 'pink',
-                            color: 'crimson',
-                            width: '70%',
-                            height: '70%',
-                        }}
+                    sx={{
+                        bgcolor: 'pink',
+                        color: 'crimson',
+                        width: '70%',
+                        height: '70%',
+                    }}
                     />
                 </div>
                 <div className={classes.withdrawalForm}>

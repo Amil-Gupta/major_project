@@ -7,8 +7,9 @@ import logo from 'assets/logo.svg';
 import { recordDepositIcon, recordWithdrawalIcon } from "assets/assets";
 import AdminConsoleProvider from "context/AdminConsoleProvider";
 import DepositScreen from "./DepositScreen";
-import WithdrawalScreen from "./WithdrawalScreen";
+import WithdrawalScreen from "components/WithdrawalScreen";
 import { BANK_NAME } from "constants/constants";
+import Profile from "components/Profile";
 
 function AdminConsole() {
     const classes = useStyles();
@@ -71,6 +72,10 @@ function AdminConsole() {
             setPopperAnchor(popperAnchor ? null : e.currentTarget);
         }
 
+        const handleProfileDisplay = async()=>{
+            navigate('profile', {replace:true});
+        }
+
         const handleLogout = ()=>{
             // console.log('admin logged out');
             setAuth({});
@@ -101,13 +106,32 @@ function AdminConsole() {
                             <section className={classes.username}>
                                 {user}
                             </section>
+
                             <Button
-                                className={classes.logoutButton}
+                                className={classes.popperButton}
+                                onClick={handleProfileDisplay}
+                                sx={{
+                                    color:'mediumspringgreen',
+                                    width: '100%',
+                                    backgroundColor: 'black',
+                                    margin: '.1rem',
+                                    fontWeight: 'bold',
+                                    fontSize: '1rem',
+                                }}
+                            >
+                                Profile
+                            </Button>
+
+                            <Button
+                                className={classes.popperButton}
                                 onClick={handleLogout}
                                 sx={{
-                                    color:'red',
+                                    color:'darkred',
                                     width: '100%',
-                                    backgroundColor: 'black'
+                                    backgroundColor: 'aliceblue',
+                                    margin: '.1rem',
+                                    fontWeight: 'bold',
+                                    fontSize: '1rem',
                                 }}
                             >
                                 Log Out
@@ -170,6 +194,7 @@ function AdminConsole() {
                     <Route path='*' element={<Options />} />
                     <Route path='deposit/*' element={<DepositScreen />} />
                     <Route path='withdrawal/*' element={<WithdrawalScreen />} />
+                    <Route path='profile/*' element={<Profile bgcolor='pink' color='red' />} />
                 </Routes>
             </div> 
         );

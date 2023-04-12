@@ -157,6 +157,9 @@ function CreditScoreChecker() {
                     </Grid>
                 </Grid>
             </div>
+            <div className={classes.hoverTapSuggestion}>
+                *Hover/Tap on Category to view details
+            </div>
         </div>
     ):(<></>)),[eligibilityData, referenceKey]);
 

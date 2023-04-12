@@ -56,6 +56,9 @@ const useStyles = makeStyles((theme)=>({
     tooltip: {
         fontSize: '1rem',
     },
+    hoverTapSuggestion: {
+        color: 'white',
+    },
 }));
 
 export default useStyles;

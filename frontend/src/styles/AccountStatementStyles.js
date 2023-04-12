@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme)=>({
         border: '.1rem solid black',
     },
     gridContainer: {
-        height: '65vh',
+        height: '61vh',
         // backgroundColor: 'black',
         // color: 'white',
         '& .MuiButtonBase-root':{
@@ -31,6 +31,10 @@ const useStyles = makeStyles((theme)=>({
     typeIcon: {
         fit: 'contain',
         height: '100%',
+    },
+
+    hoverTapSuggestion: {
+        color: 'white',
     },
 
     buttonContainer: {

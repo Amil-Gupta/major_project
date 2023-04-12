@@ -47,12 +47,8 @@ const useStyles = makeStyles((theme) =>
     },
 
     username: {
-        textAlign: 'center'
+        textAlign: 'center',
     },
-
-    // logoutButton: {
-    //     backgroundColor: 'black'
-    // },
 
     body: {
         backgroundColor: '#2a2b2a',

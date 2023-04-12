@@ -45,6 +45,9 @@ function CustomerConsole()
     },[]);
 
     useEffect(()=>{
+        // TO TEST ERROR BOUNDARY
+        // throw new Error('test error');
+        
         // console.log(auth?.token)
         if(! auth?.token){
             if(auth?.admin){

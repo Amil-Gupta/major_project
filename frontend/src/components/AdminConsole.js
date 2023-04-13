@@ -4,16 +4,23 @@ import { useContext, useEffect, useState, useRef, useMemo } from 'react';
 import { useNavigate, Routes, Route, NavLink } from 'react-router-dom';
 import AuthContext from 'context/AuthProvider';
 import logo from 'assets/logo.svg';
-import { recordDepositIcon, recordWithdrawalIcon } from "assets/assets";
+import { accountStatementIcon, recordDepositIcon, recordWithdrawalIcon } from "assets/assets";
 import AdminConsoleProvider from "context/AdminConsoleProvider";
-import DepositScreen from "./DepositScreen";
+import DepositScreen from "components/DepositScreen";
 import WithdrawalScreen from "components/WithdrawalScreen";
 import { BANK_NAME } from "constants/constants";
 import Profile from "components/Profile";
+import AllTransactionsContext from "context/AllTransactionsProvider";
+import LoadingContext from "context/LoadingProvider";
+import axios from "api/axios";
+import AllTransactions from "components/AllTransactions";
+
+const GET_TRANSACTIONS_URL = '/admin/alltransactions';
 
 function AdminConsole() {
     const classes = useStyles();
 
+    const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
     const { auth, setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -144,6 +151,36 @@ function AdminConsole() {
     }
 
     function Body() {
+        const { transactions, setTransactions } = useContext(AllTransactionsContext);
+        const handleTransactionsFetch = async(e)=>{
+            // console.log('click')
+            // e.preventDefault();
+            setLoading(true);
+            setLoadingColor('red');
+            try{
+                const token = auth?.token;
+                const response = await axios.get(
+                    GET_TRANSACTIONS_URL,
+                    {
+                        headers: {
+                            Authorization: "Bearer "+token,
+                        }
+                    }
+                );
+                setLoading(false);
+                setTransactions(response?.data);
+                navigate('transactions', {replace:true});
+            }catch(err){
+                if(!err?.response){
+                    alert('No server response');
+                }else{
+                    alert(err?.response?.data?.message ?? 'An error occured.');
+                }
+                navigate('/customerConsole', {replace:true});
+                setLoading(false);
+            }
+        }
+
         const OptionButton = (props)=>{
             // const icon = useMemo(()=>(`url(${props.icon})`),[]);
             const icon = `url(${props.icon})`;
@@ -183,6 +220,9 @@ function AdminConsole() {
                         <Grid item xs={6} md={2}>
                             <OptionButton name='Record Withdrawal' icon={recordWithdrawalIcon} id='withdrawalButton' route='withdrawal' />
                         </Grid>
+                        <Grid item xs={6} md={2}>
+                            <OptionButton name='All Transactions' icon={accountStatementIcon} id='allTransactionsButton' route='transactions' onClick={handleTransactionsFetch} />
+                        </Grid>
                     </Grid>
                 </div>
             )
@@ -195,6 +235,7 @@ function AdminConsole() {
                     <Route path='deposit/*' element={<DepositScreen />} />
                     <Route path='withdrawal/*' element={<WithdrawalScreen />} />
                     <Route path='profile/*' element={<Profile bgcolor='pink' color='red' />} />
+                    <Route path='transactions/*' element={<AllTransactions />} />
                 </Routes>
             </div> 
         );

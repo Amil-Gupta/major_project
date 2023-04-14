@@ -3,13 +3,13 @@ package com.project.major.config;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,8 +28,10 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import com.project.major.entities.Account;
 
 import jakarta.servlet.DispatcherType;
+
 
 @Configuration
 public class SecurityConfig {
@@ -40,6 +42,9 @@ public class SecurityConfig {
 	@Value("${jwt.private-key}")
 	private RSAPrivateKey privateKey;
 
+	@Autowired
+	private JwtAuthenticationConverter jwtAuthenticationConverter;
+	
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -51,15 +56,16 @@ public class SecurityConfig {
                 .logout(AbstractHttpConfigurer::disable)
                 .securityContext(customizer -> customizer.securityContextRepository(new NullSecurityContextRepository()))
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+				.oauth2ResourceServer(configurer -> configurer.jwt()
+                        .jwtAuthenticationConverter(jwtAuthenticationConverter))
 				.authorizeHttpRequests(config -> config
 						.requestMatchers(HttpMethod.POST, "/accounts").permitAll()
 						.requestMatchers(HttpMethod.GET, "/accounts/detail").authenticated()
 						.requestMatchers(HttpMethod.GET, "/accounts/statement").authenticated()
 						.requestMatchers(HttpMethod.POST, "/accounts/password").authenticated()
 						.requestMatchers(HttpMethod.POST, "/transfers").authenticated()
-						.requestMatchers(HttpMethod.POST, "/admin/deposits").authenticated()
-						.requestMatchers(HttpMethod.GET, "/admin/alltransactions").authenticated()
+						.requestMatchers(HttpMethod.POST, "/admin/deposits").hasAuthority(Account.ROLE_ADMIN)
+						.requestMatchers(HttpMethod.GET, "/admin/alltransactions").hasAuthority(Account.ROLE_ADMIN)
 						.requestMatchers(HttpMethod.POST, "/tokens").permitAll()
 						.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
 						.anyRequest().denyAll()

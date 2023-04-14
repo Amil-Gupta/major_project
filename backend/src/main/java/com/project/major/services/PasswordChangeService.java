@@ -25,6 +25,7 @@ public class PasswordChangeService {
 			throw new BusinessException("Wrong Old Password!", HttpStatus.FORBIDDEN);
 		
 		account.setPassword(passwordEncoder.encode(request.getNewPassword()));
+		account.resetPasswordSetAt();
 		log.info("Changed password for account id: {}", account.getId());
 		accountRepository.save(account);
 	}

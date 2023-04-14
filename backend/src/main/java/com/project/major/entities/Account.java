@@ -1,5 +1,8 @@
 package com.project.major.entities;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
 import org.hibernate.annotations.Check;
 
 import jakarta.persistence.Column;
@@ -20,6 +23,7 @@ import lombok.ToString;
 public class Account {
 	
 	public static final int NAME_MAX_LEN = 100;
+	public static final String ROLE_ADMIN = "ROLE_ADMIN"; 
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +40,14 @@ public class Account {
 	
 	private boolean admin = false;
 	
+    // A JWT issued before this won't be valid
+    @Column(nullable = false)
+    private Instant passwordSetAt;
+	
 	@Version
 	private Integer version;
+
+    public void resetPasswordSetAt() {
+        passwordSetAt = Instant.now().truncatedTo(ChronoUnit.SECONDS);
+    }
 }

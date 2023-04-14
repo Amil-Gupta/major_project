@@ -28,9 +28,6 @@ public class CashService {
 		
 		Account currentUser = accountRepository.findById(currentUserId).orElseThrow();		
 		
-		if (!currentUser.isAdmin())
-			throw new BusinessException("Only admin can deposit/withdraw cash!, current user: " + currentUserId, HttpStatus.FORBIDDEN);
-		
 		if (request.getAmountPaise() == 0)
 			throw new BusinessException("You can't deposit 0 amount!", HttpStatus.UNPROCESSABLE_ENTITY);
 		

@@ -24,6 +24,7 @@ public class AccountCreator {
 		var account = new Account();
 		account.setName(request.getName());
 		account.setPassword(passwordEncoder.encode(request.getPassword()));
+		account.resetPasswordSetAt();
 		accountRepository.save(account);
 		var resource = AccountResource.of(account);
 		log.info("Created {}. Returning {}", account, resource);

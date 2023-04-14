@@ -5,10 +5,13 @@ import java.util.List;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
 
+import com.project.major.entities.Account;
 import com.project.major.repositories.AccountRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -33,7 +36,10 @@ public class JwtAuthenticationConverter implements Converter<Jwt, AbstractAuthen
             throw new CredentialsExpiredException("Obsolete token used for account %d".formatted(accountId));
         }
 		
-        return new JwtAuthenticationToken(jwt, List.of(), jwt.getSubject());
+        List<GrantedAuthority> authorities = account.isAdmin()
+        		? List.of(new SimpleGrantedAuthority(Account.ROLE_ADMIN))
+        		: List.of();
+        return new JwtAuthenticationToken(jwt, authorities, jwt.getSubject());
 	}
 
 }

@@ -23,6 +23,7 @@ import lombok.ToString;
 public class Account {
 	
 	public static final int NAME_MAX_LEN = 100;
+	public static final String ROLE_ADMIN = "ROLE_ADMIN"; 
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

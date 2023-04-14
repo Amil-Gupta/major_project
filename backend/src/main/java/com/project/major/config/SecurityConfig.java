@@ -28,8 +28,10 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import com.project.major.entities.Account;
 
 import jakarta.servlet.DispatcherType;
+
 
 @Configuration
 public class SecurityConfig {
@@ -62,8 +64,8 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.GET, "/accounts/statement").authenticated()
 						.requestMatchers(HttpMethod.POST, "/accounts/password").authenticated()
 						.requestMatchers(HttpMethod.POST, "/transfers").authenticated()
-						.requestMatchers(HttpMethod.POST, "/admin/deposits").authenticated()
-						.requestMatchers(HttpMethod.GET, "/admin/alltransactions").authenticated()
+						.requestMatchers(HttpMethod.POST, "/admin/deposits").hasAuthority(Account.ROLE_ADMIN)
+						.requestMatchers(HttpMethod.GET, "/admin/alltransactions").hasAuthority(Account.ROLE_ADMIN)
 						.requestMatchers(HttpMethod.POST, "/tokens").permitAll()
 						.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
 						.anyRequest().denyAll()

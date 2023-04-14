@@ -18,7 +18,7 @@ public class AccountGetter {
 	public AccountResource get(Integer accountId) {
 		var account = accountRepository.findById(accountId).orElseThrow();
 		var resource = AccountResource.of(account);
-		log.info("Created {}. Returning {}", account, resource);
+		log.info("Got {}. Returning {}", account, resource);
 		
 		return resource;
 	}

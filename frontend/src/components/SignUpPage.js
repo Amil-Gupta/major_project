@@ -57,15 +57,14 @@ function SignUpPage() {
     useEffect(()=>{
         const token = auth?.token;
         if(token){
-            const loadDataAndRedirect = async()=>{
-                const response = await getAccountRequest({token});
+            const onSuccess = (response)=>{
                 const userdata = response?.data;
-                // const {id, admin} = userdata;
                 setAuth({...auth, ...userdata});
 
                 navigate('/customerConsole', {replace: 'true'});
             }
-            loadDataAndRedirect();
+
+            getAccountRequest({token, onSuccess});
         }
     },[auth, setAuth, navigate]);
 
@@ -86,47 +85,41 @@ function SignUpPage() {
         setConfirmPassword(e.target.value);
     }
 
-    const handleSignUp = async(e)=>{
+    const handleSignUp = (e)=>{
         e.preventDefault();
 
         // console.log(confirmPasswordMatch);
 
         if(confirmPasswordMatch){
-            try{
-                const signUpResponse = await createAccountRequest({name, password});
-                const accountId = signUpResponse?.data?.id;
-                alert(`Account create with id : ${accountId}`);
+            const onError = (error)=>{
+                const response = error?.response;
+                const errors = response?.data?.errors;
 
-                const loginResponse = await loginRequest({accountId, password});
+                if(errors?.length){
+                    errors.forEach(err => {
+                        if(err.field === 'name'){
+                            setNameErrors((nameErrors)=>([...nameErrors, err]));
+                        }
+                        else if(err.field === 'password'){
+                            setPasswordErrors((passwordErrors)=>([...passwordErrors, err]));
+                        }
+                    });
+                }
+            }
+            const onSuccess = (response)=>{
+                const accountId = response?.data?.id;
+                alert(`Account created with id : ${accountId}`);
 
-                const token = loginResponse?.data?.token;
-
-                setAuth({token});
-            }catch(err){
-                const response = err?.response;
-
-                if(!response){
-                    alert('No server response');
-                } //401 ERROR IS NOT POSSIBLE BECAUSE THE CREDENTIALS HAVE BEEN SET BY THE USER
-                else{
-                    // console.log(err);
-                    const errors = response?.data?.errors;
-    
-                    // console.log(errors)
-    
-                    if(errors?.length){
-                        errors.forEach(error => {
-                            if(error.field === 'name'){
-                                setNameErrors((nameErrors)=>([...nameErrors, error]));
-                            }
-                            else if(error.field === 'password'){
-                                setPasswordErrors((passwordErrors)=>([...passwordErrors, error]));
-                            }
-                        });
-                    }
+                const onLoginSuccess = (loginResponse)=>{
+                    const token = loginResponse?.data?.token;
+                    setAuth({token});
                 }
 
+                //NO NEED TO PASS CUSTOM ERROR HANDLING FUNCTION BECAUSE USER INPUT WILL NOT BE WRONG
+                loginRequest({accountId, password, onSuccess: onLoginSuccess});
             }
+
+            createAccountRequest({name, password, onError, onSuccess});
         }
         else{
             alert('Password and Confirm Password do not match');

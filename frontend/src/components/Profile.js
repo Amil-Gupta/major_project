@@ -7,7 +7,7 @@ import useStyles from "styles/ProfileStyles";
 function Profile(props) {
     const classes = useStyles();
     const { auth, setAuth } = useContext(AuthContext);
-    const { name, id, balancePaise } = auth;
+    const { name, id, balancePaise, admin } = auth;
 
     const DetailsAndFunctionalities = ()=>{
         const [changePassword, setChangePassword] = useState(false);
@@ -16,12 +16,21 @@ function Profile(props) {
             setChangePassword((changePassword)=>(!changePassword));
         }
 
-        const handleBalanceRefresh = async(e)=>{
+        const handleBalanceRefresh = (e)=>{
             e.preventDefault();
             const {token} = auth;
-            const response = await getAccountRequest({token});
-            const userdata = response?.data;
-            setAuth((auth)=>({...auth, ...userdata}));
+            const onError = (error)=>{
+                if(error?.response?.status === 401){
+                    alert('Authorization expired. Please login again.');
+                    setAuth({});
+                }
+            }
+            const onSuccess = (response)=>{
+                const userdata = response?.data;
+                setAuth((auth)=>({...auth, ...userdata}));
+            }
+
+            getAccountRequest({token, onError, onSuccess, disableAlertsOnResponse:true});
         }
 
         const Details = ()=>{
@@ -43,7 +52,7 @@ function Profile(props) {
                             {id}
                         </div>
                 </div>
-                {balancePaise ? (
+                {!admin ? (
                     <div className={classes.entry}>
                         <div className={classes.label}>
                             Balance
@@ -124,53 +133,45 @@ function Profile(props) {
                 setConfirmPassword(e.target.value);
             }
 
-            const handlePasswordChange = async(e)=>{
+            const handlePasswordChange = (e)=>{
                 e.preventDefault();
         
-                // console.log(confirmPasswordMatch);
-        
                 if(confirmPasswordMatch){
-                    try{
-                        const token = auth?.token;
-                        await changePasswordRequest({token, oldPassword, newPassword});
-        
-                        alert('Password changed successfully!');
-                        setAuth({});
-                    }catch(err){
-                        const response = err?.response;
-        
-                        if(!response){
-                            alert('No server response');
-                        }else if(response?.status === 403){
+                    const token = auth?.token;
+                    const onError = (error)=>{
+                        const response = error?.response;
+    
+                        if(response?.status === 403){
                             let {type, message} = response?.data;
-                            let error = {
+                            let err = {
                                 code: type,
                                 message: message
                             }
-                            // if(message === 'Wrong Old Password.'){
-                            setOldPasswordErrors((oldPasswordErrors)=>([...oldPasswordErrors, error]))
-                            // }
-                            // alert('Incorrect account no. or password');
+                            setOldPasswordErrors((oldPasswordErrors)=>([...oldPasswordErrors, err]))
                         }
                         else{
-                            // console.log(err);
                             const errors = response?.data?.errors;
             
-                            // console.log(errors)
-            
                             if(errors?.length){
-                                errors.forEach(error => {
-                                    if(error.field === 'oldPassword'){
-                                        setOldPasswordErrors((oldPasswordErrors)=>([...oldPasswordErrors, error]));
+                                errors.forEach(err => {
+                                    if(err.field === 'oldPassword'){
+                                        setOldPasswordErrors((oldPasswordErrors)=>([...oldPasswordErrors, err]));
                                     }
-                                    else if(error.field === 'newPassword'){
-                                        setNewPasswordErrors((newPasswordErrors)=>([...newPasswordErrors, error]));
+                                    else if(err.field === 'newPassword'){
+                                        setNewPasswordErrors((newPasswordErrors)=>([...newPasswordErrors, err]));
                                     }
                                 });
                             }
                         }
-        
                     }
+
+                    const onSuccess = ()=>{
+                        alert('Password changed successfully!');
+                        setAuth({});
+                    }
+
+                    changePasswordRequest({token, oldPassword, newPassword, onError, onSuccess, disableAlertsOnResponse:true});
+    
                 }
                 else{
                     alert('Password and Confirm Password do not match');

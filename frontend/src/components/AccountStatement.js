@@ -11,13 +11,15 @@ import { Table, TableHeader, TableCell, TableBody, DataTableCell } from "@david.
 import pdfStyles from "styles/AccountStatementPDFStyles";
 import { BANK_NAME } from "constants/constants";
 import { getStatementRequest } from "api/requests";
+import { useNavigate } from "react-router-dom";
 
 function AccountStatement() {
     const classes = useStyles();
 
-    const { auth } = useContext(AuthContext);
+    const { auth, setAuth } = useContext(AuthContext);
     const { setLoading } = useContext(LoadingContext);
     const { statement, setStatement } = useContext(StatementContext);
+    const navigate = useNavigate();
 
     const rows = statement?.rows?.content ?? [];
 
@@ -143,22 +145,26 @@ function AccountStatement() {
     //     console.log(rows);
     // },[statement]);
 
-    const handleRefresh = async(e)=>{
+    const handleRefresh = (e)=>{
         e.preventDefault();
         setLoading(true);
-        try{
-            const token = auth?.token;
-            const response = await getStatementRequest({token});
+        const {token} = auth;
+        const onError = (error)=>{
+            if(error?.response?.status === 401){
+                alert('Authorization expired. Please login again.');
+                setAuth({});
+            }
+            else{
+                navigate('/customerConsole', {replace:true});
+                setLoading(false);
+            }
+        }
+        const onSuccess = (response)=>{
             setLoading(false);
             setStatement(response?.data);
-        }catch(err){
-            if(!err?.response){
-                alert('No server response');
-            }else{
-                alert(err?.response?.data?.message ?? 'An error occured.');
-            }
-            setLoading(false);
         }
+
+        getStatementRequest({token, onError, onSuccess, disableAlertsOnResponse:true});
     }
 
     const AccountStatementPDF = ()=>{
@@ -282,12 +288,12 @@ function AccountStatement() {
                 <Grid container>
                     <Grid item xs={12} md={6}>
                         <div className={classes.heading}>
-                            {auth?.name}[#{statement?.accountId}]
+                            {auth?.name}[#{statement?.accountId ? statement?.accountId : '...'}]
                         </div>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <div className={classes.heading}>
-                            Balance: ₹{statement?.balancePaise / 100}
+                            Balance: ₹{statement?.balancePaise ? statement?.balancePaise / 100 : '...'}
                         </div>
                     </Grid>
                 </Grid>

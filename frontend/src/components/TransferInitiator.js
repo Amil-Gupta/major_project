@@ -30,31 +30,25 @@ function TransferInitiator(){
         setAmountRupees(newAmount);
     }
 
-    const handleTransfer = async(e)=>{
+    const handleTransfer = (e)=>{
         e.preventDefault();
         setLoading(true);
-        try{
             const token = auth?.token;
-            const response = await transferRequest({token, toAccountId, amountPaise});
-            const transferData = response?.data;
-            setTransfer(transferData);
-            // console.log(transferData);
-            // alert(`INR ${amountRupees} transferred to account no. ${toAccountId}`);
-            // let newBal = auth.balancePaise - amountPaise;
-            // setAuth({...auth, balancePaise: newBal });
-            setLoading(false);
-            navigate('success', {replace: true})
-        }catch(err){
-            setLoading(false);
-            // console.log(err);
+            const onError = (error)=>{
+                if(error?.response?.status === 401){
+                    alert('Authorization expired. Please login again.');
+                    setAuth({});
+                }
+                setLoading(false);
+            }
+            const onSuccess = (response)=>{
+                const transferData = response?.data;
+                setTransfer(transferData);
+                setLoading(false);
+                navigate('success', {replace: true})
+            }
 
-            if(!err?.response){
-                alert('No server response');
-            }
-            else{
-                alert(err?.response?.data?.message);
-            }
-        }
+            transferRequest({token, toAccountId, amountPaise, onError, onSuccess});
     }
 
     const UserInfo = (props)=>{

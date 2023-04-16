@@ -48,29 +48,20 @@ function LoginPage() {
     useEffect(()=>{
         const {token} = auth;
         if(token){
-            const decideNavigate = async()=>{
-                const response = await getAccountRequest({token});
+            const onSuccess = (response)=>{
                 const userdata = response?.data;
-                // const {id, admin} = userdata;
                 setAuth({...auth, ...userdata});
 
                 if(! userdata?.admin){
-                    // console.log('user logged in');
                     navigate('/customerConsole', {replace: 'true'});
                 }
                 else{
-                    // console.log('admin logged in');
-
                     navigate('/adminConsole', {replace: 'true'});
                 }
             }
-            decideNavigate();
+            getAccountRequest({token, onSuccess}); 
         }
     },[auth, navigate, setAuth]);
-
-    // useEffect(()=>{
-    //     console.log(acc, pass)
-    // },[acc, pass])
 
     const handleAccountIdUpdate = (e)=>{
         setAccountIdErrors([]);
@@ -82,48 +73,35 @@ function LoginPage() {
         setPassword(e.target.value);
     }
 
-    const handleLogin = async(e)=>{
+    const handleLogin = (e)=>{
         e.preventDefault();
         setAccountIdErrors([]);
         setPasswordErrors([]);
-        try{
-            const response = await loginRequest({accountId, password});
-            // console.log(response);
-            // console.log(JSON.stringify(response?.data?.token))
-
-            const token = response?.data?.token;
-
-            // console.log(token)
-
-            // console.log(userdata);
-
-            setAuth({token});
-        }catch(err){
-            const response = err?.response;
-            if(!response){
-                alert('No server response');
-            }else if(response?.status === 401){
+        const onError = (error)=>{
+            const response = error?.response;
+            if(response?.status === 401){
                 let {type, message} = response?.data;
-                let error = {
+                let err = {
                     code: type,
                     message: message
                 }
                 if(message === 'Kindly Recheck Your Password.'){
-                    setPasswordErrors((passwordErrors)=>([...passwordErrors, error]))
+                    setPasswordErrors((passwordErrors)=>([...passwordErrors, err]))
                 }
                 else{
-                    setAccountIdErrors((accountIdErrors)=>([...accountIdErrors, error]));
+                    setAccountIdErrors((accountIdErrors)=>([...accountIdErrors, err]));
                 }
                 // alert('Incorrect account no. or password');
             }else if(response?.status === 422){
                 let errors = response?.data?.errors;
                 if(errors?.length){
-                    errors.forEach(error => {
-                        if(error.field === 'password'){
-                            setPasswordErrors((passwordErrors)=>([...passwordErrors, error]));
+                    errors.forEach(err => {
+                        console.log(err)
+                        if(err.field === 'password'){
+                            setPasswordErrors((passwordErrors)=>([...passwordErrors, err]));
                         }
                         else{
-                            setAccountIdErrors((accountIdErrors)=>([...accountIdErrors, error]));
+                            setAccountIdErrors((accountIdErrors)=>([...accountIdErrors, err]));
                         }
                     });
                 }
@@ -131,6 +109,13 @@ function LoginPage() {
                 
             }
         }
+
+        const onSuccess = (response)=>{
+            const token = response?.data?.token;
+            setAuth({token});
+        }
+
+        loginRequest({accountId, password, onError, onSuccess, disableAlertsOnResponse:true});
     }
 
     const TitleBar = useMemo(()=>{

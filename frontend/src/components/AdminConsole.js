@@ -76,7 +76,7 @@ function AdminConsole() {
             setPopperAnchor(popperAnchor ? null : e.currentTarget);
         }
 
-        const handleProfileDisplay = async()=>{
+        const handleProfileDisplay = ()=>{
             navigate('profile', {replace:true});
         }
 
@@ -149,26 +149,27 @@ function AdminConsole() {
 
     function Body() {
         const { setTransactions } = useContext(AllTransactionsContext);
-        const handleTransactionsFetch = async(e)=>{
-            // console.log('click')
-            // e.preventDefault();
+        const handleTransactionsFetch = (e)=>{
             setLoading(true);
             setLoadingColor('red');
-            try{
-                const token = auth?.token;
-                const response = await getAllTransactionsRequest({token});
+
+            const token = auth?.token;
+            const onError = (error)=>{
+                if(error?.response?.status === 401){
+                    alert('Authorization expired. Please login again.');
+                    setAuth({});
+                }
+                else{
+                    navigate('/adminConsole', {replace:true});
+                    setLoading(false);
+                }
+            }
+            const onSuccess = (response)=>{
                 setLoading(false);
                 setTransactions(response?.data);
-                navigate('transactions', {replace:true});
-            }catch(err){
-                if(!err?.response){
-                    alert('No server response');
-                }else{
-                    alert(err?.response?.data?.message ?? 'An error occured.');
-                }
-                navigate('/customerConsole', {replace:true});
-                setLoading(false);
             }
+
+            getAllTransactionsRequest({token, onError, onSuccess, disableAlertsOnResponse:true});
         }
 
         const OptionButton = (props)=>{

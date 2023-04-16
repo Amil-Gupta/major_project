@@ -14,7 +14,7 @@ const ErrorPage = ({error})=>{
                 Hi There! Looks like we encountered an error :(
             </h1>
             <h1>
-                Code: {error?.code}
+                Code: {error?.status}
             </h1>
             <h2>
                 {error?.message}

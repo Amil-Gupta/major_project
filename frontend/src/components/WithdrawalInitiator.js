@@ -12,7 +12,7 @@ function WithdrawalInitiator(){
 
     const navigate = useNavigate();
 
-    const { auth } = useContext(AuthContext);
+    const { auth, setAuth } = useContext(AuthContext);
     const { setWithdrawal } = useContext(WithdrawalContext);
     const { setLoading } = useContext(LoadingContext);
     
@@ -30,27 +30,25 @@ function WithdrawalInitiator(){
         setAmountRupees(newAmount);
     }
 
-    const handleDeposit = async(e)=>{
+    const handleDeposit = (e)=>{
         e.preventDefault();
         setLoading(true);
-        try{
-            const token = auth?.token;
-            const response = await withdrawalRequest({token, accountId, amountPaise});
+        const token = auth?.token;
+        const onError = (error)=>{
+            if(error?.response?.status === 401){
+                alert('Authorization expired. Please login again.');
+                setAuth({});
+            }
+            setLoading(false);
+        }
+        const onSuccess = (response)=>{
             const withdrawalData = response?.data;
             setWithdrawal(withdrawalData);
             setLoading(false);
             navigate('success', {replace: true});
-        }catch(err){
-            console.log(err);
-            setLoading(false);
-
-            if(!err?.response){
-                alert('No server response');
-            }
-            else{
-                alert(err?.response?.data?.message);
-            }
         }
+
+        withdrawalRequest({token, accountId, amountPaise, onError, onSuccess});
     }
 
     return ( 

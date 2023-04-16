@@ -10,12 +10,15 @@ import { Table, TableHeader, TableCell, TableBody, DataTableCell } from "@david.
 import pdfStyles from "styles/AllTransactionsPDFStyles";
 import { BANK_NAME } from "constants/constants";
 import { getAllTransactionsRequest } from "api/requests";
+import { useNavigate } from "react-router-dom";
 
 function AllTransactions() {
     const classes = useStyles();
-    const { auth, } = useContext(AuthContext);
+    const { auth, setAuth } = useContext(AuthContext);
     const { setLoading } = useContext(LoadingContext);
     const { transactions, setTransactions } = useContext(AllTransactionsContext);
+
+    const navigate = useNavigate();
 
     // const rows = transactions?.rows?.content ?? []; // WHEN PAGINATED AT SERVER SIDE
     const rows = transactions ?? [];
@@ -117,22 +120,27 @@ function AllTransactions() {
     //     console.log(rows);
     // },[transactions]);
 
-    const handleRefresh = async(e)=>{
+    const handleRefresh = (e)=>{
         e.preventDefault();
         setLoading(true);
-        try{
-            const token = auth?.token;
-            const response = await getAllTransactionsRequest({token});
+        const token = auth?.token;
+        const onError = (error)=>{
+            if(error?.response?.status === 401){
+                alert('Authorization expired. Please login again.');
+                setAuth({});
+            }
+            else{
+                navigate('/adminConsole', {replace:true});
+                setLoading(false);
+            }
+        }
+        const onSuccess = (response)=>{
             setLoading(false);
             setTransactions(response?.data);
-        }catch(err){
-            if(!err?.response){
-                alert('No server response');
-            }else{
-                alert(err?.response?.data?.message ?? 'An error occured.');
-            }
-            setLoading(false);
         }
+
+        getAllTransactionsRequest({token, onError, onSuccess, disableAlertsOnResponse:true});
+        
     }
 
     const AllTransactionsPDF = ()=>{

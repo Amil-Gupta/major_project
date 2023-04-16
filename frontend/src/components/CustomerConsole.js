@@ -43,7 +43,7 @@ function CustomerConsole()
     useEffect(()=>{
         // TO TEST ERROR BOUNDARY
         // const error = new Error('test error');
-        // error.code = 0;
+        // error.status = 0;
         // throw error;
         
         // console.log(auth?.token)
@@ -96,7 +96,7 @@ function CustomerConsole()
 
         
 
-        const handleAvatarClick = async(e)=>{
+        const handleAvatarClick = (e)=>{
             setPopperAnchor(popperAnchor ? null : e.currentTarget);
 
             // CODE TO DISPLAY BALANCE IN POPUP
@@ -109,12 +109,26 @@ function CustomerConsole()
 
         }
 
-        const handleProfileDisplay = async()=>{
+        const handleProfileDisplay = ()=>{
+            setLoadingColor('skyblue');
+            setLoading(true);
             const {token} = auth;
-            const response = await getAccountRequest({token});
-            const userdata = response?.data;
-            setAuth((auth)=>({...auth, ...userdata}));
-            navigate('profile', {replace:true});
+            const onError = (error)=>{
+                if(error?.response?.status === 401){
+                    alert('Authorization expired. Please login again.');
+                    setAuth({});
+                }
+                
+                setLoading(false);
+            }
+            const onSuccess = (response)=>{
+                const userdata = response?.data;
+                setAuth((auth)=>({...auth, ...userdata}));
+                navigate('profile', {replace:true});
+                setLoading(false);
+            }
+
+            getAccountRequest({token, onError, onSuccess});
         }
 
         const handleLogout = ()=>{
@@ -192,26 +206,28 @@ function CustomerConsole()
 
     function Body() {
         const { setStatement } = useContext(StatementContext);
-        const handleStatementFetch = async(e)=>{
+        const handleStatementFetch = (e)=>{
             // console.log('click')
             // e.preventDefault();
             setLoading(true);
             setLoadingColor('pink');
-            try{
-                const token = auth?.token;
-                const response = await getStatementRequest({token});
-                setLoading(false);
-                setStatement(response?.data);
-                navigate('statement', {replace:true});
-            }catch(err){
-                if(!err?.response){
-                    alert('No server response');
-                }else{
-                    alert(err?.response?.data?.message ?? 'An error occured.');
+            const token = auth?.token;
+            const onError = (error)=>{
+                if(error?.response?.status === 401){
+                    alert('Authorization expired. Please login again.');
+                    setAuth({});
                 }
-                navigate('/customerConsole', {replace:true});
+                else{
+                    navigate('/customerConsole', {replace:true});
+                }
                 setLoading(false);
             }
+            const onSuccess = (response)=>{
+                setLoading(false);
+                setStatement(response?.data);
+            }
+
+            getStatementRequest({token, onError, onSuccess, disableAlertsOnResponse:true});
         }
         const OptionButton = (props)=>{
             // const icon = useMemo(()=>(`url(${props.icon})`),[]);

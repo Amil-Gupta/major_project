@@ -9,7 +9,7 @@ function DepositSuccessScreen() {
 
     const navigate = useNavigate();
 
-    const { deposit, setDeposit } = useContext(DepositContext);
+    const { deposit } = useContext(DepositContext);
     const { id, toAccount, amountPaise, transferredAt } = deposit;
     const amountRupees = amountPaise / 100;
     const transferDate = new Date(transferredAt);

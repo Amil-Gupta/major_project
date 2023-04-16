@@ -1,21 +1,19 @@
 import AuthContext from "context/AuthProvider";
 import AllTransactionsContext from "context/AllTransactionsProvider";
-import { useContext, useEffect, useMemo } from "react";
+import { useContext, } from "react";
 import useStyles from "styles/AllTransactionsStyles";
-import { DataGrid, gridPageCountSelector, gridPageSelector, gridPageSizeSelector, gridRowCountSelector, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
-import { Button, Grid, Pagination, PaginationItem, TablePagination, Tooltip } from "@mui/material";
-import axios from "api/axios";
+import { DataGrid, gridPageSelector, gridPageSizeSelector, gridRowCountSelector, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
+import { Button, Grid, TablePagination } from "@mui/material";
 import LoadingContext from "context/LoadingProvider";
-import { Svg, Path, PDFDownloadLink, Document, Page, View, Text } from "@react-pdf/renderer";
+import { Svg, Path, PDFDownloadLink, Document, Page, Text } from "@react-pdf/renderer";
 import { Table, TableHeader, TableCell, TableBody, DataTableCell } from "@david.kucsai/react-pdf-table";
 import pdfStyles from "styles/AllTransactionsPDFStyles";
 import { BANK_NAME } from "constants/constants";
-
-const GET_TRANSACTIONS_URL = '/admin/alltransactions';
+import { getAllTransactionsRequest } from "api/requests";
 
 function AllTransactions() {
     const classes = useStyles();
-    const { auth, setAuth } = useContext(AuthContext);
+    const { auth, } = useContext(AuthContext);
     const { setLoading } = useContext(LoadingContext);
     const { transactions, setTransactions } = useContext(AllTransactionsContext);
 
@@ -124,14 +122,7 @@ function AllTransactions() {
         setLoading(true);
         try{
             const token = auth?.token;
-            const response = await axios.get(
-                GET_TRANSACTIONS_URL,
-                {
-                    headers: {
-                        Authorization: "Bearer "+token,
-                    }
-                }
-            );
+            const response = await getAllTransactionsRequest({token});
             setLoading(false);
             setTransactions(response?.data);
         }catch(err){

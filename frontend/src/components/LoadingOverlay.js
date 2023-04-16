@@ -8,7 +8,7 @@ const LoadingOverlay = (props)=>{
     return (
         <div className={showHide}>
             <CircularProgress sx={{
-                color: props.color
+                color: color,
             }} />
         </div>
     );

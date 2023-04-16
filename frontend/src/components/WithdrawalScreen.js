@@ -6,14 +6,14 @@ import WithdrawalInitiator from "components/WithdrawalInitiator";
 import WithdrawalSuccessScreen from "components/WithdrawalSuccessScreen";
 
 const WithdrawalScreen = memo(()=>{
-    const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
+    const { setLoading, setLoadingColor } = useContext(LoadingContext);
 
     useEffect(
         ()=>{
             setLoadingColor('red');
             // setLoading(false);
         },
-        []
+        [setLoadingColor]
     );
 
     const classes = useStyles();

@@ -1,24 +1,21 @@
 import AuthContext from "context/AuthProvider";
 import StatementContext from "context/StatementProvider";
-import { useContext, useEffect, useMemo } from "react";
+import { useContext } from "react";
 import useStyles from "styles/AccountStatementStyles";
-import { DataGrid, gridPageCountSelector, gridPageSelector, gridPageSizeSelector, gridRowCountSelector, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
-import { Button, Grid, Pagination, PaginationItem, TablePagination, Tooltip } from "@mui/material";
+import { DataGrid, gridPageSelector, gridPageSizeSelector, gridRowCountSelector, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
+import { Button, Grid, TablePagination, Tooltip } from "@mui/material";
 import { depositIcon, inboundIcon, outboundIcon, withdrawalIcon } from "assets/assets";
-import axios from "api/axios";
 import LoadingContext from "context/LoadingProvider";
-import { Svg, Path, PDFDownloadLink, Document, Page, View, Text } from "@react-pdf/renderer";
+import { Svg, Path, PDFDownloadLink, Document, Page, Text } from "@react-pdf/renderer";
 import { Table, TableHeader, TableCell, TableBody, DataTableCell } from "@david.kucsai/react-pdf-table";
 import pdfStyles from "styles/AccountStatementPDFStyles";
 import { BANK_NAME } from "constants/constants";
-// import AccountStatementPDF from "components/AccountStatementPDF";
-
-const GET_STATEMENT_URL = '/accounts/statement';
+import { getStatementRequest } from "api/requests";
 
 function AccountStatement() {
     const classes = useStyles();
 
-    const { auth, setAuth } = useContext(AuthContext);
+    const { auth } = useContext(AuthContext);
     const { setLoading } = useContext(LoadingContext);
     const { statement, setStatement } = useContext(StatementContext);
 
@@ -57,22 +54,18 @@ function AccountStatement() {
                             return(
                                 <img src={withdrawalIcon} alt='W' className={classes.typeIcon} />
                             );
-                            break;
                         case 'Deposit':
                             return(
                                 <img src={depositIcon} alt='D' className={classes.typeIcon} />
                             );
-                            break;
                         case 'Inbound Transfer':
                             return(
                                 <img src={inboundIcon} alt='I' className={classes.typeIcon} />
                             );
-                            break;
                         case 'Outbound Transfer':
                             return(
                                 <img src={outboundIcon} alt='O' className={classes.typeIcon} />
                             );
-                            break;
                         default:
                             return(
                                 <>
@@ -155,14 +148,7 @@ function AccountStatement() {
         setLoading(true);
         try{
             const token = auth?.token;
-            const response = await axios.get(
-                GET_STATEMENT_URL,
-                {
-                    headers: {
-                        Authorization: "Bearer "+token,
-                    }
-                }
-            );
+            const response = await getStatementRequest({token});
             setLoading(false);
             setStatement(response?.data);
         }catch(err){

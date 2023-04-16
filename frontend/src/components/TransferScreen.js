@@ -7,14 +7,14 @@ import TransferInitiator from "components/TransferInitiator";
 import TransferSuccessScreen from "components/TransferSuccessScreen";
 
 const TransferScreen = memo(()=>{
-    const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
+    const { setLoading, setLoadingColor } = useContext(LoadingContext);
 
     useEffect(
         ()=>{
             setLoadingColor('green');
             // setLoading(false);
         },
-        []
+        [setLoadingColor]
     );
 
     const classes = useStyles();

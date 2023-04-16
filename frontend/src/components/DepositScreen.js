@@ -6,14 +6,14 @@ import DepositInitiator from "components/DepositInitiator";
 import DepositSuccessScreen from "components/DepositSuccessScreen";
 
 const DepositScreen = memo(()=>{
-    const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
+    const { setLoading, setLoadingColor } = useContext(LoadingContext);
 
     useEffect(
         ()=>{
             setLoadingColor('lime');
             // setLoading(false);
         },
-        []
+        [setLoadingColor]
     );
 
     const classes = useStyles();

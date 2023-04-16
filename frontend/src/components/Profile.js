@@ -1,11 +1,8 @@
 import { Avatar, Button, Grid } from "@mui/material";
-import axios from "api/axios";
+import { changePasswordRequest, getAccountRequest } from "api/requests";
 import AuthContext from "context/AuthProvider";
 import { useContext, useState } from "react";
 import useStyles from "styles/ProfileStyles";
-
-const CHANGE_PASSWORD_URL = '/accounts/password';
-const GET_ACCOUNT_URL = '/accounts/detail';
 
 function Profile(props) {
     const classes = useStyles();
@@ -22,14 +19,7 @@ function Profile(props) {
         const handleBalanceRefresh = async(e)=>{
             e.preventDefault();
             const {token} = auth;
-            const response = await axios.get(
-                GET_ACCOUNT_URL,
-                {
-                    headers: {
-                        Authorization: "Bearer "+token,
-                    }
-                }
-            )
+            const response = await getAccountRequest({token});
             const userdata = response?.data;
             setAuth((auth)=>({...auth, ...userdata}));
         }
@@ -142,17 +132,7 @@ function Profile(props) {
                 if(confirmPasswordMatch){
                     try{
                         const token = auth?.token;
-                        const response = await axios.post(
-                            CHANGE_PASSWORD_URL,
-                            JSON.stringify({oldPassword, newPassword}),
-                            {
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    Authorization: "Bearer "+token,
-                                },
-                                withCredentials: true
-                            }
-                        );
+                        await changePasswordRequest({token, oldPassword, newPassword});
         
                         alert('Password changed successfully!');
                         setAuth({});

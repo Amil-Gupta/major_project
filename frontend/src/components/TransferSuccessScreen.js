@@ -9,7 +9,7 @@ function TransferSuccessScreen() {
 
     const navigate = useNavigate();
 
-    const { transfer, setTransfer } = useContext(TransferContext);
+    const { transfer } = useContext(TransferContext);
     const { id, fromAccount, toAccount, amountPaise, transferredAt } = transfer;
     const amountRupees = amountPaise / 100;
     const transferDate = new Date(transferredAt);

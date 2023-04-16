@@ -1,5 +1,4 @@
 import { CircularProgress } from "@mui/material";
-import { memo } from "react";
 import useStyles from "styles/FallBackScreenStyles";
 
 const FallBackScreen = ()=>{

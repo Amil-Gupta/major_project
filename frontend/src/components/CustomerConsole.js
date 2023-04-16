@@ -7,7 +7,6 @@ import useStyles from 'styles/CustomerConsoleStyles';
 import { NavLink, Routes, Route, useNavigate } from 'react-router-dom';
 import AuthContext from 'context/AuthProvider';
 import TransferScreen from 'components/TransferScreen';
-import axios from 'api/axios';
 import AccountStatement from 'components/AccountStatement';
 import CustomerConsoleProvider from 'context/CustomerConsoleProvider';
 import LoadingContext from 'context/LoadingProvider';
@@ -15,22 +14,19 @@ import StatementContext from 'context/StatementProvider';
 import CreditScoreChecker from 'components/CreditScoreChecker';
 import { BANK_NAME } from 'constants/constants';
 import Profile from 'components/Profile';
-
-const GET_ACCOUNT_URL = '/accounts/detail';
-const GET_STATEMENT_URL = '/accounts/statement';
+import { getAccountRequest, getStatementRequest } from 'api/requests';
 
 function CustomerConsole()
 {
     const classes = useStyles();
     const { auth, setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
-    const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
-
-    const handleBannerClick = ()=>{
-        navigate('/customerConsole', {replace: true});
-    }
+    const { setLoading, setLoadingColor } = useContext(LoadingContext);
 
     const Banner = useMemo(()=>{
+        const handleBannerClick = ()=>{
+            navigate('/customerConsole', {replace: true});
+        }
         return(
             <div className={classes.banner} onClick={handleBannerClick}>
                 <div className={classes.logoContainer}>
@@ -42,11 +38,13 @@ function CustomerConsole()
                 </div>
             </div>
         )
-    },[]);
+    },[classes, navigate]);
 
     useEffect(()=>{
         // TO TEST ERROR BOUNDARY
-        // throw new Error('test error');
+        // const error = new Error('test error');
+        // error.code = 0;
+        // throw error;
         
         // console.log(auth?.token)
         if(! auth?.token){
@@ -55,7 +53,7 @@ function CustomerConsole()
             }
             navigate('/login', {replace: true});
         }
-    },[auth]);
+    },[auth, navigate]);
 
     const TitleBar = ()=>{
         const {name} = auth;
@@ -103,14 +101,7 @@ function CustomerConsole()
 
             // CODE TO DISPLAY BALANCE IN POPUP
             // const {token} = auth;
-            // const response = await axios.get(
-            //     GET_ACCOUNT_URL,
-            //     {
-            //         headers: {
-            //             Authorization: "Bearer "+token,
-            //         }
-            //     }
-            // )
+            // const response = await getAccount({token})
             // const userdata = response?.data;
             // name = userdata?.name;
             // balancePaise = userdata?.balancePaise;
@@ -120,14 +111,7 @@ function CustomerConsole()
 
         const handleProfileDisplay = async()=>{
             const {token} = auth;
-            const response = await axios.get(
-                GET_ACCOUNT_URL,
-                {
-                    headers: {
-                        Authorization: "Bearer "+token,
-                    }
-                }
-            )
+            const response = await getAccountRequest({token});
             const userdata = response?.data;
             setAuth((auth)=>({...auth, ...userdata}));
             navigate('profile', {replace:true});
@@ -207,7 +191,7 @@ function CustomerConsole()
     }
 
     function Body() {
-        const { statement, setStatement } = useContext(StatementContext);
+        const { setStatement } = useContext(StatementContext);
         const handleStatementFetch = async(e)=>{
             // console.log('click')
             // e.preventDefault();
@@ -215,14 +199,7 @@ function CustomerConsole()
             setLoadingColor('pink');
             try{
                 const token = auth?.token;
-                const response = await axios.get(
-                    GET_STATEMENT_URL,
-                    {
-                        headers: {
-                            Authorization: "Bearer "+token,
-                        }
-                    }
-                );
+                const response = await getStatementRequest({token});
                 setLoading(false);
                 setStatement(response?.data);
                 navigate('statement', {replace:true});

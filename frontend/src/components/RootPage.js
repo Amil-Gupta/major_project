@@ -7,7 +7,7 @@ const RootPage = ()=>{
     const {setAuth} = useContext(AuthContext);
     useEffect(()=>{
         setAuth({});
-    },[]);
+    },[setAuth]);
 
     return ( 
         <>

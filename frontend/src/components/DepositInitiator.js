@@ -1,4 +1,3 @@
-import axios from "api/axios";
 import AuthContext from "context/AuthProvider";
 import LoadingContext from "context/LoadingProvider";
 import { useState, useContext } from "react";
@@ -6,16 +5,16 @@ import DepositContext from "context/DepositProvider";
 import useStyles from "styles/DepositInitiatorStyles";
 import { useNavigate } from "react-router-dom";
 import { Avatar, Button } from "@mui/material";
+import { depositRequest } from "api/requests";
 
-const DEPOSIT_URL = '/admin/deposits';
 function DepositInitiator(){
     const classes = useStyles();
 
     const navigate = useNavigate();
 
-    const { auth, setAuth } = useContext(AuthContext);
-    const { deposit, setDeposit } = useContext(DepositContext);
-    const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
+    const { auth } = useContext(AuthContext);
+    const { setDeposit } = useContext(DepositContext);
+    const { setLoading } = useContext(LoadingContext);
     
     const [ accountId, setAccountId ] = useState('');
     const [ amountRupees, setAmountRupees ] = useState('');
@@ -36,16 +35,7 @@ function DepositInitiator(){
         setLoading(true);
         try{
             const token = auth?.token;
-            const response = await axios.post(
-                DEPOSIT_URL,
-                JSON.stringify({accountId, amountPaise}),
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer "+token,
-                    },
-                }    
-            );
+            const response = await depositRequest({token, accountId, amountPaise});
             const depositData = response?.data;
             setDeposit(depositData);
             setLoading(false);

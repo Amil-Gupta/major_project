@@ -12,7 +12,7 @@ root.render(
   <StrictMode>
     <AppProvider>
         <BrowserRouter>
-          <ErrorBoundaryFunctional fallback={<ErrorPage />}>
+          <ErrorBoundaryFunctional fallback={ErrorPage}>
             <App />
           </ErrorBoundaryFunctional>
         </BrowserRouter>

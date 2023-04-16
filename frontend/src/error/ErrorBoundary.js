@@ -7,7 +7,7 @@ class ErrorBoundary extends React.Component {
     }
 
     static getDerivedStateFromError(error) {
-        return { hasError: true };
+        return { hasError: true, error: error };
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -18,13 +18,15 @@ class ErrorBoundary extends React.Component {
 
     componentDidCatch(error, info) {
         this.props.setHasError(true);
-        console.log(error, info);
+        // console.log(error, info);
     }
 
     render() {
+        const FallbackComponent = this.props.fallback;
+
         return this.state.hasError
-      ? this.props.fallback
-      : this.props.children; 
+        ? <FallbackComponent error={this.state.error} />
+        : this.props.children; 
     }
 }
 

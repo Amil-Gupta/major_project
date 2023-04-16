@@ -30,7 +30,7 @@ function CreditScoreChecker() {
     const eligibilityComponent = useMemo(()=>((Object.keys(eligibilityData).length) ? (
         <div className={classes.eligibilityContainer}>
             <div className={classes.rating}>
-                {eligibilityData?.rating} !
+                {rating} !
             </div>
             <div className={classes.eligibilityTable}>
                 <Grid container style={{
@@ -161,7 +161,7 @@ function CreditScoreChecker() {
                 *Hover/Tap on Category to view details
             </div>
         </div>
-    ):(<></>)),[eligibilityData, referenceKey]);
+    ):(<></>)),[eligibilityData, referenceKey, classes, loanEligibility, rating]);
 
     return (
         <div className={classes.root}>

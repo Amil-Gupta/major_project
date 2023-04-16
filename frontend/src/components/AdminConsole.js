@@ -12,15 +12,13 @@ import { BANK_NAME } from "constants/constants";
 import Profile from "components/Profile";
 import AllTransactionsContext from "context/AllTransactionsProvider";
 import LoadingContext from "context/LoadingProvider";
-import axios from "api/axios";
 import AllTransactions from "components/AllTransactions";
-
-const GET_TRANSACTIONS_URL = '/admin/alltransactions';
+import { getAllTransactionsRequest } from "api/requests";
 
 function AdminConsole() {
     const classes = useStyles();
 
-    const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
+    const { setLoading, setLoadingColor } = useContext(LoadingContext);
     const { auth, setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -32,13 +30,12 @@ function AdminConsole() {
             }
             navigate('/login', {replace: true});
         }
-    },[auth]);
-
-    const handleBannerClick = ()=>{
-        navigate('/adminConsole', {replace:true});
-    }
+    },[auth, navigate]);
 
     const Banner = useMemo(()=>{
+        const handleBannerClick = ()=>{
+            navigate('/adminConsole', {replace:true});
+        }
         return(
             <div className={classes.banner} onClick={handleBannerClick}>
                 <div className={classes.logoContainer}>
@@ -50,7 +47,7 @@ function AdminConsole() {
                 </div>
             </div>
         )
-    },[]);
+    },[classes, navigate]);
 
     function TitleBar() {
         const {name} = auth;
@@ -151,7 +148,7 @@ function AdminConsole() {
     }
 
     function Body() {
-        const { transactions, setTransactions } = useContext(AllTransactionsContext);
+        const { setTransactions } = useContext(AllTransactionsContext);
         const handleTransactionsFetch = async(e)=>{
             // console.log('click')
             // e.preventDefault();
@@ -159,14 +156,7 @@ function AdminConsole() {
             setLoadingColor('red');
             try{
                 const token = auth?.token;
-                const response = await axios.get(
-                    GET_TRANSACTIONS_URL,
-                    {
-                        headers: {
-                            Authorization: "Bearer "+token,
-                        }
-                    }
-                );
+                const response = await getAllTransactionsRequest({token});
                 setLoading(false);
                 setTransactions(response?.data);
                 navigate('transactions', {replace:true});

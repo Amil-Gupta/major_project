@@ -2,13 +2,10 @@ import useStyles from "styles/LoginPageStyles";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Box, Grid, Button } from "@mui/material";
 import logo from 'assets/logo.svg';
-import { useContext, useEffect, useState, useMemo, useRef } from "react";
+import { useContext, useEffect, useState, useMemo } from "react";
 import AuthContext from "context/AuthProvider";
-import axios from "api/axios";
-import { BANK_NAME, RECAPTCHA_SECRET_KEY, RECAPTCHA_SITE_KEY } from "constants/constants";
-
-const LOGIN_URL = '/tokens';
-const GET_ACCOUNT_URL = '/accounts/detail';
+import { BANK_NAME } from "constants/constants";
+import { getAccountRequest, loginRequest } from "api/requests";
 
 function LoginPage() {
     const classes = useStyles();
@@ -49,17 +46,10 @@ function LoginPage() {
     ):(<></>);
 
     useEffect(()=>{
-        const token = auth?.token;
+        const {token} = auth;
         if(token){
             const decideNavigate = async()=>{
-                const response = await axios.get(
-                    GET_ACCOUNT_URL,
-                    {
-                        headers: {
-                            Authorization: "Bearer "+token,
-                        }
-                    }
-                )
+                const response = await getAccountRequest({token});
                 const userdata = response?.data;
                 // const {id, admin} = userdata;
                 setAuth({...auth, ...userdata});
@@ -76,7 +66,7 @@ function LoginPage() {
             }
             decideNavigate();
         }
-    },[auth]);
+    },[auth, navigate, setAuth]);
 
     // useEffect(()=>{
     //     console.log(acc, pass)
@@ -97,16 +87,7 @@ function LoginPage() {
         setAccountIdErrors([]);
         setPasswordErrors([]);
         try{
-            const response = await axios.post(
-                LOGIN_URL,
-                JSON.stringify({accountId, password}),
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    withCredentials: true
-                }    
-            )
+            const response = await loginRequest({accountId, password});
             // console.log(response);
             // console.log(JSON.stringify(response?.data?.token))
 
@@ -164,7 +145,7 @@ function LoginPage() {
                 </div>
             </div>
         )
-    },[logo]);
+    },[classes]);
 
     return (
         <div className={classes.root}>

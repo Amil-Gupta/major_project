@@ -1,4 +1,3 @@
-import axios from "api/axios";
 import AuthContext from "context/AuthProvider";
 import LoadingContext from "context/LoadingProvider";
 import { useState, useContext } from "react";
@@ -6,16 +5,16 @@ import TransferContext from "context/TransferProvider";
 import useStyles from "styles/TransferInitiatorStyles";
 import { Grid, Avatar, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { transferRequest } from "api/requests";
 
-const TRANSFER_URL = '/transfers';
 function TransferInitiator(){
     const classes = useStyles();
 
     const navigate = useNavigate();
 
-    const { auth, setAuth } = useContext(AuthContext);
-    const { transfer, setTransfer } = useContext(TransferContext);
-    const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
+    const { auth } = useContext(AuthContext);
+    const { setTransfer } = useContext(TransferContext);
+    const { setLoading } = useContext(LoadingContext);
     
     const [ toAccountId, setToAccountId ] = useState('');
     const [ amountRupees, setAmountRupees ] = useState('');
@@ -36,16 +35,7 @@ function TransferInitiator(){
         setLoading(true);
         try{
             const token = auth?.token;
-            const response = await axios.post(
-                TRANSFER_URL,
-                JSON.stringify({toAccountId, amountPaise}),
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer "+token,
-                    },
-                }    
-            );
+            const response = await transferRequest({token, toAccountId, amountPaise});
             const transferData = response?.data;
             setTransfer(transferData);
             // console.log(transferData);
@@ -173,7 +163,6 @@ function TransferInitiator(){
                         className={classes.submitButton}
                         sx={{
                             width: '100%',
-                            margin: '1rem 0',
                             color: 'white',
                             backgroundColor: 'grey',
                             margin: '.5rem 0',

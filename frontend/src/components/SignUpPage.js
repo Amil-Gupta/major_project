@@ -4,13 +4,8 @@ import { Box, Grid, Button } from "@mui/material";
 import logo from 'assets/logo.svg';
 import { useContext, useEffect, useMemo, useState } from "react";
 import AuthContext from "context/AuthProvider";
-import axios from "api/axios";
-import excludeVariablesFromRoot from "@mui/material/styles/excludeVariablesFromRoot";
 import { BANK_NAME } from "constants/constants";
-
-const LOGIN_URL = '/tokens';
-const GET_ACCOUNT_URL = '/accounts/detail';
-const CREATE_ACCOUNT_URL = '/accounts';
+import { createAccountRequest, getAccountRequest, loginRequest } from "api/requests";
 
 function SignUpPage() {
     const classes = useStyles();
@@ -63,14 +58,7 @@ function SignUpPage() {
         const token = auth?.token;
         if(token){
             const loadDataAndRedirect = async()=>{
-                const response = await axios.get(
-                    GET_ACCOUNT_URL,
-                    {
-                        headers: {
-                            Authorization: "Bearer "+token,
-                        }
-                    }
-                )
+                const response = await getAccountRequest({token});
                 const userdata = response?.data;
                 // const {id, admin} = userdata;
                 setAuth({...auth, ...userdata});
@@ -79,7 +67,7 @@ function SignUpPage() {
             }
             loadDataAndRedirect();
         }
-    },[auth]);
+    },[auth, setAuth, navigate]);
 
     // useEffect(()=>{
     //     console.log(acc, pass)
@@ -105,29 +93,11 @@ function SignUpPage() {
 
         if(confirmPasswordMatch){
             try{
-                const signUpResponse = await axios.post(
-                    CREATE_ACCOUNT_URL,
-                    JSON.stringify({name, password}),
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        withCredentials: true
-                    }
-                );
+                const signUpResponse = await createAccountRequest({name, password});
                 const accountId = signUpResponse?.data?.id;
                 alert(`Account create with id : ${accountId}`);
 
-                const loginResponse = await axios.post(
-                    LOGIN_URL,
-                    JSON.stringify({accountId, password}),
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        withCredentials: true
-                    }
-                );
+                const loginResponse = await loginRequest({accountId, password});
 
                 const token = loginResponse?.data?.token;
 
@@ -175,7 +145,7 @@ function SignUpPage() {
                 </div>
             </div>
         )
-    },[logo]);
+    },[classes]);
 
     return (
         <div className={classes.root}>

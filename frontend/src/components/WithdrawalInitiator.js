@@ -1,4 +1,3 @@
-import axios from "api/axios";
 import AuthContext from "context/AuthProvider";
 import LoadingContext from "context/LoadingProvider";
 import { useState, useContext } from "react";
@@ -6,16 +5,16 @@ import WithdrawalContext from "context/WithdrawalProvider";
 import useStyles from "styles/WithdrawalInitiatorStyles";
 import { useNavigate } from "react-router-dom";
 import { Avatar, Button } from "@mui/material";
+import { withdrawalRequest } from "api/requests";
 
-const WITHDRAWAL_URL = '/admin/deposits';
 function WithdrawalInitiator(){
     const classes = useStyles();
 
     const navigate = useNavigate();
 
-    const { auth, setAuth } = useContext(AuthContext);
-    const { withdrawal, setWithdrawal } = useContext(WithdrawalContext);
-    const { loading, setLoading, loadingColor, setLoadingColor } = useContext(LoadingContext);
+    const { auth } = useContext(AuthContext);
+    const { setWithdrawal } = useContext(WithdrawalContext);
+    const { setLoading } = useContext(LoadingContext);
     
     const [ accountId, setAccountId ] = useState('');
     const [ amountRupees, setAmountRupees ] = useState('');
@@ -36,20 +35,11 @@ function WithdrawalInitiator(){
         setLoading(true);
         try{
             const token = auth?.token;
-            const response = await axios.post(
-                WITHDRAWAL_URL,
-                JSON.stringify({accountId, amountPaise}),
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer "+token,
-                    },
-                }    
-            );
+            const response = await withdrawalRequest({token, accountId, amountPaise});
             const withdrawalData = response?.data;
             setWithdrawal(withdrawalData);
             setLoading(false);
-            navigate('success', {replace: true})
+            navigate('success', {replace: true});
         }catch(err){
             console.log(err);
             setLoading(false);

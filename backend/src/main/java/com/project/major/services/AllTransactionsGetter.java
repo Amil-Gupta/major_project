@@ -26,7 +26,7 @@ public class AllTransactionsGetter {
 		
 		log.info("Admin id: {} is fetching all transactions.", id);
 		
-		return transferRepository.findByOrderByTransferredAtAsc()
+		return transferRepository.findByOrderByTransferredAtDesc()
 				.stream()
 				.map(TransferResource::of)
 				.collect(Collectors.toList());

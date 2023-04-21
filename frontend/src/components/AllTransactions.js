@@ -128,6 +128,8 @@ function AllTransactions() {
             if(error?.response?.status === 401){
                 alert('Authorization expired. Please login again.');
                 setAuth({});
+                setLoading(false);
+                navigate('/login',{replace:true});
             }
             else{
                 navigate('/adminConsole', {replace:true});

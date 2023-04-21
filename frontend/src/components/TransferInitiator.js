@@ -12,7 +12,7 @@ function TransferInitiator(){
 
     const navigate = useNavigate();
 
-    const { auth } = useContext(AuthContext);
+    const { auth, setAuth } = useContext(AuthContext);
     const { setTransfer } = useContext(TransferContext);
     const { setLoading } = useContext(LoadingContext);
     
@@ -38,6 +38,8 @@ function TransferInitiator(){
                 if(error?.response?.status === 401){
                     alert('Authorization expired. Please login again.');
                     setAuth({});
+                    setLoading(false);
+                    navigate('/login',{replace:true});
                 }
                 setLoading(false);
             }

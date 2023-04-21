@@ -2,12 +2,14 @@ import { Avatar, Button, Grid } from "@mui/material";
 import { changePasswordRequest, getAccountRequest } from "api/requests";
 import AuthContext from "context/AuthProvider";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useStyles from "styles/ProfileStyles";
 
 function Profile(props) {
     const classes = useStyles();
     const { auth, setAuth } = useContext(AuthContext);
     const { name, id, balancePaise, admin } = auth;
+    const navigate = useNavigate();
 
     const DetailsAndFunctionalities = ()=>{
         const [changePassword, setChangePassword] = useState(false);
@@ -23,6 +25,7 @@ function Profile(props) {
                 if(error?.response?.status === 401){
                     alert('Authorization expired. Please login again.');
                     setAuth({});
+                    navigate('/login',{replace:true});
                 }
             }
             const onSuccess = (response)=>{
@@ -140,8 +143,13 @@ function Profile(props) {
                     const token = auth?.token;
                     const onError = (error)=>{
                         const response = error?.response;
-    
-                        if(response?.status === 403){
+
+                        if(response?.status === 401){
+                            alert('Authorization expired. Please login again.');
+                            setAuth({});
+                            navigate('/login',{replace:true});
+                        }
+                        else if(response?.status === 403){
                             let {type, message} = response?.data;
                             let err = {
                                 code: type,

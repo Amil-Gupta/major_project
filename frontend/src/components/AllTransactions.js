@@ -296,7 +296,7 @@ function AllTransactions() {
                 </Button>
                 <PDFDownloadLink style={{textDecoration: 'none'}} document={<AllTransactionsPDF/>} fileName={`allTransactions`}>
                     {
-                        ({loading})=>loading?(
+                        ({loading})=>(
                             <Button
                             sx={{
                                 color: 'white',
@@ -304,20 +304,9 @@ function AllTransactions() {
                                 margin: '.5rem .5rem',
                                 border: '.1rem solid white',
                             }}
-                            disabled
+                            disabled={loading}
                             >
-                                Loading...
-                            </Button>
-                        ):(
-                            <Button
-                            sx={{
-                                color: 'white',
-                                backgroundColor: 'brown',
-                                margin: '.5rem .5rem',
-                                border: '.1rem solid white',
-                            }}
-                            >
-                                Get PDF
+                                {loading ? 'Loading...' : 'Get PDF'}
                             </Button>
                         )
                     }

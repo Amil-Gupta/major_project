@@ -337,7 +337,7 @@ function AccountStatement() {
                 </Button>
                 <PDFDownloadLink style={{textDecoration: 'none'}} document={<AccountStatementPDF/>} fileName={`accountStatement#${statement?.accountId}`}>
                     {
-                        ({loading})=>loading?(
+                        ({loading})=>(
                             <Button
                             sx={{
                                 color: 'white',
@@ -345,20 +345,9 @@ function AccountStatement() {
                                 margin: '.5rem .5rem',
                                 border: '.1rem solid white',
                             }}
-                            disabled
+                            disabled={loading}
                             >
-                                Loading...
-                            </Button>
-                        ):(
-                            <Button
-                            sx={{
-                                color: 'white',
-                                backgroundColor: 'brown',
-                                margin: '.5rem .5rem',
-                                border: '.1rem solid white',
-                            }}
-                            >
-                                Get PDF
+                                {loading ? 'Loading...' : 'Get PDF'}
                             </Button>
                         )
                     }

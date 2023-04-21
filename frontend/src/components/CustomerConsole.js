@@ -134,6 +134,9 @@ function CustomerConsole()
         const handleLogout = ()=>{
             // console.log('user logged out');
             setAuth({});
+
+            // PREVENTS LATENCY ON LOGOUT DUE TO CONTEXT UPDATE
+            navigate('/login', {replace:true});
         }
 
         return ( 

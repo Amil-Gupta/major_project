@@ -83,6 +83,9 @@ function AdminConsole() {
         const handleLogout = ()=>{
             // console.log('admin logged out');
             setAuth({});
+
+            // PREVENTS LATENCY ON LOGOUT DUE TO CONTEXT UPDATE
+            navigate('/login',{replace:true});
         }
 
         return ( 

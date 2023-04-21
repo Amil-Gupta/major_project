@@ -178,11 +178,11 @@ function AllTransactions() {
                         </TableHeader>
                         <TableBody style={pdfStyles.tableBody}>
                         <DataTableCell
-                        getContent={({fromAccount})=>fromAccount}
+                        getContent={({fromAccount})=>fromAccount??'self'}
                         style={pdfStyles.tableCell}
                         />
                         <DataTableCell
-                        getContent={({toAccount})=>toAccount}
+                        getContent={({toAccount})=>toAccount??'self'}
                         style={pdfStyles.tableCell}
                         />
                         <DataTableCell getContent={({amountPaise})=>`INR ${amountPaise / 100}`}

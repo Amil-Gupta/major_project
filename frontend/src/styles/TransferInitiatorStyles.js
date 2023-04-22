@@ -35,6 +35,13 @@ const useStyles = makeStyles((theme)=>({
         fontSize: '1.5rem',
     },
 
+    accountNo: {
+        maxWidth: '100%',
+        overflowX: 'hidden',
+        whiteSpace: 'noWrap',
+        textOverflow: 'ellipsis',
+    },
+
     transferFormContainer: {
         display: 'flex',
         flexDirection: 'column',

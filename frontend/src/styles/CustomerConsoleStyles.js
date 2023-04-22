@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) =>
     body: {
         backgroundColor: '#2a2b2a',
         height: '90vh',
-        padding: '1rem',
+        // padding: '1rem',
         overflowY: 'auto',
     },
 

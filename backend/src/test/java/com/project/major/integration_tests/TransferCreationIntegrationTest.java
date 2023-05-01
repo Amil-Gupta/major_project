@@ -88,4 +88,47 @@ class TransferCreationIntegrationTest extends AbstractIntegrationTest {
         assertThat(transfer.getTransferredAt()).isBeforeOrEqualTo(endTime);
         assertThat(transfer.getTransferredAt()).isEqualTo(Instant.parse(transferResource.getTransferredAt()));
 	}
+	
+	@Test
+	void shouldNot_createTransfer_when_Unauthenticated() throws Exception {
+        
+        // when, then
+        mvc.perform(post("/transfers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                   {
+                                        "toAccountId" : 240,
+                                        "amountPaise" : 4500
+                                   }
+                                """))
+                .andExpect(status().isUnauthorized());
+  	}
+	
+	@Test
+	void shouldNot_createTransfer_when_InvalidData() throws Exception {
+        
+		// given
+        var fromAccount = MyTestUtils.newAccount();
+        fromAccount.setBalancePaise(1000000L);
+		fromAccount = accountRepository.save(fromAccount);
+		
+        var accessToken = tokenCreator.create(fromAccount.getId());
+		
+        // when, then
+        mvc.perform(post("/transfers")
+                		.header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                   {
+                                        "amountPaise" : 4500
+                                   }
+                                """))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("type").value("MethodArgumentNotValidException"))
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("errors[0].code").value("NotNull"))
+        		.andExpect(jsonPath("errors[0].message").value("must not be null"))
+        		.andExpect(jsonPath("errors[0].field").value("toAccountId"));
+  	}
+
 }

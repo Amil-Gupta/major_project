@@ -8,9 +8,9 @@ import lombok.Data;
 public class TransferRequest {
 	
 	@NotNull
-	private Integer toAccountId;
+	private final Integer toAccountId;
 	
 	@NotNull
 	@Min(1)	
-	private Long amountPaise;
+	private final Long amountPaise;
 }

@@ -82,10 +82,10 @@ class TransferCreationIntegrationTest extends AbstractIntegrationTest {
         assertThat(transfer.getId()).isEqualTo(transferResource.getId());        
         assertThat(transfer.getFromAccount().getId()).isEqualTo(fromAccount.getId());
         assertThat(transfer.getToAccount().getId()).isEqualTo(toAccount.getId());
+        assertThat(transfer.getAmountPaise()).isEqualTo(amountPaise);
      
         assertThat(transfer.getTransferredAt()).isAfterOrEqualTo(beginTime);
         assertThat(transfer.getTransferredAt()).isBeforeOrEqualTo(endTime);
         assertThat(transfer.getTransferredAt()).isEqualTo(Instant.parse(transferResource.getTransferredAt()));
-        assertThat(transfer.getAmountPaise()).isEqualTo(amountPaise);
 	}
 }

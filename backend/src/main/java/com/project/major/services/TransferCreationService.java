@@ -51,7 +51,7 @@ public class TransferCreationService {
 		transfer.setFromAccount(fromAccount);
 		transfer.setToAccount(toAccount);
 		transfer.setTransferredAt(Instant.now().truncatedTo(ChronoUnit.SECONDS));
-		transfer = transferRepository.save(transfer);
+		transferRepository.save(transfer);
 		
 		fromAccount.setBalancePaise(fromAccount.getBalancePaise() - transferRequest.getAmountPaise());
 		toAccount.setBalancePaise(toAccount.getBalancePaise() + transferRequest.getAmountPaise());

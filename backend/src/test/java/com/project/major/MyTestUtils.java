@@ -12,12 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MyTestUtils {
 
-    public static final String RANDOM_USER_PASSWORD = "Password9!";
-
     public static Account newAccount() {
         var account = new Account();
         account.setName(UUID.randomUUID().toString());
-        account.setPassword("{noop}" + RANDOM_USER_PASSWORD);
+        account.setPassword("{noop}Password9!");
         account.setPasswordSetAt(Instant.now().truncatedTo(ChronoUnit.SECONDS));
         return account;
     }

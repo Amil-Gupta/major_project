@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.major.dto.TokenRequest;
 import com.project.major.dto.TokenResource;
-import com.project.major.services.TokenCreator;
+import com.project.major.services.LoginService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TokenController {
 	
-	private final TokenCreator tokenCreationService;
+	private final LoginService tokenCreationService;
 	
 	@PostMapping
 	public TokenResource getToken(@RequestBody @Valid TokenRequest request) {

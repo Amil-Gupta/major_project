@@ -1,6 +1,7 @@
 package com.project.major.services;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,7 @@ public class TransferCreationService {
 		transfer.setAmountPaise(transferRequest.getAmountPaise());
 		transfer.setFromAccount(fromAccount);
 		transfer.setToAccount(toAccount);
-		transfer.setTransferredAt(Instant.now());
+		transfer.setTransferredAt(Instant.now().truncatedTo(ChronoUnit.SECONDS));
 		transferRepository.save(transfer);
 		
 		fromAccount.setBalancePaise(fromAccount.getBalancePaise() - transferRequest.getAmountPaise());

@@ -6,3 +6,6 @@ frontend/node_modules/
 
 #ignore notes.txt file used personally
 notes.txt
+
+#ignore the pictures folder
+pictures/

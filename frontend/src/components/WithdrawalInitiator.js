@@ -57,7 +57,7 @@ function WithdrawalInitiator(){
         <div className={classes.root}>
             <div className={classes.customerCard}>
                 <span className={classes.heading}>
-                    DEPOSIT
+                    WITHDRAWAL
                 </span>
                 <div className={classes.avatarContainer}>
                     <Avatar

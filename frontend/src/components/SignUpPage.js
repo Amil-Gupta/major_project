@@ -119,7 +119,7 @@ function SignUpPage() {
                 loginRequest({accountId, password, onSuccess: onLoginSuccess});
             }
 
-            createAccountRequest({name, password, onError, onSuccess});
+            createAccountRequest({name, password, onError, onSuccess, disableAlertsOnResponse: true});
         }
         else{
             alert('Password and Confirm Password do not match');

@@ -25,10 +25,10 @@ function AdminConsole() {
     useEffect(()=>{
         // console.log(auth?.token)
         if(! auth?.token){
-            if(! auth?.admin){
-                navigate('/customerConsole', {replace: true});
-            }
             navigate('/login', {replace: true});
+        }
+        if(! auth?.admin){
+            navigate('/customerConsole', {replace: true});
         }
     },[auth, navigate]);
 

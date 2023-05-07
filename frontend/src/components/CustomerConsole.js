@@ -48,10 +48,10 @@ function CustomerConsole()
         
         // console.log(auth?.token)
         if(! auth?.token){
-            if(auth?.admin){
-                navigate('/adminConsole', {replace: true});
-            }
             navigate('/login', {replace: true});
+        }
+        if(auth?.admin){
+            navigate('/adminConsole', {replace: true});
         }
     },[auth, navigate]);
 

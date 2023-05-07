@@ -189,6 +189,9 @@ function AccountStatement() {
                     <Text style={pdfStyles.info}>
                         Account No.: {statement?.accountId}
                     </Text>
+                    <Text style={pdfStyles.info}>
+                        Balance: INR {statement?.balancePaise / 100}
+                    </Text>
                     <Text style={pdfStyles.tableHeading}>
                         Account Statement
                     </Text>

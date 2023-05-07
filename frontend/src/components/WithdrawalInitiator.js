@@ -30,7 +30,7 @@ function WithdrawalInitiator(){
         setAmountRupees(newAmount);
     }
 
-    const handleDeposit = (e)=>{
+    const handleWithdrawal = (e)=>{
         e.preventDefault();
         setLoading(true);
         const token = auth?.token;
@@ -104,7 +104,7 @@ function WithdrawalInitiator(){
                         width: '100%',
                         margin: '1rem 0'
                         }}
-                    onClick={handleDeposit}
+                    onClick={handleWithdrawal}
                     disabled={!accountId.length || !amountRupees.length}
                     >
                         Record Withdrawal

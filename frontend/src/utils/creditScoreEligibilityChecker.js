@@ -18,25 +18,17 @@ const crediScoreEligibilityChecker = (creditScore)=>{
         `${moderate}% Interest Without Collateral Upto 12 Lakhs, ${low}% Interest With Collateral Above 12 Lakhs`,
     ];
     if(creditScore < 300){
-        const rating = 'Very Bad';
-        const loanEligibility = {
-            'student1': 2, //student in tier 1 college
-            'student2': 1, //student in tier 2 college
-            'student3': 0, //student in tier 3 college
-            'personal': 0, //personal loan
-            'auto': 0, //auto/car loan
-            'business': 0, // business loan
-        };
-        result = {rating, loanEligibility};
+        const rating = 'Invalid';
+        result = {rating};
     }else if(creditScore < 630){
         const rating = 'Bad';
         const loanEligibility = {
-            'student1': 2,
-            'student2': 1,
-            'student3': 0,
-            'personal': 0,
-            'auto': 0,
-            'business': 1,
+            'student1': 2,  //student in tier 1 college
+            'student2': 1,  //student in tier 2 college
+            'student3': 0,  //student in tier 3 college
+            'personal': 0,  //personal loan
+            'auto': 0,      //auto loan
+            'business': 1,  //business loan
         };
         result = {rating, loanEligibility};
     }else if(creditScore < 690){
@@ -61,7 +53,7 @@ const crediScoreEligibilityChecker = (creditScore)=>{
             'business': 3,
         };
         result = {rating, loanEligibility};
-    }else{
+    }else if(creditScore <= 850){
         const rating = 'Excellent';
         const loanEligibility = {
             'student1': 4,
@@ -72,6 +64,9 @@ const crediScoreEligibilityChecker = (creditScore)=>{
             'business': 4,
         };
         result = {rating, loanEligibility};
+    }else{
+        const rating = 'Invalid';
+        result = {rating};
     }
 
     return {result, referenceKey};
